@@ -1,0 +1,21 @@
+.p1{
+    line-height: 50px;
+    padding-left:16px;
+}
+.instructions{
+    font-size:14px;
+    color:#cccccc;
+}
+.red_bg{
+    background: #E64340;
+}
+.red{
+    color:#E64340;
+}
+.dl{
+    display: flex;
+}
+.font_small{
+    font-size:14px;
+    color:#cccccc;
+}
