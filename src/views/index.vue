@@ -8,7 +8,12 @@
       <grid :show-vertical-dividers="false">
       <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
         <!-- <img slot="icon" src="../assets/grid_icon.png"> -->
-        <icon slot="icon" type="success"></icon>
+        <!--<icon slot="icon" type="success"></icon>-->
+        <!--<i slot="icon" class="iconfont aliIcon-minganciku"></i>-->
+        <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+          <use xlink:href="#iconChat"></use>
+        </svg>
+
       </grid-item>
     </grid>
       <cell title="公告">
@@ -29,7 +34,7 @@
                   <img src="../assets/logo.png" alt="">
                 </div>
                 <div class="dd">
-                  <p>中国石化200元加油卡哇哈哈哈哈哈哈</p>
+                  <p>中国石化200元加油卡哇哈哈哈哈哈哈123123</p>
                   <div class="dd_box">
                     <div style="padding-top:16px;">
                       <x-progress :percent="60" :show-cancel="false"></x-progress>

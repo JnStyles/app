@@ -6,13 +6,21 @@
       <x-textarea :max="200" placeholder="请填写15至200字的获奖感言" ></x-textarea>
     </group>
 
+    <!--<vue-core-image-upload-->
+      <!--:class="['btn', 'btn-primary']"-->
+      <!--crop="local"-->
+      <!--@imageuploaded="imageuploaded"-->
+      <!--:data="data"-->
+      <!--:max-file-size="5242880"-->
+      <!--url="http://act.test.fableedu.com/admin/rolepublic/uploader" >-->
+    <!--</vue-core-image-upload>-->
     <vue-core-image-upload
-        :class="['btn', 'btn-primary','my_upload']"
-        :crop="false"
-        @imageuploaded="imageuploaded"
-        :data="data"
-        :max-file-size="5242880"
-        url="your server url" >
+      :crop="false"
+      @imageuploaded="imageuploaded"
+      :data="data"
+      :max-file-size="5242880"
+      url="http://101.198.151.190/api/upload.php" >
+      <img width="150" src="http://img1.vued.vanthink.cn/vuededa653aa59d1a1287d9a6e18890a7e51.png" />
     </vue-core-image-upload>
 
     <x-button type="warning" style="width:80%;">提交</x-button>
