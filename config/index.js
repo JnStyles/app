@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '/api': {
         // 测试环境
-        target:'http://act.test.fableedu.com',  // 接口域名
+        target:'http://39.105.173.183',  // 接口域名
         changeOrigin: true,  //是否跨域
         pathRewrite: {
           '/api':''//需要rewrite重写的,
