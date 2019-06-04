@@ -127,6 +127,14 @@
       MarqueeItem,
        SwiperItem 
     },
+    created(){
+      let params ={
+        mobile:'13611266774'
+      }
+      // this.$api.activity.getLoginSmsCode(params).then(res =>{
+      //   console.log(res)
+      // })
+    },
     methods:{
       onClick(){
         console.log(123)

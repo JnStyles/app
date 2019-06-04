@@ -6,6 +6,10 @@ import VueRouter from 'vue-router'
 import App from './App'
 import router from '@/router/index'
 import "./wrap.css"
+import api from './request/api' // 导入api接口
+
+Vue.prototype.$api = api; // 将api挂载到vue的原型上
+
 
 //全局注册组件
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
