@@ -4,6 +4,7 @@
  */
 import axios from 'axios';
 
+
 /**
  * 跳转登录页
  * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
@@ -57,13 +58,12 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 instance.interceptors.request.use(
 
     config => {
-        console.log(config);
-       
         // 登录流程控制中，根据本地是否存在token判断用户的登录情况
         // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
         // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
         // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
-
+        const token = "0757ed58131c8bd1e814876934da5d38f44961549dc246bd2e0b19d6601002a6";        
+        token && (config.headers['user-token'] = token);
         return config;
     },
     error => Promise.error(error));
@@ -76,11 +76,20 @@ instance.interceptors.response.use(
         // 否则的话抛出错误
         if (response.status === 200) {
             console.log(response);
-            if(response.data.code =='600'){
+            if(response.data.code =='1'){
                 return Promise.resolve(response);
             }else{
-                console.log(response.data.message)
-
+                alert(response.data.msg)
+                // this.$vux.alert.show({
+                //     title: '提示',
+                //     content:response.data.msg,
+                //     onShow () {
+                //       console.log('Plugin: I\'m showing')
+                //     },
+                //     onHide () {
+                //       console.log('Plugin: I\'m hiding now')
+                //     }
+                //   })
                  return null;
             }
         } else {

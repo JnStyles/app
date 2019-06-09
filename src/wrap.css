@@ -25,3 +25,13 @@
   fill: currentColor;
   overflow: hidden;
 }
+.fontsize12{
+    font-size: 12px;
+}
+.btn{
+    margin-top: 20px;
+    width:80%;
+}
+button.weui-btn, input.weui-btn{
+    width:80% !important;
+}

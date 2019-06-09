@@ -8,29 +8,29 @@
             v-model="show"
             :menus="menus1"
             @on-click-menu="click"></actionsheet>
-            <swiper :list="swipeList" v-model="swipe"></swiper>
+            <swiper :list="info.photo_urls" v-model="swipe"></swiper>
             
             <div class="box">
                 <flexbox>
                     <flexbox-item :span="2">
-                        <badge text="进行中"></badge>
+                        <badge :text="info.status ==1?'进行中':info.status==2?'即将揭晓':info.status==3?'已开奖':'异常'"></badge>
                     </flexbox-item>
                     <flexbox-item>
-                        【第55期】中国石化2000元加油卡 全国通用 请联系客服充值
+                        【第{{info.periods}}期】{{info.name}}
                     </flexbox-item>
                 </flexbox>
                 <!-- 未开奖情况 -->
-                <div v-if="progress==1">
-                    <p class="instructions">注：本卡需用1000开头，加油卡 全国通用 请联系客服充值</p>
+                <div v-if="info.status==1">
+                    <p class="instructions">注：{{info.description}}</p>
                     <div class="pro_per">
                         <x-progress :percent="percent" :show-cancel="false"></x-progress>
                         <div class="pro_box"><span>总需2400</span><span>剩余1200</span></div>
                     </div>
                 </div>
                  <!-- 即将揭晓 -->
-                 <div v-if="progress==2">
+                 <div v-if="info.status==2">
                      <div class="time red_bg">幸运编码计算中  
-                         <clocker :time="time">
+                         <clocker :time="info.open_award_time">
                             <!-- <span style="color:red">%D 天</span>
                             <span style="color:green">%H 小时</span>
                             <span style="color:blue">%M 分 %S 秒</span> -->
@@ -39,21 +39,21 @@
                  </div>
 
                  <!-- 已开奖 -->
-                 <div v-if="progress==3">
+                 <div v-if="info.status==3">
                     <div class="dl">
                         <div class="dt">
-                            <img src="../../assets/logo.png" alt="">
+                            <img :src="info.avatar" alt="">
                         </div>
                         <div class="dd">
-                            <p>用户名 <span class="font_small">[用户地址]</span></p>
-                            <p>参与 <span class="red">130</span>人次</p>
+                            <p>{{info.user_nickname}} <span class="font_small">[用户地址]</span></p>
+                            <p>参与 <span class="red">{{info.pay_count}}</span>人次</p>
                             <p class="font_small">2019.06.62 12:00</p>
                             <p class="p_position font_small">
                                 <badge text="获得者"></badge>
                             </p>
                         </div>
                     </div>
-                    <div class="times red_bg">幸运编码：110120119  <span>计算详情</span>  </div>
+                    <div class="times red_bg">幸运编码：{{info.luck_code}}  <span>计算详情</span>  </div>
                  </div>
                 
             </div>
@@ -75,8 +75,8 @@
          <div slot="footer" class="smail_footer">
            <p style="padding-left:10px;font-size:12px;color:#ccc;line-height:40px;">活动编码</p>
            <grid :cols="4" :show-lr-borders="false" :show-vertical-dividers="false">
-                <grid-item v-for="item in numList" :key="item.id">
-                     {{item.id}}
+                <grid-item v-for="item in info.orderList" :key="item.lucky_code">
+                     {{item.lucky_code}}
                 </grid-item>
             </grid>
         </div>
@@ -171,18 +171,13 @@
     data:function(){
       return {
         show:false,
-        progress:3,//商品开奖状态 
         menus1: {
             menu1: '分享给朋友',
             menu2: '分享朋友圈'
         },
-        swipeList: [{
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-        }, {
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-        }, {
-          img: 'https://static.vux.li/demo/5.jpg', // 404
-        }],
+        swipeList: [
+         
+        ],
         swipe:0,
         percent:60,
         tabList:[{
@@ -209,14 +204,28 @@
           url:'/activeRecord',
           id:4
         }],
-         time: '2019-05-29 21:54',
-         numList:[
-             {id:12345},{id:3212},{id:43432},{id:12321},{id:534632}
-         ],
-         showContent001:false
+         showContent001:false,
+         info:''
       }
     },
-  
+    created(){
+        let id =this.$route.query.id;
+        let params ={
+            id:id
+        }
+        this.$api.activity.getProductInfo(params).then(res =>{
+            if(res){
+                this.info =res.data.data;
+                if(res.data.data.photo_urls.length>0){
+                    let arr =[];
+                    for(let i=0;i<res.data.data.photo_urls.length;i++){
+                        arr =[{"img":res.data.data.photo_urls[i]}]
+                    }
+                this.info.photo_urls =arr;
+                }
+            }
+        })
+    },
     methods:{
         //点击分享
         toShare(){

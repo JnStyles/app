@@ -14,7 +14,7 @@ Vue.prototype.$api = api; // 将api挂载到vue的原型上
 //全局注册组件
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
-  Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress   } from 'vux'
+  Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist      } from 'vux'
 
 
 Vue.component('tab', Tab)
@@ -47,6 +47,12 @@ Vue.component('grid-item', GridItem)
 Vue.component('clocker', Clocker)
 Vue.component('divider', Divider)
 Vue.component('x-address', XAddress)
+Vue.component('popup-header', PopupHeader)
+Vue.component('popup', Popup)
+Vue.component('check-icon', CheckIcon)
+Vue.component('alert', Alert)
+Vue.component('x-switch', XSwitch)
+Vue.component('checklist', Checklist)
 
 Vue.use(VueRouter)
 

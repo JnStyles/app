@@ -80,7 +80,7 @@
                show-input
                title="请输入登录密码"
                content="为保护您的账户安全"
-               :input-attrs="{type: 'text'}"
+               :input-attrs="{type: 'password'}"
                @on-cancel="onCancel"
                @on-confirm="onConfirm">
       </confirm>
@@ -101,7 +101,21 @@
         isAlert: false
       }
     },
+
+    created(){
+      let params ={
+        page:1,
+        status:1
+      }
+      this.$api.activity.getProductPeriodsLog(params).then(res =>{
+        if(res){
+          
+        }
+      })
+    },
     methods: {
+
+
       onItemClick() {
 
       },
@@ -120,9 +134,14 @@
       onConfirm(value) {
         console.log('确定')
         console.log(value)
-        if (value) {
-          this.$router.push('/getProduct')
+        let params ={
+          password:value
         }
+        this.$api.activity.verificationPassword(params).then(res =>{
+          if(res){
+            this.$router.push('/getProduct')
+          }
+        })
       },
       onShow() {
 

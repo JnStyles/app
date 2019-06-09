@@ -2,46 +2,26 @@
   <div>
     <x-header :left-options="{backText: ''}">活动动态<a slot="right" @click="goRules">活动规则</a></x-header>
    
-    <panel style="margin:10px;border-radius:10px;">
+    <panel style="margin:10px;border-radius:10px;" v-for="item in list" :key="item.id">
         <div slot="body">
             <div class="dl">
                 <div class="dt">
-                    <img src="../../assets/logo.png" alt="">
+                    <!-- <img :src="item.photo_urls" alt=""> -->
+                     <img src="../../assets/logo.png" alt="">
                 </div>
                 <div class="dd">
-                    <p>中国石化200元加油卡哇哈哈哈哈哈哈</p>
-                    <p>幸运编码：<span>213123</span>   </p>
+                    <p class="name">{{item.name}}</p>
+                    <p>幸运编码：<span>{{item.lucky_code}}</span>   </p>
                 </div>
             </div>
-            <div class="dl">
+            <div class="dl" v-if="item.status ==1">
                 <div class="dt_smail">
+                    <!-- <img :src="item.avatar" alt=""> -->
                     <img src="../../assets/logo.png" alt="">
                 </div>
                 <div class="dd_smail">
-                    <p>获得者：123[四川省。。。]</p>
-                    <p>参与52人次 <span>揭晓时间：2019-06-01</span></p>
-                </div>
-            </div>
-        </div>
-    </panel>
-    <panel style="margin:10px;border-radius:10px;">
-        <div slot="body">
-            <div class="dl">
-                <div class="dt">
-                    <img src="../../assets/logo.png" alt="">
-                </div>
-                <div class="dd">
-                    <p>中国石化200元加油卡哇哈哈哈哈哈哈</p>
-                    <p>幸运编码：<span>213123</span>   </p>
-                </div>
-            </div>
-            <div class="dl">
-                <div class="dt_smail">
-                    <img src="../../assets/logo.png" alt="">
-                </div>
-                <div class="dd_smail">
-                    <p>获得者：123[四川省。。。]</p>
-                    <p>参与52人次 <span>揭晓时间：2019-06-01</span></p>
+                    <p>获得者：{{item.user_nickname}}[四川省。。。]</p>
+                    <p class="fontsize12">参与{{item.pay_count}}人次 <span>揭晓时间：{{item.open_award_time}}</span></p>
                 </div>
             </div>
         </div>
@@ -56,20 +36,16 @@
   export default {
     data:function(){
       return {
-      list: [{
-        src: 'http://somedomain.somdomain/x.jpg',
-        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
-        url: '/component/cell'
-      }, {
-        src: 'http://somedomain.somdomain/x.jpg',
-        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
-        url: {
-          path: '/component/radio',
-          replace: false
-        }
-      }],
+      list: [],
       type:'1',
       }
+    },
+    created(){
+      this.$api.activity.getProductPeriodsList({}).then(res =>{
+        if(res){
+          this.list =res.data.data.list
+        }
+      })
     },
     methods:{
       //跳转活动规则
@@ -86,8 +62,8 @@
     padding:10px;
   }
   .dt img{
-    width:100px;
-    height:100px;
+    width:80px;
+    height:80px;
   }
   .dd{
     padding-left:10px;
@@ -110,5 +86,8 @@
   .dt_smail img{
       width:40px;
       height:40px;
+  }
+  .name{
+    height:50px;
   }
 </style>
