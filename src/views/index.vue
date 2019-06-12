@@ -11,7 +11,7 @@
         <!--<icon slot="icon" type="success"></icon>-->
         <!--<i slot="icon" class="iconfont aliIcon-minganciku"></i>-->
         <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
+          <use :xlink:href="item.icon"></use>
         </svg>
 
       </grid-item>
@@ -86,25 +86,25 @@
         proList:[],//商品列表
         tabList:[{
           name:'信息服务',
-          icon:'',
+          icon:'#iconxinxichaxun',
           url:'',
           id:1
         },
         {
           name:'活动动态',
-          icon:'',
+          icon:'#icongerentousudengji',
           url:'/activeDynamic',
           id:2
         },
         {
           name:'活动分享',
-          icon:'',
+          icon:'#iconpaizhao',
           url:'/activeShare',
           id:3
         },
         {
           name:'活动记录',
-          icon:'',
+          icon:'#iconjilu',
           url:'/activeRecord',
           id:4
         }],

@@ -33,5 +33,5 @@
     width:80%;
 }
 button.weui-btn, input.weui-btn{
-    width:80% !important;
+    /* width:80% !important; */
 }

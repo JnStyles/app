@@ -70,7 +70,7 @@
         <!-- 我未参与 -->
         <div slot="content" style="display:flex; justify-content: space-between;padding:10px 10px;border-bottom:1px solid #ccc;">
             <p>我已参与12人次</p>
-            <p>查看详情</p>
+            <p @click="goInfo">查看详情</p>
         </div>
          <div slot="footer" class="smail_footer">
            <p style="padding-left:10px;font-size:12px;color:#ccc;line-height:40px;">活动编码</p>
@@ -94,7 +94,9 @@
             </group> -->
             <grid :show-lr-borders="false">
                 <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
-                     <icon slot="icon" type="success"></icon>
+                     <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                        <use :xlink:href="item.icon"></use>
+                    </svg>
                 </grid-item>
             </grid>
         </div>
@@ -182,34 +184,36 @@
         percent:60,
         tabList:[{
           name:'礼品简介',
-          icon:'',
+          icon:'#icongift',
           url:'',
           id:1
         },
         {
           name:'活动分享',
-          icon:'',
+          icon:'#iconcamera',
           url:'/activeDynamic',
           id:2
         },
         {
           name:'活动动态',
-          icon:'',
+          icon:'#iconearth',
           url:'/activeShare',
           id:3
         },
         {
           name:'计算规则',
-          icon:'',
+          icon:'#iconcalculator',
           url:'/activeRecord',
           id:4
         }],
          showContent001:false,
-         info:''
+         info:'',
+         id:''
       }
     },
     created(){
         let id =this.$route.query.id;
+        this.id =id;
         let params ={
             id:id
         }
@@ -233,6 +237,9 @@
         },
         click(){
 
+        },
+        goInfo(){
+            this.$router.push('/participateInfo?id='+this.id)
         }
     }
   }

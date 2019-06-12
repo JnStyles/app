@@ -85,6 +85,11 @@ export default new Router({
       path: '/moneyDetail',
       name: '彩豆明细',
       component:  resolve => require(['../views/personal/moneyDetail.vue'], resolve)
+    },
+    {
+      path: '/participateInfo',
+      name: '参与详情',
+      component:  resolve => require(['../views/productInfo/participateInfo.vue'], resolve)
     }
   ]
 })

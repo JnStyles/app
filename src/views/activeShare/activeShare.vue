@@ -4,31 +4,30 @@
    
     <panel style="margin-top:0">
         <div slot="body">
-            <div class="dl">
+            <div class="dl" v-for="item in list">
                 <div class="dt">
                     <img src="../../assets/logo.png" alt="">
+                    <!-- <img :src="item.avatar" alt=""> -->
                 </div>
                 <div class="dd">
-                    <p class="one"><span>用户名 <i>地区</i></span><span class="span">04-21</span> </p>
-                    <p  class="two">获奖的商品名称</p>
+                    <p class="one"><span>{{item.user_nickname}} <i>地区</i></span><span class="span">{{item.create_time}}</span> </p>
+                    <p  class="two">{{item.name}}</p>
                     <div class="info">
-                        <p>我是评论的内容，很长很长的文字很长很长的文字很长很长的文字很长很长的文字很长很长的文字很长很长的文字</p>
+                        <p>{{item.content}}</p>
                         <grid :show-lr-borders="false" :show-vertical-dividers="false">
-                            <grid-item link="/component/cell">
+                            <grid-item link="/component/cell" v-for="index in item.photo_urls">
                                 <img slot="icon" src="../../assets/logo.png">
-                            </grid-item>
-                            <grid-item :link="{ path: '/component/cell'}">
-                                <img slot="icon" src="../../assets/grid_icon.png">
-                            </grid-item>
-                            <grid-item :link="{ path: '/component/cell'}">
-                                <img slot="icon" src="../../assets/grid_icon.png">
+                                <!-- <img slot="icon" :src="list"> -->
                             </grid-item>
                         </grid>
                     </div>
-                    <div class="zan">点赞图标</div>
+                    <div class="zan">
+                      <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                        <use xlink:href="#iconlike"></use>
+                      </svg>
+                      {{item.like_count}}</div>
                 </div>
             </div>
-           
         </div>
     </panel>
     
@@ -42,20 +41,16 @@
   export default {
     data:function(){
       return {
-      list: [{
-        src: 'http://somedomain.somdomain/x.jpg',
-        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
-        url: '/component/cell'
-      }, {
-        src: 'http://somedomain.somdomain/x.jpg',
-        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
-        url: {
-          path: '/component/radio',
-          replace: false
-        }
-      }],
+      list:[],
       type:'1',
       }
+    },
+    created(){
+      this.$api.activity.getShareList({}).then(res =>{
+        if(res){
+            this.list =res.data.data.list;
+        } 
+      })
     },
     methods:{
       
@@ -74,6 +69,7 @@
   }
   .dd{
     padding-left:10px;
+    flex:1;
   }
   .num{
     display: flex;
@@ -105,6 +101,8 @@
   }
   .zan{
       float: right;
+      display:flex;
+      align-items: center;
   }
  
 </style>

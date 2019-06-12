@@ -72,6 +72,20 @@ const activity = {
     return axios.get(`${base}/api/user/getUserInfo`, {params:params});
   },
 
+  //活动分享列表
+  getShareList (params) {
+    return axios.get(`${base}/api/share/getShareList`, {params:params});
+  },
+
+  //支付
+  doPay (params) {
+    return axios.get(`${base}/api/product/doPay`, {params:params});
+  },
+  // 
+  getProductParticipationInfo (params) {
+    return axios.get(`${base}/api/product/getProductParticipationInfo`, {params:params});
+  },
+
 
 };
 
