@@ -10,66 +10,31 @@
     <div class="timeline-demo">
 
       <timeline>
-        <timeline-item>
-          <p>4月11号</p>
-          <panel style="margin:10px;border-radius:10px;">
-            <div slot="body">
-              <div class="dl">
-                <div class="dt">
-                  <img src="../../assets/logo.png" alt="">
-                </div>
-                <div class="dd">
-                  <p>中国石化200元加油卡哇哈哈哈哈哈哈</p>
-                  <div class="dd_box"><p>我已参与 <span>5</span>人次</p>
-                    <badge text="已抢到"></badge>
+        <timeline-item v-for="(item,index) in list" :key ="index">
+          <p v-if="item.month">{{item.month}}月{{item.day}}号</p>
+          <template v-if="item.son && item.son.length>0">
+            <panel style="margin:10px;border-radius:10px;" v-for="son in item.son" :key="son.id">
+              <div slot="body">
+                <div class="dl">
+                  <div class="dt">
+                    <img src="../../assets/logo.png" alt="">
+                    <!-- <img :src="son.photo_urls" alt=""> -->
+                  </div>
+                  <div class="dd">
+                    <p>{{son.name}}</p>
+                    <div class="dd_box"><p>我已参与 <span>{{son.pay_count}}</span>人次</p>
+                      <badge :text="son.status==1?'已抢到':son.status==2?'进行中':son.status==3?'未中奖':''"></badge>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="btn_box">
-                <x-button type="default" link="/getInfo" style="margin-right:10px;">领取详情</x-button>
-                <x-button type="default" link="/comments">晒单</x-button>
-              </div>
-            </div>
-          </panel>
-
-          <panel style="margin:10px;border-radius:10px;">
-            <div slot="body">
-              <div class="dl">
-                <div class="dt">
-                  <img src="../../assets/logo.png" alt="">
-                </div>
-                <div class="dd">
-                  <p>中国石化200元加油卡哇哈哈哈哈哈哈</p>
-                  <div class="dd_box"><p>我已参与 <span>5</span>人次</p>
-                    <badge text="已抢到"></badge>
-                  </div>
+                <div class="btn_box" v-if="son.status==1">
+                  <x-button v-if="son.all_get_type==0" @click.native="goGetproduct" style="margin-right:10px;">立即领取</x-button>
+                  <x-button v-else type="default" :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
+                  <x-button type="default" :link="'/comments?id='+son.id">晒单</x-button>
                 </div>
               </div>
-              <div class="btn_box">
-                <x-button type="default" @click.native="goGetproduct" style="margin-right:10px;">立即领取</x-button>
-                <x-button type="default" link="/comments">晒单</x-button>
-              </div>
-            </div>
-          </panel>
-        </timeline-item>
-        <timeline-item>
-          <p>4月11号</p>
-          <panel style="margin:10px;border-radius:10px;">
-            <div slot="body">
-              <div class="dl">
-                <div class="dt">
-                  <img src="../../assets/logo.png" alt="">
-                </div>
-                <div class="dd">
-                  <p>中国石化200元加油卡哇哈哈哈哈哈哈</p>
-                  <p>幸运编码：<span>213123</span></p>
-                </div>
-              </div>
-            </div>
-          </panel>
-        </timeline-item>
-        <timeline-item>
-          123
+            </panel>
+          </template>
         </timeline-item>
       </timeline>
     </div>
@@ -96,28 +61,150 @@
   export default {
     data: function () {
       return {
+        list:[
+            {
+                "month_day": "0531",
+                "month": "05",
+                "day": "31",
+                "son": [
+                    {
+                        "id": 14,
+                        "name": "还不够就能看",//商品名
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",//照片
+                        "all_get_type": 0,//0用户还没有领取，剩下的都是领取
+                        "get_type": 1,//领取方式（1-邮寄 ，2-话费充值，3-京东卡，4-石油卡）--跳转到领取页使用
+                        "pay_count": "160",//我参与的人次
+                        "month": "05",
+                        "day": "31",
+                        "month_day": "0531",
+                        "status": 1//1中奖，2进行中，3未中奖
+                    },
+                    {
+                        "id": 13,
+                        "name": "商品2",
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "all_get_type": 0,
+                        "get_type": 1,
+                        "pay_count": "11",
+                        "month": "05",
+                        "day": "31",
+                        "month_day": "0531",
+                        "status": 1
+                    }
+                ]
+            },
+            {
+                "month_day": "0530",
+                "month": "05",
+                "day": "30",
+                "son": [
+                    {
+                        "id": 12,
+                        "name": "商品2",
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "all_get_type": 0,
+                        "get_type": 1,
+                        "pay_count": "12",
+                        "month": "05",
+                        "day": "30",
+                        "month_day": "0530",
+                        "status": 1
+                    },
+                    {
+                        "id": 11,
+                        "name": "商品2",
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "all_get_type": 0,
+                        "get_type": 1,
+                        "pay_count": "12",
+                        "month": "05",
+                        "day": "30",
+                        "month_day": "0530",
+                        "status": 1
+                    },
+                    {
+                        "id": 10,
+                        "name": "商品2",
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "all_get_type": 0,
+                        "get_type": 1,
+                        "pay_count": "12",
+                        "month": "05",
+                        "day": "30",
+                        "month_day": "0530",
+                        "status": 1
+                    },
+                    {
+                        "id": 9,
+                        "name": "商品2",
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "all_get_type": 0,
+                        "get_type": 1,
+                        "pay_count": "12",
+                        "month": "05",
+                        "day": "30",
+                        "month_day": "0530",
+                        "status": 1
+                    },
+                    {
+                        "id": 8,
+                        "name": "商品2",
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "all_get_type": 0,
+                        "get_type": 1,
+                        "pay_count": "13",
+                        "month": "05",
+                        "day": "30",
+                        "month_day": "0530",
+                        "status": 1
+                    },
+                    {
+                        "id": 7,
+                        "name": "商品2",
+                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "all_get_type": 5,
+                        "get_type": 1,
+                        "pay_count": "15",
+                        "month": "05",
+                        "day": "30",
+                        "month_day": "0530",
+                        "status": 1
+                    }
+                ]
+            },
+            {
+             
+            }
+        ],
         menuList: ['全部', '进行中', '已抢到', '未领取'],
         activeValue: '全部',
-        isAlert: false
+        isAlert: false,
+        status:0,
+        page:1
       }
     },
 
     created(){
-      let params ={
-        page:1,
-        status:1
-      }
-      this.$api.activity.getProductPeriodsLog(params).then(res =>{
-        if(res){
-          
-        }
-      })
+      this.getList();
     },
     methods: {
-
-
-      onItemClick() {
-
+      getList(){
+        let params ={
+          page:this.page,
+          status:this.status
+        }
+        this.$api.activity.getProductPeriodsLog(params).then(res =>{
+          if(res){
+            if(res.data.data.list.length>0){
+              this.list =res.data.data.list
+            }
+          }
+        })
+      },
+      onItemClick(index) {
+        console.log(index)
+        this.status =index;
+        this.getList();
       },
 
       //点击领取礼品页
@@ -197,6 +284,7 @@
     margin: 0;
     padding: 0;
     font-size: 14px;
+    margin-right:10px;
   }
 </style>
 <style>

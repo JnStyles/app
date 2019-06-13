@@ -6,16 +6,19 @@
       <timeline v-if="list.length>0">
         <timeline-item v-for="(item,index) in list" :key ="index">
           <p>{{item.month}}月{{item.day}}号</p>
-          <div class="pbox" v-if="item.son && item.son.length>0" v-for="son in item.son" :key="son.id">
-              <div class="left">
-                  <h4>剩余{{item.balance}}豆</h4>
-                  <p>{{son.name}}</p>
-              </div>   
-              <div class="right">
-                  <span>{{Number(son.change)}}</span>
-                  <p>{{son.create_time}}</p>
-              </div>
-          </div>
+          <template v-if="item.son && item.son.length>0">
+            <div class="pbox" v-for="son in item.son" :key="son.id">
+                <div class="left">
+                    <h4>剩余{{item.balance}}豆</h4>
+                    <p>{{son.name}}</p>
+                </div>   
+                <div class="right">
+                    <span>{{Number(son.change)}}</span>
+                    <p>{{son.create_time}}</p>
+                </div>
+            </div>
+          </template>
+          
         </timeline-item>
       </timeline>
       <div v-else>暂无明细</div>

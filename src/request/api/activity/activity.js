@@ -44,6 +44,11 @@ const activity = {
     return axios.get(`${base}/api/product/getGift`, {params:params});
   },
 
+  //领取礼品详情
+  getProductPeriodsInfo (params) {
+    return axios.get(`${base}/api/product/getProductPeriodsInfo`, {params:params});
+  },
+
    //活动记录
    getProductPeriodsLog (params) {
     return axios.get(`${base}/api/product/getProductPeriodsLog`, {params:params});

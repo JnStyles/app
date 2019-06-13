@@ -47,16 +47,18 @@
         mobile2:'',
         stringValue:'0',
         address:'',
-        show:true,
+        show:false,
         inlineDescList: [
         {key: '1', value: 'Tiger is good', inlineDesc: 'Tiger is the king of mountain'},
         {key: '2', value: 'Lion is better', inlineDesc: 'Lion is the king of woods'},
         {key: '3', value: 'Camel is best, no inline-desc'}
       ],
-      inlineDescListValue:[1]
+      inlineDescListValue:[]
       }
     },
-  
+    created(){
+        this.getAddreee();
+    },
     methods:{
         change(){
             
@@ -64,9 +66,44 @@
 
         hanBtn(){
           console.log('TIJIAO')
+          let id =this.$route.query.id;
+          let params ={
+            id:'',
+            is_conversion:this.stringValue,
+            shipping_address_id:this.inlineDescListValue[0],
+            mobile:this.mobile,
+          };
+          console.log(params)
+          // this.$api.activity.getGift(params).then(res =>{
+
+          // })
+        },
+
+        //获取收货地址列表
+        getAddreee(){
+          this.$api.activity.getShippingAddressList({}).then(res =>{
+            if(res){
+              let inlineDescList =[];
+              if(res.data.data.list && res.data.data.list.length>0){
+                  let num =res.data.data.list; 
+                  for(let i=0;i<num.length;i++){
+                    inlineDescList.push({
+                      key:num[i].id,
+                      value:num[i].username+''+num[i].mobile,
+                      inlineDesc:num[i].province_name+num[i].city_name+num[i].area_name+num[i].address
+                    })
+                    this.inlineDescList =inlineDescList;
+                    if(num[i].is_default==1){
+                        this.inlineDescListValue.push(num[i].id)
+                    }
+                  }
+              }
+            }
+          })
         },
 
         handSele(){
+          this.show =true;
           console.log('123')
         },
         changes(value,label){
