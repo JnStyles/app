@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import 'lib-flexible/flexible.js'
 import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
@@ -9,6 +10,11 @@ import "./wrap.css"
 import api from './request/api' // 导入api接口
 
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
+
+import { WechatPlugin,ToastPlugin ,AlertPlugin} from 'vux'
+Vue.use(WechatPlugin)
+Vue.use(ToastPlugin)
+Vue.use(AlertPlugin)
 
 
 //全局注册组件

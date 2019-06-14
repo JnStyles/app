@@ -17,7 +17,11 @@ const login = {
   },
   //注册
   register (params) {
-    return axios.get(`${base}/api/user/login/register`, {params:params});
+    return  axios({method:'post',url:`${base}/api/user/login/register`,data:qs.stringify(params)})
+  },
+  //发送短信
+  sendMobileCode (params) {
+    return  axios({method:'post',url:`${base}/api/user/sendMobileCode`,data:qs.stringify(params)})
   },
   //重置密码
   passwordReset (params) {

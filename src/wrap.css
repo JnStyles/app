@@ -1,3 +1,8 @@
+body{
+  /*color: #606266;*/
+  /*color: #656b79;*/
+  /*font-size: 12px!important;*/
+}
 .p1{
     line-height: 50px;
     padding-left:16px;
@@ -33,5 +38,14 @@
     width:80%;
 }
 button.weui-btn, input.weui-btn{
-    /* width:80% !important; */
+     width:80% !important;
+}
+/*.weui-btn{*/
+  /*font-size: 14px!important;*/
+/*}*/
+/*.weui-btn_mini{*/
+  /*font-size: 14px!important;*/
+/*}*/
+button.weui-btn_inline, input.weui-btn_inline, button.weui-btn_mini, input.weui-btn_mini{
+  width: unset!important;
 }

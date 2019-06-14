@@ -42,7 +42,7 @@
                       <x-progress :percent="(item.sell_price)/(Number(item.surplus_price)+Number(item.sell_price))" :show-cancel="false"></x-progress>
                       <div class="num"><p>总需：{{Number(item.surplus_price)+Number(item.sell_price)}}</p><p>剩余：<span>{{item.surplus_price}}</span></p></div>
                     </div>
-                    <x-button type="warn" style="width:100px;padding:0;margin:0;">立即参与</x-button>
+                    <x-button type="warn" mini>立即参与</x-button>
                   </div>
                 </div>
               </div>

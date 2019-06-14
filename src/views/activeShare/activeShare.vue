@@ -14,12 +14,14 @@
                     <p  class="two">{{item.name}}</p>
                     <div class="info">
                         <p>{{item.content}}</p>
-                        <grid :show-lr-borders="false" :show-vertical-dividers="false">
-                            <grid-item link="/component/cell" v-for="index in item.photo_urls">
-                                <img slot="icon" src="../../assets/logo.png">
-                                <!-- <img slot="icon" :src="list"> -->
+                        <template v-if="item.photo_urls && item.photo_urls.length>0">
+                          <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="cols">
+                            <grid-item link="/component/cell" v-for="(son,index) in item.photo_urls" :key="index">
+                              <img slot="icon" src="../../assets/logo.png">
+                              <!-- <img slot="icon" :src="son"> -->
                             </grid-item>
-                        </grid>
+                          </grid>
+                        </template>
                     </div>
                     <div class="zan">
                       <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
@@ -41,8 +43,9 @@
   export default {
     data:function(){
       return {
-      list:[],
-      type:'1',
+        list:[],
+        type:'1',
+        cols:3
       }
     },
     created(){

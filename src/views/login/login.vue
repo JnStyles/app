@@ -7,7 +7,9 @@
         <x-input title="密码" class="weui-vcode" type="password" v-model="form.password"></x-input>
     </group>
 
-     <x-button style="width:80%;margin-top:60px;" type="primary" @click.native="hanBtn">登录</x-button>
+     <x-button style="width:80%;margin-top:60px;" type="warn" @click.native="hanBtn">登录</x-button>
+    <x-button style="width:80%;margin-top:10px;" type="warn" @click.native="goReg">注册</x-button>
+
   </div>
 </template>
 
@@ -30,8 +32,12 @@ export default {
                 if(res){
                     //返回上一页
                     console.log('登录成功')
+                  localStorage.setItem('token',res.data.data.token)
                 }
             })
+        },
+        goReg(){
+            this.$router.push('/registered')
         }
     }
 }

@@ -3,6 +3,10 @@
  * 请求拦截、响应拦截、错误统一处理
  */
 import axios from 'axios';
+import router from '@/router//index.js';
+import Vue from 'vue'
+
+
 
 
 /**
@@ -62,7 +66,8 @@ instance.interceptors.request.use(
         // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
         // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
         // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
-        const token = "0757ed58131c8bd1e814876934da5d38f44961549dc246bd2e0b19d6601002a6";        
+        // let token = localStorage.getItem('token')?localStorage.getItem('token'):'';
+        let token ="f8bf4030b2fee059c416f3b00208271d58dc8679f08cf8e80f5010d78986030c";
         token && (config.headers['user-token'] = token);
         return config;
     },
@@ -78,18 +83,35 @@ instance.interceptors.response.use(
             console.log(response);
             if(response.data.code =='1'){
                 return Promise.resolve(response);
-            }else{
-                alert(response.data.msg)
-                // this.$vux.alert.show({
-                //     title: '提示',
-                //     content:response.data.msg,
-                //     onShow () {
-                //       console.log('Plugin: I\'m showing')
-                //     },
-                //     onHide () {
-                //       console.log('Plugin: I\'m hiding now')
-                //     }
-                //   })
+            }else if(response.data.code=='10001'){
+              Vue.$vux.alert.show({
+                title: '提示',
+                content: response.data.msg,
+                onShow () {
+                  console.log('Plugin: I\'m showing')
+                },
+                onHide () {
+                  localStorage.removeItem('token');
+                  router.replace({
+                    path: '/login',
+                    query: {
+                      redirect: router.currentRoute.fullPath
+                    }
+                  });
+                  console.log('Plugin: I\'m hiding')
+                }
+              });
+            } else{
+              Vue.$vux.alert.show({
+                    title: '提示',
+                    content:response.data.msg,
+                    onShow () {
+                      console.log('Plugin: I\'m showing')
+                    },
+                    onHide () {
+                      console.log('Plugin: I\'m hiding now')
+                    }
+                  })
                  return null;
             }
         } else {
