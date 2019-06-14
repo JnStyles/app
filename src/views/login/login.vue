@@ -33,6 +33,7 @@ export default {
                     //返回上一页
                     console.log('登录成功')
                   localStorage.setItem('token',res.data.data.token)
+                  this.$router.push('/')
                 }
             })
         },
