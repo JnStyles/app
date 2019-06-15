@@ -86,7 +86,7 @@ instance.interceptors.response.use(
             }else if(response.data.code=='10001'){
               Vue.$vux.alert.show({
                 title: '提示',
-                content: response.data.msg,
+                content: '身份信息已过期',
                 onShow () {
                   console.log('Plugin: I\'m showing')
                 },

@@ -91,6 +91,10 @@ const activity = {
     return axios.get(`${base}/api/product/getProductParticipationInfo`, {params:params});
   },
 
+  //发表分享
+  doShare (params) {
+    return  axios({method:'post',url:`${base}/api/share/doShare`,data:qs.stringify(params)})
+  },
 
 };
 

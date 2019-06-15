@@ -28,9 +28,9 @@
                   </div>
                 </div>
                 <div class="btn_box" v-if="son.status==1">
-                  <x-button v-if="son.all_get_type==0" @click.native="goGetproduct" style="margin-right:10px;">立即领取</x-button>
-                  <x-button v-else type="default" :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
-                  <x-button type="default" :link="'/comments?id='+son.id">晒单</x-button>
+                  <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct" style="margin-right:10px;" type="warn">立即领取</x-button>
+                  <x-button mini v-else type="warn" :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
+                  <x-button mini type="warn" :link="'/comments?id='+son.id">晒单</x-button>
                 </div>
               </div>
             </panel>
@@ -278,14 +278,14 @@
     padding: 10px 0;
   }
 
-  .btn_box button {
-    width: 90px;
-    height: 40px;
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    margin-right:10px;
-  }
+  /*.btn_box button {*/
+    /*width: 90px;*/
+    /*height: 40px;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*font-size: 14px;*/
+    /*margin-right:10px;*/
+  /*}*/
 </style>
 <style>
   .activeRecord .vux-timeline-item-checked.weui-icon-success-no-circle::before {
@@ -296,5 +296,12 @@
     width: 10px;
     height: 10px;
     left: 1px;
+  }
+  .activeRecord .vux-timeline{
+    padding: 20px;
+  }
+  .activeRecord .vux-timeline-item-content{
+    padding-left: 16px;
+    padding-bottom: 1px;
   }
 </style>

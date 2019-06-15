@@ -3,54 +3,53 @@
     <x-header :left-options="{backText: ''}">晒单</x-header>
     <p style="line-height:30px;padding-left:10px;">参与疯狂晒单，有机会获得疯狂大礼！</p>
     <group style="margin-top:0;">
-      <x-textarea :max="200" placeholder="请填写15至200字的获奖感言"></x-textarea>
+      <x-textarea :max="200" v-model="content" placeholder="请填写15至200字的获奖感言"></x-textarea>
     </group>
 
-    <!--<vue-core-image-upload-->
-    <!--:class="['btn', 'btn-primary']"-->
-    <!--crop="local"-->
-    <!--@imageuploaded="imageuploaded"-->
-    <!--:data="data"-->
-    <!--:max-file-size="5242880"-->
-    <!--url="http://act.test.fableedu.com/admin/rolepublic/uploader" >-->
-    <!--</vue-core-image-upload>-->
     <div class="upload_box">
-      <div class="upload" v-if="list && list.length>0">
-        <img src="../../assets/cam.png" alt="" >
+      <div class="upload" v-if="list && list.length>0" v-for="(item,index) in list">
+        <span @click="handDelect(index)">❎</span>
+        <img style="width: 100%;" :src="item" alt="" >
       </div>
-      <div class="upload">
+      <div class="upload" v-if="list && list.length<3">
         <vue-core-image-upload
           :crop="false"
           @imageuploaded="imageuploaded"
           @errorhandle="errorhandle"
+          inputOfFile="file"
           :data="data"
+          :headers="header"
           :max-file-size="5242880"
-          url="http://39.105.173.183/api/share/uploadImg">
+          :url="url">
           <img width="31" src="../../assets/cam.png"/>
         </vue-core-image-upload>
       </div>
     </div>
-    
 
-
-    <x-button type="warn" class="btn">提交</x-button>
+    <x-button type="warn" class="btn" @click.native="handBtn">提交</x-button>
 
   </div>
 </template>
 
 <script>
-
+  import base from '@/request/api/base'
   import VueCoreImageUpload from 'vue-core-image-upload';
 
   export default {
     data: function () {
       return {
+        header:{
+          'user-token':localStorage.getItem('token')
+        },
         data: {
-          src: 'http://img1.vued.vanthink.cn/vued0a233185b6027244f9d43e653227439a.png',
-
+          // src: 'http://img1.vued.vanthink.cn/vued0a233185b6027244f9d43e653227439a.png',
         },
         title: '默认为空',
-        list:[]
+        list:[],
+        url:base+'/api/share/uploadImg',
+        photo_urls:[],
+        content:'',
+        id:''
 
       }
     },
@@ -58,13 +57,35 @@
       'vue-core-image-upload': VueCoreImageUpload
     },
     created() {
-
-
+      this.id =this.$route.query.id;
     },
     methods: {
+
+      handBtn(){
+        let params ={
+          id:this.id,
+          content:this.content,
+          photo_urls:this.photo_urls
+        };
+        this.$api.activity.doShare(params).then(res =>{
+          if(res){
+            this.$vux.alert.show({
+              title: '提示',
+              content: '发表成功',
+              onShow () {
+                console.log('Plugin: I\'m showing')
+              },
+              onHide () {
+                this.$router.go(-1);
+              }
+            })
+          }
+        })
+      },
       // 成功触发
       imageuploaded(res) {
-        console.log(res)
+        this.list.push(res.data.image_url);
+        this.photo_urls.push(res.data.url);
       },
 
       //失败触发
@@ -83,6 +104,13 @@
           }
         });
         console.log(err)
+      },
+
+      //删除上传的图片
+      handDelect(index){
+        console.log(index)
+        this.list.splice(index, 1);
+        this.photo_urls.splice(index, 1);
       }
 
     }
@@ -102,6 +130,12 @@
     align-items: center;
     justify-content: center;
     margin: 20px;
+    position: relative;
+  }
+  .comments .upload span{
+      position: absolute;
+      right: 0;
+      top: 0;
   }
   .upload_box{
     display: flex;
