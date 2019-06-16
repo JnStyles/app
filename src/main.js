@@ -21,7 +21,7 @@ Vue.use(AlertPlugin)
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
-  CellFormPreview,XTable       } from 'vux'
+  CellFormPreview,XTable,XNumber, Checker, CheckerItem        } from 'vux'
 
 
 Vue.component('tab', Tab)
@@ -62,6 +62,9 @@ Vue.component('x-switch', XSwitch)
 Vue.component('checklist', Checklist)
 Vue.component('cell-form-preview', CellFormPreview)
 Vue.component('x-table', XTable)
+Vue.component('x-number', XNumber)
+Vue.component('checker', Checker)
+Vue.component('checker-item', CheckerItem)
 
 Vue.use(VueRouter)
 

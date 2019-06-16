@@ -97,10 +97,31 @@ button.weui-btn_inline, input.weui-btn_inline, button.weui-btn_mini, input.weui-
 .vux-popup-header-right{
   color:#E64340 !important;
 }
-.vux-popup-header-left{
+/* .vux-popup-header-left{
   color:blue !important;
-}
+} */
 .weui-dialog__btn_primary{
   color:#E64340 !important;
+}
+
+/* 时间线处理 */
+.vux-timeline-item-checked.weui-icon-success-no-circle::before {
+  font-size: 0;
+}
+
+.vux-timeline-item-head-first {
+  width: 10px;
+  height: 10px;
+  left: 1px;
+}
+.vux-timeline{
+  padding: 20px;
+}
+.vux-timeline-item-content{
+  padding-left: 16px;
+  padding-bottom: 1px;
+}
+.vux-number-selector svg{
+  fill:#E64340 !important;
 }
 

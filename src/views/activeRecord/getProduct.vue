@@ -193,6 +193,12 @@
       font-size:14px;
     }
 </style>
+<style>
+    .getproduct .vux-popup-header-left{
+      color:blue;
+    }
+</style>
+
 
 
 

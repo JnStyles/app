@@ -332,10 +332,11 @@
     padding-left: 16px;
     padding-bottom: 1px;
   }
-</style>
-<style>
   .activeRecord .weui-btn + .weui-btn{
       margin:0;
   }
+</style>
+<style>
+  
 </style>
 
