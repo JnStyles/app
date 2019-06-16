@@ -5,7 +5,13 @@
     <group gutter='0'>
       <grid :show-vertical-dividers="false">
         <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
-          <icon slot="icon" type="success"></icon>
+          <span slot="icon">
+              <div :style="{'background':item.bg}" class="icon_fa">
+                <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                      <use :xlink:href="item.icon"></use>
+                </svg>
+              </div>
+          </span>
         </grid-item>
       </grid>
     </group>
@@ -41,27 +47,31 @@
       return {
         tabList:[{
           name:'新手指南',
-          icon:'',
+          icon:'#iconcompass',
           url:'',
-          id:1
+          id:1,
+          bg:'#E64340'
         },
         {
           name:'关于配送',
-          icon:'',
+          icon:'#iconrocket',
           url:'',
-          id:2
+          id:2,
+          bg:'#3385ff'
         },
         {
           name:'参与保障',
-          icon:'',
+          icon:'#iconanquan',
           url:'',
-          id:3
+          id:3,
+          bg:'#ff5000'
         },
         {
           name:'服务协议',
-          icon:'',
+          icon:'#iconread',
           url:'',
-          id:4
+          id:4,
+          bg:'#42b983'
         }],
          showContent001: false,
          showContent002: false,
@@ -112,6 +122,14 @@
     max-height: 9999px;
     transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
     transition-delay: 0s;
+  }
+  .icon_fa{
+    width:36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
 <style>

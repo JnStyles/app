@@ -1,8 +1,8 @@
 <template>
   <div class="activeRecord">
     <x-header :left-options="{backText: ''}">活动记录</x-header>
-    <tab>
-      <tab-item selected @on-item-click="onItemClick">全部</tab-item>
+    <tab v-model="status">
+      <tab-item @on-item-click="onItemClick">全部</tab-item>
       <tab-item @on-item-click="onItemClick">进行中</tab-item>
       <tab-item @on-item-click="onItemClick">已抢到</tab-item>
       <tab-item @on-item-click="onItemClick">未领取</tab-item>
@@ -11,26 +11,39 @@
 
       <timeline>
         <timeline-item v-for="(item,index) in list" :key ="index">
-          <p v-if="item.month">{{item.month}}月{{item.day}}号</p>
+          <p class="time" v-if="item.month">{{item.month}}月{{item.day}}号</p>
           <template v-if="item.son && item.son.length>0">
-            <panel style="margin:10px;border-radius:10px;" v-for="son in item.son" :key="son.id">
+            <panel style="margin:6px;" v-for="son in item.son" :key="son.id">
               <div slot="body">
-                <div class="dl">
+                <div class="dl product">
                   <div class="dt">
-                    <img src="../../assets/logo.png" alt="">
-                    <!-- <img :src="son.photo_urls" alt=""> -->
+                    <img :src="son.photo_urls" alt="">
                   </div>
                   <div class="dd">
-                    <p>{{son.name}}</p>
-                    <div class="dd_box"><p>我已参与 <span>{{son.pay_count}}</span>人次</p>
-                      <badge :text="son.status==1?'已抢到':son.status==2?'进行中':son.status==3?'未中奖':''"></badge>
+                    <p class="p_name">{{son.name}}</p>
+                    <div class="dd_box"><p>我已参与 <span class="red">{{son.pay_count}}</span>人次</p>
+                      <template v-if="son.status==1">
+                          <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                            <use xlink:href="#iconzhongjiangliao"></use>
+                          </svg>
+                      </template>
+                      <template v-if="son.status==2">
+                          <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                            <use xlink:href="#iconjinhangzhong2"></use>
+                          </svg>
+                      </template> 
+                      <template v-if="son.status==3">
+                          <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                            <use xlink:href="#iconweizhongjiang"></use>
+                          </svg>
+                      </template>
                     </div>
                   </div>
                 </div>
                 <div class="btn_box" v-if="son.status==1">
-                  <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct" style="margin-right:10px;" type="warn">立即领取</x-button>
-                  <x-button mini v-else type="warn" :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
-                  <x-button mini type="warn" :link="'/comments?id='+son.id">晒单</x-button>
+                  <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct(son.id,son.name,son.get_type)" style="margin-right:10px;" type="warn">立即领取</x-button>
+                  <x-button mini v-else plain :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
+                  <x-button mini plain :link="'/comments?id='+son.id">晒单</x-button>
                 </div>
               </div>
             </panel>
@@ -70,7 +83,7 @@
                     {
                         "id": 14,
                         "name": "还不够就能看",//商品名
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",//照片
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
                         "all_get_type": 0,//0用户还没有领取，剩下的都是领取
                         "get_type": 1,//领取方式（1-邮寄 ，2-话费充值，3-京东卡，4-石油卡）--跳转到领取页使用
                         "pay_count": "160",//我参与的人次
@@ -82,14 +95,15 @@
                     {
                         "id": 13,
                         "name": "商品2",
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
+                      
                         "all_get_type": 0,
                         "get_type": 1,
                         "pay_count": "11",
                         "month": "05",
                         "day": "31",
                         "month_day": "0531",
-                        "status": 1
+                        "status": 2
                     }
                 ]
             },
@@ -101,19 +115,20 @@
                     {
                         "id": 12,
                         "name": "商品2",
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
                         "all_get_type": 0,
                         "get_type": 1,
                         "pay_count": "12",
                         "month": "05",
                         "day": "30",
                         "month_day": "0530",
-                        "status": 1
+                        "status": 3
                     },
                     {
                         "id": 11,
                         "name": "商品2",
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
+                        
                         "all_get_type": 0,
                         "get_type": 1,
                         "pay_count": "12",
@@ -125,7 +140,8 @@
                     {
                         "id": 10,
                         "name": "商品2",
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
+                        
                         "all_get_type": 0,
                         "get_type": 1,
                         "pay_count": "12",
@@ -137,7 +153,8 @@
                     {
                         "id": 9,
                         "name": "商品2",
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
+                        
                         "all_get_type": 0,
                         "get_type": 1,
                         "pay_count": "12",
@@ -149,7 +166,8 @@
                     {
                         "id": 8,
                         "name": "商品2",
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
+                        
                         "all_get_type": 0,
                         "get_type": 1,
                         "pay_count": "13",
@@ -161,7 +179,8 @@
                     {
                         "id": 7,
                         "name": "商品2",
-                        "photo_urls": "http://prize.xin/upload/default/20190522/2564731412983f3354ebba5db6b48482.jpg",
+                        "photo_urls": "http://39.105.173.183/upload/product/20190609/89578116288ab0076df05dd9cced8d0b.jpg",//照片
+                        
                         "all_get_type": 5,
                         "get_type": 1,
                         "pay_count": "15",
@@ -172,19 +191,24 @@
                     }
                 ]
             },
-            {
-             
-            }
+            {}
         ],
         menuList: ['全部', '进行中', '已抢到', '未领取'],
         activeValue: '全部',
         isAlert: false,
         status:0,
-        page:1
+        page:1,
+        id:'',
+        name:'',
+        get_type:'',//领取方式
       }
     },
 
     created(){
+      console.log(this.$route.query)
+      if(this.$route.query.status){
+        this.status =2
+      }
       this.getList();
     },
     methods: {
@@ -197,6 +221,7 @@
           if(res){
             if(res.data.data.list.length>0){
               this.list =res.data.data.list
+              this.list.push({})
             }
           }
         })
@@ -208,7 +233,10 @@
       },
 
       //点击领取礼品页
-      goGetproduct() {
+      goGetproduct(id,name,get_type) {
+        this.id =id;
+        this.name =name;
+        this.get_type =get_type;
         this.isAlert = true;
       },
 
@@ -226,7 +254,7 @@
         }
         this.$api.activity.verificationPassword(params).then(res =>{
           if(res){
-            this.$router.push('/getProduct')
+            this.$router.push('/getProduct?id='+this.id+'&name='+this.name+'&get_type='+this.get_type)
           }
         })
       },
@@ -243,13 +271,8 @@
   .dl {
     display: flex;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
     padding-bottom: 0;
-  }
-
-  .dt img {
-    width: 100px;
-    height: 100px;
+    padding-left:0;
   }
 
   .dd {
@@ -270,22 +293,27 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top:10px;
+    color: #666;
   }
 
   .btn_box {
     display: flex;
     justify-content: flex-end;
     padding: 10px 0;
+    border-top: 1px solid #ccc;
+  }
+  .p_name{
+    min-height:50px;
+  }
+  .time{
+    font-size:16px;
+    font-weight: 600;
   }
 
-  /*.btn_box button {*/
-    /*width: 90px;*/
-    /*height: 40px;*/
-    /*margin: 0;*/
-    /*padding: 0;*/
-    /*font-size: 14px;*/
-    /*margin-right:10px;*/
-  /*}*/
+  /* .btn_box button {
+    height:40px;
+  } */
 </style>
 <style>
   .activeRecord .vux-timeline-item-checked.weui-icon-success-no-circle::before {
@@ -305,3 +333,9 @@
     padding-bottom: 1px;
   }
 </style>
+<style>
+  .activeRecord .weui-btn + .weui-btn{
+      margin:0;
+  }
+</style>
+

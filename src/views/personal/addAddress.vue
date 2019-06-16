@@ -9,7 +9,7 @@
         <x-input title="详细地址" v-model="form.address" class="weui-vcode"></x-input>
     </group>
     
-    <x-button style="width:80%;margin-top:60px;" type="primary" @click.native="hanBtn">确定</x-button>
+    <x-button style="width:80%;margin-top:60px;" type="warn" @click.native="hanBtn">确定</x-button>
   </div>
 </template>
 
@@ -48,6 +48,23 @@ export default {
     methods:{
       hanBtn(){
         console.log(this.cityArr)
+        if(!this.form.username){
+            this.$vux.toast.text('请填写收货人姓名');
+            return false;
+        }else if(!this.form.mobile){
+            this.$vux.toast.text('请填写收货人手机号');
+            return false;
+        }else if(this.form.mobile.length!=11){
+             this.$vux.toast.text('手机号格式错误');
+            return false;
+        }
+        else if(this.cityArr.length==0){
+            this.$vux.toast.text('请填写收货人所在地区');
+            return false;
+        }else if(!this.form.address){
+            this.$vux.toast.text('请填写收货人详细地址');
+            return false;
+        }
         let params ={
           username:this.form.username,
           mobile:this.form.mobile,

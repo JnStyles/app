@@ -30,19 +30,19 @@
       <div>
           <panel style="margin-top:0;" @click.native="goInfo(item.id)" v-for="item in proList" :key="item.id">
             <div slot="body">
-              <div class="dl">
+              <div class="dl product">
                 <div class="dt">
-                  <!-- <img :src=item.photo_urls alt=""> -->
-                  <img src="../assets/logo.png" alt="">
+                  <img :src=item.photo_urls alt="">
+                  <!-- <img src="../assets/logo.png" alt=""> -->
                 </div>
                 <div class="dd">
                   <p class="p_name">{{item.name}}</p>
                   <div class="dd_box">
-                    <div style="padding-top:16px;">
-                      <x-progress :percent="(item.sell_price)/(Number(item.surplus_price)+Number(item.sell_price))" :show-cancel="false"></x-progress>
-                      <div class="num"><p>总需：{{Number(item.surplus_price)+Number(item.sell_price)}}</p><p>剩余：<span>{{item.surplus_price}}</span></p></div>
+                    <div class="dd_box_div">
+                      <x-progress :percent="(item.sell_price)/(Number(item.surplus_price)+Number(item.sell_price))*100" :show-cancel="false"></x-progress>
+                      <div class="num"><p>总需 &nbsp;{{Number(item.surplus_price)+Number(item.sell_price)}}</p><p>剩余&nbsp;<span>{{item.surplus_price}}</span></p></div>
                     </div>
-                    <x-button type="warn" mini>立即参与</x-button>
+                    <x-button mini type="warn">立即参与</x-button>
                   </div>
                 </div>
               </div>
@@ -110,7 +110,7 @@
         }],
         menuList:[{
           id:'0',
-          name:'全部分类'
+          name:'全部分类  ∨'
         },
         {
           id:'1',
@@ -228,21 +228,40 @@
     display:flex;
     padding:10px;
   }
-  .dt img{
+  /* .dt{
     width:100px;
     height:100px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
   }
+  .dt img{
+    width:100%;
+    max-height:100%;
+  } */
   .dd{
     padding-left:10px;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
   }
   .dd .p_name{
-    min-height: 55px;
+    /* min-height: 55px; */
+     text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   .num{
     display: flex;
     font-size:12px;
     padding-top: 6px;
+    justify-content: space-between;
+    color:#666;
   }
   .num span{
     color:red;
@@ -251,10 +270,19 @@
     display:flex;
     justify-content:space-between;
   }
+
+  .dd_box .dd_box_div{
+    padding-top: 12px;
+    padding-right:10px;
+    flex:1;
+  }
 </style>
 <style>
     .home .weui-cell__ft{
       text-align:left;
+    }
+    .home .weui-cell:before{
+      border:none;
     }
 </style>
 

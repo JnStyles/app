@@ -10,7 +10,7 @@
        :inline-desc='item.desc'></cell>
     </group>
 
-     <x-button style="width:80%;margin-top:30px;" type="primary" @click.native="hanBtn">添加收货地址</x-button>
+     <x-button style="width:80%;margin-top:30px;" type="warn" @click.native="hanBtn">添加收货地址</x-button>
   </div>
 </template>
 

@@ -1,17 +1,20 @@
 <template>
   <div class="person">
     <x-header :left-options="{backText: ''}">个人中心<a slot="right">客服</a></x-header>
-    <div class="dl">
+    <div class="person_box dl">
         <div class="dt">
             <img src="../../assets/logo.png" alt="">
             <!-- <img :src="info.avatar" alt=""> -->
         </div>
         <div class="dd">
             <p class="name">{{info.user_nickname}}</p>
-            <p style="line-height:60px;">彩豆{{info.sex}}个</p>
-            <p>成功抢到{{info.sex}}件礼品 <span class="look">快去查看></span></p>
+            <div class="btn_box">
+              <p style="line-height:60px;">彩豆{{info.sex}}个</p>
+              <x-button mini type="warn" class="btn">兑换</x-button>
+            </div>
+            <p>成功抢到 <span style="color:#ff9000 ">{{info.sex}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
+            
         </div>
-        <x-button class="btn">兑换</x-button>
     </div>
 
     <group title="">
@@ -76,12 +79,18 @@
       })
     },
     methods: {
-
+      look(){
+        this.$router.push('/activeRecord?status=2')
+      }
     }
   }
 </script>
 
 <style scoped>
+    .person_box{
+      color:#fff;
+      background:url("../../assets/person_bg.jpg") no-repeat center left;
+    }
     .dl{
         align-items: center;
         padding-left:20px;
@@ -100,15 +109,17 @@
     .name{
         font-size:20px;
     }
-    .btn{
-        width:80px;
-        position:absolute;
-        right:20px;
-        top:40%;
-    }
     .look{
       float:right;
       padding-right:20px;
+    }
+    .btn{
+     margin:0 20px 0 0;
+    }
+    .btn_box{
+      display:flex;
+      align-items: center;
+      justify-content: space-between;
     }
  </style>
  <style>

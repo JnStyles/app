@@ -1,14 +1,18 @@
 <template>
   <div class="comments">
     <x-header :left-options="{backText: ''}">晒单</x-header>
-    <p style="line-height:30px;padding-left:10px;">参与疯狂晒单，有机会获得疯狂大礼！</p>
+    <p class="p1">参与疯狂晒单，有机会获得疯狂大礼！</p>
     <group style="margin-top:0;">
       <x-textarea :max="200" v-model="content" placeholder="请填写15至200字的获奖感言"></x-textarea>
     </group>
 
     <div class="upload_box">
-      <div class="upload" v-if="list && list.length>0" v-for="(item,index) in list">
-        <span @click="handDelect(index)">❎</span>
+      <div class="upload" v-if="list && list.length>0" v-for="(item,index) in list" :key="index">
+        <span @click="handDelect(index)">
+            <svg class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                  <use xlink:href="#iconclose-circle"></use>
+            </svg>
+        </span>
         <img style="width: 100%;" :src="item" alt="" >
       </div>
       <div class="upload" v-if="list && list.length<3">
@@ -134,8 +138,8 @@
   }
   .comments .upload span{
       position: absolute;
-      right: 0;
-      top: 0;
+      right: -16px;
+      top: -17px;
   }
   .upload_box{
     display: flex;
@@ -149,6 +153,11 @@
   }
   .btn{
     width: 80%;
+  }
+  .p1{
+    line-height:30px;
+    padding-left:10px;
+    font-size: 16px;
   }
 
 </style>

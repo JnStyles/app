@@ -4,7 +4,7 @@
    
     <panel style="margin-top:0">
         <div slot="body">
-            <div class="dl" v-for="item in list">
+            <div class="dl" v-for="(item,index) in list" :key="index">
                 <div class="dt">
                     <img src="../../assets/logo.png" alt="">
                     <!-- <img :src="item.avatar" alt=""> -->
