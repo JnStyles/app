@@ -145,23 +145,19 @@
         :show-bottom-border="false"></popup-header>
         <div style="background-color:#fff;height:210px;margin:0 auto;padding-top:10px;">
          <group>
-          <x-number v-model="buyNum" :min="0" :step="info.participation_number" width="260px"></x-number>
-
+          <x-number v-model="buyNum" :min="info.participation_number" :step="info.participation_number" width="260px"></x-number>
           <div class="numBox">
              <checker v-model="buyNum" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
-                <checker-item :value="Number(5)">5</checker-item>
-                <checker-item :value="Number(10)">10</checker-item>
-                <checker-item :value="Number(20)">20</checker-item>
-                <checker-item :value="Number(30)">包尾</checker-item>
+                <checker-item :value="Number(info.participation_number*1)">{{info.participation_number*1}}</checker-item>
+                <checker-item :value="Number(info.participation_number*2)">{{info.participation_number*2}}</checker-item>
+                <checker-item :value="Number(info.participation_number*3)">{{info.participation_number*3}}</checker-item>
+                <checker-item :value="Number(info.surplus_price)">包尾</checker-item>
             </checker>
          </div>
-
          <div style="padding:20px 15px;">
           <x-button type="warn">确认</x-button>
          </div>
          </group>
-         
-         
         </div>
       </popup>
     </div>
@@ -228,11 +224,12 @@
                 if(res){
                     this.info =res.data.data;
                     if(res.data.data.photo_urls.length>0){
+                        this.buyNum =this.info.participation_number;
                         let arr =[];
                         for(let i=0;i<res.data.data.photo_urls.length;i++){
                             arr =[{"img":res.data.data.photo_urls[i]}]
                         }
-                    this.info.photo_urls =arr;
+                        this.info.photo_urls =arr;
                     }
                 }
             })
@@ -409,6 +406,9 @@
     .weui-cells:before{
         border:none !important;
     }
+   .weui-cells:after{
+     border:none !important;
+   }
 </style>
 
 

@@ -18,7 +18,7 @@
                     <img :src="item.avatar" alt="">
                 </div>
                 <div class="dd_smail">
-                    <p>获得者:&nbsp;<span class="user">{{item.user_nickname}}</span>&nbsp;[没地区字段]</p>
+                    <p>获得者:&nbsp;<span class="user">{{item.user_nickname}}</span>&nbsp;{{item.address}}</p>
                     <p class="fontsize12">参与 <span class="pay_count">{{item.pay_count}}</span> 人次 <span>&nbsp;&nbsp;揭晓时间：{{item.open_award_time}}</span></p>
                 </div>
             </div>
