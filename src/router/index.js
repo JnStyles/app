@@ -90,6 +90,11 @@ export default new Router({
       path: '/participateInfo',
       name: '参与详情',
       component:  resolve => require(['../views/productInfo/participateInfo.vue'], resolve)
+    },
+    {
+      path: '/buyInfo',
+      name: '支付',
+      component:  resolve => require(['../views/productInfo/buyInfo.vue'], resolve)
     }
   ]
 })

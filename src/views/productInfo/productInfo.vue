@@ -22,7 +22,7 @@
                 <div v-if="info.status==1">
                     <p class="instructions">注：{{info.description}}</p>
                     <div class="pro_per">
-                        <x-progress :percent="(info.surplus_price)/(Number(info.price))*100" :show-cancel="false"></x-progress>
+                        <x-progress :percent="(Number(info.price)-Number(info.surplus_price))/(Number(info.price))*100" :show-cancel="false"></x-progress>
                         <div class="pro_box"><span>总需{{info.price}}</span><span>剩余 <span class="red">{{info.surplus_price}}</span></span></div>
                     </div>
                 </div>
@@ -144,20 +144,20 @@
         title="请选择参与次数"
         :show-bottom-border="false"></popup-header>
         <div style="background-color:#fff;height:210px;margin:0 auto;padding-top:10px;">
-         <group>
-          <x-number v-model="buyNum" :min="info.participation_number" :step="info.participation_number" width="260px"></x-number>
-          <div class="numBox">
-             <checker v-model="buyNum" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
-                <checker-item :value="Number(info.participation_number*1)">{{info.participation_number*1}}</checker-item>
-                <checker-item :value="Number(info.participation_number*2)">{{info.participation_number*2}}</checker-item>
-                <checker-item :value="Number(info.participation_number*3)">{{info.participation_number*3}}</checker-item>
-                <checker-item :value="Number(info.surplus_price)">包尾</checker-item>
-            </checker>
-         </div>
-         <div style="padding:20px 15px;">
-          <x-button type="warn">确认</x-button>
-         </div>
+         <group style="width:375px;">
+          <x-number v-model="buyNum" :fillable="true" :min="0" :max="info.surplus_price" :step="info.participation_number" width="260px"></x-number>
+            <div class="numBox">
+                <checker v-model="buyNum" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+                    <checker-item :value="Number(info.participation_number*1)">{{info.participation_number*1}}</checker-item>
+                    <checker-item :value="Number(info.participation_number*2)">{{info.participation_number*2}}</checker-item>
+                    <checker-item :value="Number(info.participation_number*3)">{{info.participation_number*3}}</checker-item>
+                    <checker-item :value="Number(info.surplus_price)">包尾</checker-item>
+                </checker>
+            </div>
          </group>
+         <div style="padding:20px 15px;">
+          <x-button type="warn" @click.native="handBtn">确认</x-button>
+         </div>
         </div>
       </popup>
     </div>
@@ -247,6 +247,18 @@
         //点击立即参与
         handJoin(){
             this.showBuy =true;
+        },
+        //点击立即购买
+        handBtn(){
+            if(this.buyNum<=0){
+                this.$vux.toast.text('最少参与次数为'+this.info.participation_number);
+                return false;
+            }else if((this.buyNum)%(this.info.participation_number)!=0){
+                this.$vux.toast.text('参与次数为'+this.info.participation_number+'的倍数');
+                return false;
+            }else{
+                this.$router.push('/buyInfo?id='+this.id+'&balance='+this.buyNum)
+            }
         }
     }
   }
@@ -269,6 +281,7 @@
         height:40px;
         line-height:40px;
         text-align: center;
+        font-size:14px;
     }
     .time_ji{
         height:40px;
@@ -360,7 +373,7 @@
       margin-bottom:10px;
   }
   .numBox{
-      width: 100%;
+     padding:10px 20px;
      display: flex;
      align-items: center;
      justify-content: center;
@@ -368,7 +381,7 @@
   .vux-checker-box{
       display: flex;
       justify-content: space-between;
-      width:86%;
+      width:100%;
   }
   .demo1-item {
     border: 1px solid #ececec;
