@@ -2,8 +2,6 @@
   <div class="home">
     <x-header :left-options="{showBack: false}">会员活动<a slot="right" @click="goPerson">我的活动</a></x-header>
     <swiper :list="swipeList" v-model="swipe"></swiper>
-    
-
     <group gutter='0'>
       <grid :show-vertical-dividers="false">
       <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
@@ -13,7 +11,6 @@
         <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
           <use :xlink:href="item.icon"></use>
         </svg>
-
       </grid-item>
     </grid>
       <cell title="公告">
@@ -27,28 +24,29 @@
        <tab :line-width=2 active-color='#fc378c' v-model="activeValue">
         <tab-item class="vux-center" :selected="activeValue == item.id" v-for="(item, index) in menuList" @on-item-click="handTab" :key="index">{{item.name}}</tab-item>
       </tab>
-      <div>
-          <panel style="margin-top:0;" @click.native="goInfo(item.id)" v-for="item in proList" :key="item.id">
-            <div slot="body">
-              <div class="dl product">
-                <div class="dt">
-                  <img :src=item.photo_urls alt="">
-                  <!-- <img src="../assets/logo.png" alt=""> -->
-                </div>
-                <div class="dd">
-                  <p class="p_name">{{item.name}}</p>
-                  <div class="dd_box">
-                    <div class="dd_box_div">
-                      <x-progress :percent="(item.sell_price)/(Number(item.surplus_price)+Number(item.sell_price))*100" :show-cancel="false"></x-progress>
-                      <div class="num"><p>总需 &nbsp;{{Number(item.surplus_price)+Number(item.sell_price)}}</p><p>剩余&nbsp;<span>{{item.surplus_price}}</span></p></div>
+        <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-170" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+          <div>
+            <panel style="margin-top:0;" @click.native="goInfo(item.id)" v-for="(item,index) in proList" :key="index">
+              <div slot="body">
+                <div class="dl product">
+                  <div class="dt">
+                    <img :src=item.photo_urls alt="">
+                  </div>
+                  <div class="dd">
+                    <p class="p_name">{{item.name}}</p>
+                    <div class="dd_box">
+                      <div class="dd_box_div">
+                        <x-progress :percent="(item.sell_price)/(Number(item.surplus_price)+Number(item.sell_price))*100" :show-cancel="false"></x-progress>
+                        <div class="num"><p>总需 &nbsp;{{Number(item.surplus_price)+Number(item.sell_price)}}</p><p>剩余&nbsp;<span>{{item.surplus_price}}</span></p></div>
+                      </div>
+                      <x-button mini type="warn">立即参与</x-button>
                     </div>
-                    <x-button mini type="warn">立即参与</x-button>
                   </div>
                 </div>
               </div>
-            </div>
-          </panel>
-      </div>
+            </panel>
+          </div>
+        </scroller>
     </group>
 
     <!-- 全部分类弹窗 -->
@@ -64,8 +62,6 @@
           <cell :title="item.name" v-for="item in goryList" :key="item.id" @click.native="handGory(item.id)">
 
           </cell>
-
-          
         </group>
       </popup>
     </div>
@@ -75,8 +71,6 @@
 <script>
 
   import { Group, Cell,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem } from 'vux'
-  import tabbar from '../components/Tabbar'
-
   export default {
     data:function(){
       return {
@@ -127,15 +121,26 @@
         type: '1',
         order_type:'',
         product_category_id:'',
-        page:1,
         show:false,
-        goryList:[]
+        goryList:[],
+        pullupConfig: {
+          content: '上拉加载更多',
+          downContent: '松开进行加载',
+          upContent: '上拉加载更多',
+          loadingContent: '加载中...'
+        },
+        pulldownConfig:{
+          content:'下拉刷新',
+          downContent:'下拉刷新',
+          upContent:'释放刷新',
+          loadingContent:'加载中'
+        },
+        page:1
       }
     },
     components: {
       Group,
       Cell,
-      tabbar,
       XHeader,
       Swiper ,
       Grid,
@@ -143,31 +148,22 @@
       Icon,
       Marquee, 
       MarqueeItem,
-       SwiperItem 
+      SwiperItem
     },
     created(){
-      // let params ={
-      //   mobile:'13611266774'
-      // }
-      // this.$api.activity.getLoginSmsCode(params).then(res =>{
-      //   console.log(res)
-      // })
       // 获取banner图和中奖纪录
       this.$api.activity.getBannerList({}).then(res =>{
         if(res){
           this.swipeList =res.data.data.banner_list;
           this.jiangList =res.data.data.product_periods_list;
         }
-      })
-
+      });
       this.getProList();
-
-      
     },
 
     methods:{
-      //商品列表
-      getProList(){
+      //获取商品列表
+      getProList(cb){
         let params ={
           page:this.page,
           product_category_id:this.product_category_id,
@@ -176,6 +172,10 @@
         this.$api.activity.getProductList(params).then(res =>{
           if(res){
             this.proList =res.data.data.list;
+            cb && cb(res);
+            // if(res.data.data.totalCount==this.proList){
+            //   this.$refs.scroller.disablePullup()
+            // }
           }
         })
       },
@@ -210,7 +210,7 @@
       },
       //点击获奖名单
       onClick(){
-        console.log(123)
+        console.log('点击获奖名单')
       },
       // 点击跳转礼品详情页面
       goInfo(id){
@@ -218,6 +218,51 @@
       },
       goPerson(){
         this.$router.push('/person');
+      },
+      //上拉加载
+      upLoad(){
+        console.log('上拉加载')
+        // this.page +=1;
+        this.page=1;
+
+        let params ={
+          page:this.page,
+          product_category_id:this.product_category_id,
+          order_type:this.order_type
+        }
+        this.$api.activity.getProductList(params).then(res =>{
+          if(res){
+            this.$refs.scroller.donePullup()
+            this.proList =this.proList.concat(res.data.data.list);
+              this.$nextTick(() => {
+                this.$refs.scroller.reset()
+              })
+              console.log(this.proList)
+          }
+        })
+
+        // this.getProList(res =>{
+        //   if(res){
+        //     let newArr =this.proList;
+        //     this.$refs.scroller.donePullup()
+        //     console.log('回调返回数据为')
+        //     console.log(res)
+        //     newArr =newArr.concat(res.data.data.list);
+        //     console.log(newArr)
+        //     this.proList =newArr;
+        //     this.$nextTick(() => {
+        //       this.$refs.scroller.reset()
+        //     });
+        //     console.log(this.proList)
+        //   }
+        // });
+      },
+      //下拉刷新
+      downLoad(){
+        console.log('下拉刷新')
+        setTimeout(res =>{
+          this.$refs.scroller.donePulldown()
+        },1000)
       }
     }
   }
@@ -283,6 +328,10 @@
     }
     .home .weui-cell:before{
       border:none;
+    }
+    .xs-plugin-pullup-container{
+      font-size:12px !important;
+      line-height: 40px !important;
     }
 </style>
 

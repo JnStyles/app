@@ -144,8 +144,8 @@
         title="请选择参与次数"
         :show-bottom-border="false"></popup-header>
         <div style="background-color:#fff;height:210px;margin:0 auto;padding-top:10px;">
-         <group style="width:375px;">
-          <x-number v-model="buyNum" :fillable="true" :min="0" :max="info.surplus_price" :step="info.participation_number" width="260px"></x-number>
+         <group class="g_box">
+          <x-number v-model="buyNum" :fillable="true" :min="0" :max="info.surplus_price" :step="info.participation_number" width="7rem"></x-number>
             <div class="numBox">
                 <checker v-model="buyNum" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
                     <checker-item :value="Number(info.participation_number*1)">{{info.participation_number*1}}</checker-item>
@@ -422,6 +422,9 @@
    .weui-cells:after{
      border:none !important;
    }
+  .g_box{
+    width: 375px!important;
+  }
 </style>
 
 
