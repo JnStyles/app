@@ -7,50 +7,53 @@
       <tab-item @on-item-click="onItemClick">已抢到</tab-item>
       <tab-item @on-item-click="onItemClick">未领取</tab-item>
     </tab>
-    <div class="timeline-demo">
-
-      <timeline>
-        <timeline-item v-for="(item,index) in list" :key ="index">
-          <p class="time" v-if="item.month">{{item.month}}月{{item.day}}号</p>
-          <template v-if="item.son && item.son.length>0">
-            <panel style="margin:6px;" v-for="son in item.son" :key="son.id">
-              <div slot="body">
-                <div class="dl product">
-                  <div class="dt">
-                    <img :src="son.photo_urls" alt="">
-                  </div>
-                  <div class="dd">
-                    <p class="p_name">{{son.name}}</p>
-                    <div class="dd_box"><p>我已参与 <span class="red">{{son.pay_count}}</span>人次</p>
-                      <template v-if="son.status==1">
-                          <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
-                            <use xlink:href="#iconzhongjiangliao"></use>
-                          </svg>
-                      </template>
-                      <template v-if="son.status==2">
-                          <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
-                            <use xlink:href="#iconjinhangzhong2"></use>
-                          </svg>
-                      </template> 
-                      <template v-if="son.status==3">
-                          <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
-                            <use xlink:href="#iconweizhongjiang"></use>
-                          </svg>
-                      </template>
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-100" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+      <div class="timeline-demo">
+        <timeline>
+          <timeline-item v-for="(item,index) in list" :key ="index">
+            <p class="time" v-if="item.month">{{item.month}}月{{item.day}}号</p>
+            <template v-if="item.son && item.son.length>0">
+              <panel style="margin:6px;" v-for="son in item.son" :key="son.id">
+                <div slot="body">
+                  <div class="dl product">
+                    <div class="dt">
+                      <img :src="son.photo_urls" alt="">
+                    </div>
+                    <div class="dd">
+                      <p class="p_name">{{son.name}}</p>
+                      <div class="dd_box"><p>我已参与 <span class="red">{{son.pay_count}}</span>人次</p>
+                        <template v-if="son.status==1">
+                            <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                              <use xlink:href="#iconzhongjiangliao"></use>
+                            </svg>
+                        </template>
+                        <template v-if="son.status==2">
+                            <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                              <use xlink:href="#iconjinhangzhong2"></use>
+                            </svg>
+                        </template>
+                        <template v-if="son.status==3">
+                            <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                              <use xlink:href="#iconweizhongjiang"></use>
+                            </svg>
+                        </template>
+                      </div>
                     </div>
                   </div>
+                  <div class="btn_box" v-if="son.status==1">
+                    <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct(son.id,son.name,son.get_type)" style="margin-right:10px;" type="warn">立即领取</x-button>
+                    <x-button mini v-else plain :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
+                    <x-button mini plain :link="'/comments?id='+son.id">晒单</x-button>
+                  </div>
                 </div>
-                <div class="btn_box" v-if="son.status==1">
-                  <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct(son.id,son.name,son.get_type)" style="margin-right:10px;" type="warn">立即领取</x-button>
-                  <x-button mini v-else plain :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
-                  <x-button mini plain :link="'/comments?id='+son.id">晒单</x-button>
-                </div>
-              </div>
-            </panel>
-          </template>
-        </timeline-item>
-      </timeline>
-    </div>
+              </panel>
+            </template>
+          </timeline-item>
+          <!--zu最后添加一个空的-->
+          <timeline-item></timeline-item>
+        </timeline>
+      </div>
+    </scroller>
 
     <!-- 二次确认弹框 -->
     <div v-transfer-dom>
@@ -191,7 +194,6 @@
                     }
                 ]
             },
-            {}
         ],
         menuList: ['全部', '进行中', '已抢到', '未领取'],
         activeValue: '全部',
@@ -201,6 +203,18 @@
         id:'',
         name:'',
         get_type:'',//领取方式
+        pullupConfig: {
+          content: '上拉加载更多',
+          downContent: '松开进行加载',
+          upContent: '上拉加载更多',
+          loadingContent: '加载中...'
+        },
+        pulldownConfig:{
+          content:'下拉刷新',
+          downContent:'下拉刷新',
+          upContent:'释放刷新',
+          loadingContent:'加载中'
+        },
       }
     },
 
@@ -212,17 +226,19 @@
       this.getList();
     },
     methods: {
-      getList(){
+      getList(cb){
         let params ={
-          page:this.page,
+          page:1,
           status:this.status
         }
         this.$api.activity.getProductPeriodsLog(params).then(res =>{
           if(res){
             if(res.data.data.list.length>0){
               this.list =res.data.data.list
-              this.list.push({})
+              this.$refs.scroller.enablePullup();  //启用上拉加载组件
+              console.log('回调函数执行')
             }
+            cb && cb(res);
           }
         })
       },
@@ -260,8 +276,40 @@
       },
       onShow() {
 
-      }, onHide() {
+      },
+      onHide() {
 
+      },
+
+      //上拉加载
+      upLoad(){
+        this.page +=1;
+        let params ={
+          page:this.page,
+          status:this.status
+        }
+        this.$api.activity.getProductPeriodsLog(params).then(res =>{
+          if(res){
+            if(res.data.data.list.length>0){
+              this.list =this.list.concat(res.data.data.list)
+              this.$nextTick(() => {
+                this.$refs.scroller.reset()
+              })
+              this.$refs.scroller.donePullup()  // 设置上拉加载操作完成，在数据加载后执行
+            }else{
+              this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
+            }
+          }
+        })
+      },
+      //下拉刷新
+      downLoad(){
+        console.log('下拉刷新')
+        this.page =1;
+        this.getList(res =>{
+          this.$refs.scroller.donePulldown();
+          this.$refs.scroller.enablePullup() //启用上拉加载
+        });
       }
     }
   }

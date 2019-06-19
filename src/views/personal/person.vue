@@ -3,8 +3,14 @@
     <x-header :left-options="{backText: ''}">个人中心<a slot="right">客服</a></x-header>
     <div class="person_box dl">
         <div class="dt">
-            <img src="../../assets/logo.png" alt="">
-            <!-- <img :src="info.avatar" alt=""> -->
+            <!--<img src="../../assets/logo.png" alt="">-->
+             <img v-if="info.avatar" :src="info.avatar" alt="">
+          <!--iconboy-cm-->
+            <template v-else>
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 100px;height: 100px;">
+                <use xlink:href="#iconboy-cm"></use>
+              </svg>
+            </template>
         </div>
         <div class="dd">
             <p class="name">{{info.user_nickname}}</p>
@@ -50,7 +56,7 @@
       </group>
 
       <group title="">
-      <cell title="信息管理" link="https://vux.li">
+      <cell title="信息管理" link="/">
             <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
           <use xlink:href="#iconChat"></use>
         </svg>
@@ -108,6 +114,10 @@
     }
     .name{
         font-size:20px;
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .look{
       float:right;
@@ -127,4 +137,3 @@
         margin-top: 10px;
       }
  </style>
- 

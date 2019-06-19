@@ -96,6 +96,11 @@ const activity = {
     return  axios({method:'post',url:`${base}/api/share/doShare`,data:qs.stringify(params)})
   },
 
+  //活动动态点赞 取消点赞
+  shareLike (params) {
+    return axios.get(`${base}/api/share/shareLike`, {params:params})
+  },
+
 };
 
 export default activity;

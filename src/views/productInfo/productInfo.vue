@@ -132,7 +132,7 @@
           <!-- 参加过了 -->
           <template v-else>
                 <p style="padding-left:10px;color:#ffffff;">最新一期进行中</p>
-                <x-button type="warn" style="width:30%;">立即参与</x-button>
+                <x-button type="warn" style="width:30%;" @click.native="goNew">立即前往</x-button>
           </template>
          
       </div>
@@ -161,6 +161,15 @@
         </div>
       </popup>
     </div>
+
+    <div v-transfer-dom>
+      <confirm v-model="showLogin"
+               title="请登录后参与"
+               @on-cancel="onCancel"
+               @on-confirm="onConfirm">
+        <p style="text-align:center;">是否立即登录？</p>
+      </confirm>
+    </div>
    
   </div>
 </template>
@@ -170,6 +179,7 @@
     data:function(){
       return {
         show:false,
+        showLogin:false,
         showBuy:false,
         menus1: {
             menu1: '分享给朋友',
@@ -180,30 +190,7 @@
         ],
         swipe:0,
         percent:60,
-        tabList:[{
-          name:'礼品简介',
-          icon:'#icongift',
-          url:'',
-          id:1
-        },
-        {
-          name:'活动分享',
-          icon:'#iconcamera',
-          url:'/comments'+this.id,
-          id:2
-        },
-        {
-          name:'活动动态',
-          icon:'#iconearth',
-          url:'/activeDynamic',
-          id:3
-        },
-        {
-          name:'计算规则',
-          icon:'#iconcalculator',
-          url:'/activeRecord',
-          id:4
-        }],
+        tabList:[],
          showContent001:false,
          info:'',
          id:'',
@@ -231,6 +218,31 @@
                         }
                         this.info.photo_urls =arr;
                     }
+                    let tabList =[{
+                      name:'礼品简介',
+                      icon:'#icongift',
+                      url:'',
+                      id:1
+                    },
+                      {
+                        name:'活动分享',
+                        icon:'#iconcamera',
+                        url:'/comments?id='+this.id,
+                        id:2
+                      },
+                      {
+                        name:'活动动态',
+                        icon:'#iconearth',
+                        url:'/activeDynamic',
+                        id:3
+                      },
+                      {
+                        name:'计算规则',
+                        icon:'#iconcalculator',
+                        url:'/calculationRules',
+                        id:4
+                      }];
+                    this.tabList =tabList;
                 }
             })
         },
@@ -246,7 +258,11 @@
         },
         //点击立即参与
         handJoin(){
-            this.showBuy =true;
+            if(localStorage.getItem('token')){
+              this.showBuy =true;
+            }else{
+              this.showLogin  =true;
+            }
         },
         //点击立即购买
         handBtn(){
@@ -259,7 +275,18 @@
             }else{
                 this.$router.push('/buyInfo?id='+this.id+'&balance='+this.buyNum)
             }
-        }
+        },
+      onConfirm(){
+          this.$router.push('/login')
+      },
+      onCancel(){
+          this.showLogin  =false;
+      },
+      //去往最新一期的商品
+      goNew(){
+          this.id =this.info.newid;
+          this.getInfo()
+      }
     }
   }
 </script>

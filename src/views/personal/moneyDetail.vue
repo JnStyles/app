@@ -1,29 +1,32 @@
 <template>
   <div class="moneyDetail">
     <x-header :left-options="{backText: ''}">彩豆明细</x-header>
-    
-    <div class="timeline-demo">
-      <timeline v-if="list.length>0">
-        <timeline-item v-for="(item,index) in list" :key ="index">
-          <p  v-if="item.month">{{item.month}}月{{item.day}}号</p>
-          <template v-if="item.son && item.son.length>0">
-            <div class="pbox" v-for="son in item.son" :key="son.id">
-                <div class="left">
-                    <h4>剩余{{son.balance}}豆</h4>
-                    <!-- <p>{{son.name}}</p> -->
-                    <p>参与我爱我家的第三期活动</p>
-                </div>   
-                <div class="right">
-                    <span>-{{Number(son.change)}}</span>
-                    <p>{{son.create_time}}</p>
-                </div>
-            </div>
-          </template>
-          
-        </timeline-item>
-      </timeline>
-      <div v-else>暂无明细</div>
-    </div>
+
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-53" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+      <div class="timeline-demo">
+        <timeline v-if="list.length>0">
+          <timeline-item v-for="(item,index) in list" :key ="index">
+            <p  v-if="item.month">{{item.month}}月{{item.day}}号</p>
+            <template v-if="item.son && item.son.length>0">
+              <div class="pbox" v-for="son in item.son" :key="son.id">
+                  <div class="left">
+                      <h4>剩余{{son.balance}}豆</h4>
+                      <!-- <p>{{son.name}}</p> -->
+                      <p>参与我爱我家的第三期活动</p>
+                  </div>
+                  <div class="right">
+                      <span>-{{Number(son.change)}}</span>
+                      <p>{{son.create_time}}</p>
+                  </div>
+              </div>
+            </template>
+          </timeline-item>
+          <!--最后添加一个空的-->
+          <timeline-item></timeline-item>
+        </timeline>
+        <div v-else>暂无明细</div>
+      </div>
+    </scroller>
   </div>
 
 </template>
@@ -34,24 +37,71 @@
   export default {
     data: function () {
       return {
-        list: [
-    
-        ]
+        list: [],
+        pullupConfig: {
+          content: '上拉加载更多',
+          downContent: '松开进行加载',
+          upContent: '上拉加载更多',
+          loadingContent: '加载中...'
+        },
+        pulldownConfig:{
+          content:'下拉刷新',
+          downContent:'下拉刷新',
+          upContent:'释放刷新',
+          loadingContent:'加载中'
+        },
+        page:1
       }
     },
 
     created(){
-      let params ={
-        page:1
-      }
-      this.$api.activity.balanceLog(params).then(res =>{
-        if(res){
-            this.list =res.data.data.list
-            this.list.push({})
-        }
-      })
+      this.getList();
     },
     methods: {
+      getList(cb){
+        let params ={
+          page:1
+        }
+        this.$api.activity.balanceLog(params).then(res =>{
+          if(res){
+            if(res.data.data.list.length==0){
+              this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
+            }
+            this.list =res.data.data.list;
+            cb && cb();
+          }
+        })
+      },
+
+      //上拉加载
+      upLoad(){
+        this.page +=1;
+        let params ={
+          page:this.page,
+        }
+        this.$api.activity.balanceLog(params).then(res =>{
+          if(res){
+            if(res.data.data.list.length>0){
+              this.list =this.list.concat(res.data.data.list)
+              this.$nextTick(() => {
+                this.$refs.scroller.reset()
+              })
+              this.$refs.scroller.donePullup()  // 设置上拉加载操作完成，在数据加载后执行
+            }else{
+              this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
+            }
+          }
+        })
+      },
+      //下拉刷新
+      downLoad(){
+        console.log('下拉刷新')
+        this.page =1;
+        this.getList(res =>{
+          this.$refs.scroller.donePulldown()
+          this.$refs.scroller.enablePullup() //启用上拉加载
+        });
+      }
 
     }
   }

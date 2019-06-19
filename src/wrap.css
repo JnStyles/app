@@ -125,3 +125,12 @@ button.weui-btn_inline, input.weui-btn_inline, button.weui-btn_mini, input.weui-
   fill:#E64340 !important;
 }
 
+.xs-plugin-pullup-container{
+  font-size:12px !important;
+  line-height: 40px !important;
+}
+.xs-plugin-pulldown-container{
+  font-size:12px !important;
+  line-height: 40px !important;
+}
+

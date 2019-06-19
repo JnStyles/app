@@ -11,10 +11,11 @@ import api from './request/api' // 导入api接口
 
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
 
-import { WechatPlugin,ToastPlugin ,AlertPlugin} from 'vux'
+import { WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin} from 'vux'
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 Vue.use(AlertPlugin)
+Vue.use(ConfirmPlugin)
 
 
 //全局注册组件

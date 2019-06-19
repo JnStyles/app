@@ -95,6 +95,16 @@ export default new Router({
       path: '/buyInfo',
       name: '支付',
       component:  resolve => require(['../views/productInfo/buyInfo.vue'], resolve)
-    }
+    },
+    {
+      path: '/buySuccess',
+      name: '支付成功',
+      component:  resolve => require(['../views/productInfo/buySuccess.vue'], resolve)
+    },
+    {
+      path: '/calculationRules',
+      name: '计算规则',
+      component:  resolve => require(['../views/productInfo/calculationRules.vue'], resolve)
+    },
   ]
 })

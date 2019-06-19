@@ -5,9 +5,6 @@
     <group gutter='0'>
       <grid :show-vertical-dividers="false">
       <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
-        <!-- <img slot="icon" src="../assets/grid_icon.png"> -->
-        <!--<icon slot="icon" type="success"></icon>-->
-        <!--<i slot="icon" class="iconfont aliIcon-minganciku"></i>-->
         <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
           <use :xlink:href="item.icon"></use>
         </svg>
@@ -165,17 +162,15 @@
       //获取商品列表
       getProList(cb){
         let params ={
-          page:this.page,
+          page:1,
           product_category_id:this.product_category_id,
           order_type:this.order_type
         }
         this.$api.activity.getProductList(params).then(res =>{
           if(res){
             this.proList =res.data.data.list;
+            this.$refs.scroller.enablePullup();  //启用上拉加载组件
             cb && cb(res);
-            // if(res.data.data.totalCount==this.proList){
-            //   this.$refs.scroller.disablePullup()
-            // }
           }
         })
       },
@@ -222,8 +217,7 @@
       //上拉加载
       upLoad(){
         console.log('上拉加载')
-        // this.page +=1;
-        this.page=1;
+        this.page +=1;
 
         let params ={
           page:this.page,
@@ -232,37 +226,29 @@
         }
         this.$api.activity.getProductList(params).then(res =>{
           if(res){
-            this.$refs.scroller.donePullup()
-            this.proList =this.proList.concat(res.data.data.list);
+            if(res.data.data.list.length>0){
+              this.proList =this.proList.concat(res.data.data.list);
               this.$nextTick(() => {
                 this.$refs.scroller.reset()
               })
-              console.log(this.proList)
+              this.$refs.scroller.donePullup()  // 设置上拉加载操作完成，在数据加载后执行
+              // if(res.data.data.totalCount==this.proList){
+              //   this.$refs.scroller.disablePullup()
+              // }
+            }else{
+              this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
+            }
           }
         })
-
-        // this.getProList(res =>{
-        //   if(res){
-        //     let newArr =this.proList;
-        //     this.$refs.scroller.donePullup()
-        //     console.log('回调返回数据为')
-        //     console.log(res)
-        //     newArr =newArr.concat(res.data.data.list);
-        //     console.log(newArr)
-        //     this.proList =newArr;
-        //     this.$nextTick(() => {
-        //       this.$refs.scroller.reset()
-        //     });
-        //     console.log(this.proList)
-        //   }
-        // });
       },
       //下拉刷新
       downLoad(){
         console.log('下拉刷新')
-        setTimeout(res =>{
+        this.page =1;
+        this.getProList(res =>{
           this.$refs.scroller.donePulldown()
-        },1000)
+          this.$refs.scroller.enablePullup() //启用上拉加载
+        });
       }
     }
   }
@@ -329,9 +315,9 @@
     .home .weui-cell:before{
       border:none;
     }
-    .xs-plugin-pullup-container{
-      font-size:12px !important;
-      line-height: 40px !important;
+
+    .home .weui-cells{
+      margin-top: 10px !important;
     }
 </style>
 

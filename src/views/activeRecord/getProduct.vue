@@ -83,7 +83,7 @@
         },
 
         handBtn(){
-          if(this.get_type==1 && this.inlineDescListValue.length==0){
+          if(this.get_type==1 && this.inlineDescListValue.length==0 && this.stringValue!=1){
             this.$vux.toast.text('请选择地址')
             return false;
           }

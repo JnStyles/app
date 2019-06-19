@@ -49,7 +49,8 @@
             }
             this.$api.activity.doPay(params).then(res =>{
                 if(res){
-                    console.log('参与成功');
+                  this.$router.push('/buySuccess');
+                  console.log('参与成功');
                 }
             })
         },
