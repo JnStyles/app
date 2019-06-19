@@ -18,25 +18,15 @@
 
     <div style="line-height:50px;padding-left:15px;">常见问题</div>
     <group style="margin-top:0;">
-     <cell
-      title="什么是全民疯抢"
-      is-link
-      :border-intent="false"
-      :arrow-direction="showContent001 ? 'up' : 'down'"
-      @click.native="showContent001 = !showContent001"></cell>
-
-      <p class="slide" :class="showContent001?'animate':''">blablabla...</p>
-
-        <cell
-      title="什么是全民疯抢"
-      is-link
-      :border-intent="false"
-      :arrow-direction="showContent002 ? 'up' : 'down'"
-      @click.native="showContent002 = !showContent002"></cell>
-
-      <p class="slide" :class="showContent002?'animate':''">什么是全民疯抢什么是全民疯抢什么是全民疯抢什么是全民疯抢什么是全民疯抢...</p>
-
-      
+         <cell
+          v-for="(item,index) in list"
+          :key="index"
+          :title="item.post_title"
+          is-link
+          :border-intent="false"
+          :arrow-direction="'showContent'+index ? 'up' : 'down'"
+          @click.native="handClick(index)"></cell>
+      <p class="slide" :class="'showContent'+index?'animate':''">123</p>
       </group>
   </div>
 </template>
@@ -73,12 +63,33 @@
           id:4,
           bg:'#42b983'
         }],
-         showContent001: false,
-         showContent002: false,
+         showContent0: false,
+         showContent1: false,
+         showContent2: false,
+         showContent3: false,
+         showContent4: false,
+         showContent5: false,
+         showContent6: false,
+         type:1,
+         list:[]
       }
+    },
+
+    created(){
+      let params ={
+        type:this.type
+      }
+      this.$api.activity.getArticlesList(params).then(res =>{
+        if(res){
+          this.list =res.data.data.list
+        }
+      })
     },
    
     methods:{
+      handClick(index){
+          console.log(index)
+      },
       //回首页
       goIndex(){
         console.log('回首页')

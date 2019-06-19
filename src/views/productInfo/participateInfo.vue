@@ -10,7 +10,7 @@
         
         <card>
             <div slot="content">
-                <cell
+                <!-- <cell
                     title="参与详情"
                     is-link
                     :border-intent="false"
@@ -40,7 +40,18 @@
                     </tbody>
                 </x-table>
  
-                </div>
+                </div> -->
+
+                <Collapse class="rightFixed0"
+                 :Accordionindex="0"
+                 :isSlotSecond="0"
+                 :AccordionData="baseInformation">
+                  <div class="baseInformation"
+                      slot="First">
+                      <!-- 放入你要插入到内容 -->
+                   123
+                  </div>
+                </Collapse>
             </div>   
         </card>  
 
@@ -51,20 +62,26 @@
 </template>
 
 <script>
+  // import Accordion from "@/components/Collapse";
+  import Collapse from "@/components/Collapse";
 
 
   export default {
     data:function(){
       return {
-     list:[],
-     showContent001:false,
+        list:[],
+        showContent001:false,
+        baseInformation:'基本资料'
       }
+    },
+    components: {
+      Collapse,
     },
     created(){
         let id =this.$route.query.id
         this.$api.activity.getProductParticipationInfo({id:id}).then(res =>{
             if(res){
-
+              
             }
         })
     },

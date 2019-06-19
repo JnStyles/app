@@ -101,6 +101,11 @@ const activity = {
     return axios.get(`${base}/api/share/shareLike`, {params:params})
   },
 
+   //活动规则
+   getArticlesList (params) {
+    return axios.get(`${base}/api/portal/getArticlesList`, {params:params})
+  },
+
 };
 
 export default activity;
