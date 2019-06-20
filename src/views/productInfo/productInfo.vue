@@ -70,7 +70,7 @@
         <!-- 我已参与 -->
         <template v-else>
             <div slot="content"  class="can_box">
-            <p>我已参与 <span class="red">12</span>人次</p>
+            <p>我已参与 <span class="red">{{info.userOrderCount}}</span>人次</p>
             <p @click="goInfo" class="blue">查看详情 ></p>
             </div>
             <div slot="footer" class="smail_footer">
@@ -126,12 +126,12 @@
       <!-- footer悬浮按钮 -->
       <div class="footer">
           <!-- 未参加 -->
-          <template v-if="info.orderList && info.orderList.length==0">
+          <template v-if="info.status!=3">
                 <x-button type="warn" style="width:90%;margin:0 auto;"  @click.native="handJoin">立即参与</x-button>            
           </template>
           <!-- 参加过了 -->
           <template v-else>
-                <p style="padding-left:10px;color:#ffffff;">最新一期进行中</p>
+                <p style="padding-left:10px;color:#ffffff;font-size:12px;">最新一期进行中</p>
                 <x-button type="warn" style="width:30%;" @click.native="goNew">立即前往</x-button>
           </template>
          
@@ -221,7 +221,7 @@
                     let tabList =[{
                       name:'礼品简介',
                       icon:'#icongift',
-                      url:'',
+                      url:'/productIntroduce?id='+this.id,
                       id:1
                     },
                       {
@@ -233,7 +233,7 @@
                       {
                         name:'活动动态',
                         icon:'#iconearth',
-                        url:'/activeDynamic',
+                        url:'/activeDynamic?id='+this.id,
                         id:3
                       },
                       {
@@ -260,6 +260,7 @@
         handJoin(){
             if(localStorage.getItem('token')){
               this.showBuy =true;
+              this.showLogin  =false;
             }else{
               this.showLogin  =true;
             }

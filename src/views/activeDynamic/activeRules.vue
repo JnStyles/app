@@ -1,13 +1,13 @@
 <template>
   <div class="activeRules">
-    <x-header :left-options="{backText: ''}"><a slot="left" style="padding-left:20px;font-size:20px;" @click="goIndex">×</a>活动规则</x-header>
+    <x-header :left-options="{backText: ''}"><a slot="left" class="close_icon" @click="goIndex">×</a>活动规则</x-header>
   
     <group gutter='0'>
       <grid :show-vertical-dividers="false">
         <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
           <span slot="icon">
-              <div :style="{'background':item.bg}" class="icon_fa">
-                <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+              <div :style="{'background':item.bg}" class="icon_fa" @click="handTab(item.id)">
+                <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;color: #666">
                       <use :xlink:href="item.icon"></use>
                 </svg>
               </div>
@@ -16,22 +16,24 @@
       </grid>
     </group>
 
-    <div style="line-height:50px;padding-left:15px;">常见问题</div>
-    <group style="margin-top:0;">
-         <cell
-          v-for="(item,index) in list"
-          :key="index"
-          :title="item.post_title"
-          is-link
-          :border-intent="false"
-          :arrow-direction="'showContent'+index ? 'up' : 'down'"
-          @click.native="handClick(index)"></cell>
-      <p class="slide" :class="'showContent'+index?'animate':''">123</p>
-      </group>
+    <div style="line-height:50px;padding-left:15px;">{{type==1?'常见问题':type==2?'新手指南':type==3?'关于配送':type==4?'参与保障':type==5?'服务协议':''}}</div>
+    <Collapse
+              v-for="(item,index) in list"
+              class="rightFixed0"
+              :Accordionindex="0"
+              :isSlotSecond="0"
+              :AccordionData="item.post_title">
+      <div class="baseInformation"
+           slot="First">
+        {{item.post_title}}
+      </div>
+    </Collapse>
   </div>
 </template>
 
 <script>
+
+  import Collapse from "@/components/Collapse";
   export default {
     data:function(){
       return {
@@ -39,54 +41,55 @@
           name:'新手指南',
           icon:'#iconcompass',
           url:'',
-          id:1,
+          id:2,
           bg:'#E64340'
         },
         {
           name:'关于配送',
           icon:'#iconrocket',
           url:'',
-          id:2,
+          id:3,
           bg:'#3385ff'
         },
         {
           name:'参与保障',
           icon:'#iconanquan',
           url:'',
-          id:3,
+          id:4,
           bg:'#ff5000'
         },
         {
           name:'服务协议',
           icon:'#iconread',
           url:'',
-          id:4,
+          id:5,
           bg:'#42b983'
         }],
          showContent0: false,
-         showContent1: false,
-         showContent2: false,
-         showContent3: false,
-         showContent4: false,
-         showContent5: false,
-         showContent6: false,
          type:1,
-         list:[]
+         list:[],
+         baseInformation:'基本'
       }
+    },
+    components: {
+      Collapse,
     },
 
     created(){
-      let params ={
-        type:this.type
-      }
-      this.$api.activity.getArticlesList(params).then(res =>{
-        if(res){
-          this.list =res.data.data.list
-        }
-      })
+        this.getList();
     },
    
     methods:{
+      getList(){
+        let params ={
+          type:this.type
+        }
+        this.$api.activity.getArticlesList(params).then(res =>{
+          if(res){
+            this.list =res.data.data.list
+          }
+        })
+      },
       handClick(index){
           console.log(index)
       },
@@ -94,6 +97,11 @@
       goIndex(){
         console.log('回首页')
         this.$router.push('/')
+      },
+      handTab(index){
+        this.type =index;
+        this.getList();
+
       }
     }
   }
@@ -141,6 +149,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .close_icon{
+    padding-left:20px;font-size:22px
   }
 </style>
 <style>

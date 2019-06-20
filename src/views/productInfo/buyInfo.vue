@@ -32,7 +32,8 @@
       return {
           id:'',
           balance:'',
-          num:33
+          num:33,
+          user_balance:0,//用户余额
       }
     },
     created(){
@@ -40,6 +41,13 @@
         let balance =this.$route.query.balance;
         this.id =id;
         this.balance =balance;
+
+        //获取用户信息
+        this.$api.activity.getUserInfo(params).then(res =>{
+           if(res){
+              this.user_balance =res.data.data.balance
+           }
+        })
     },
     methods:{
         handBtn(){

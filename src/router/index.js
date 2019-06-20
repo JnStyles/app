@@ -106,5 +106,10 @@ export default new Router({
       name: '计算规则',
       component:  resolve => require(['../views/productInfo/calculationRules.vue'], resolve)
     },
+    {
+      path: '/productIntroduce',
+      name: '礼品简介',
+      component:  resolve => require(['../views/productInfo/productIntroduce.vue'], resolve)
+    },
   ]
 })

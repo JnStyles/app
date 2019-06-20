@@ -86,7 +86,8 @@ const activity = {
   doPay (params) {
     return axios.get(`${base}/api/product/doPay`, {params:params});
   },
-  // 
+
+  //参与详情
   getProductParticipationInfo (params) {
     return axios.get(`${base}/api/product/getProductParticipationInfo`, {params:params});
   },

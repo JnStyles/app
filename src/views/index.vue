@@ -1,28 +1,42 @@
 <template>
   <div class="home">
     <x-header :left-options="{showBack: false}">会员活动<a slot="right" @click="goPerson">我的活动</a></x-header>
-    <swiper :list="swipeList" v-model="swipe"></swiper>
-    <group gutter='0'>
-      <grid :show-vertical-dividers="false">
-      <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
-        <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use :xlink:href="item.icon"></use>
-        </svg>
-      </grid-item>
-    </grid>
-      <cell title="公告">
-        <marquee>
-          <marquee-item v-for="item in jiangList" :key="item.id" direction="down" @click.native="onClick(i)">恭喜{{item.user_nickname}}在活动中抽中{{item.name}}</marquee-item>
-        </marquee>
-      </cell>
-    </group>
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-50" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+      <div>
+        <swiper :list="swipeList" v-model="swipe"></swiper>
+        <group gutter='0'>
+          <grid :show-vertical-dividers="false">
+            <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                <use :xlink:href="item.icon"></use>
+              </svg>
+            </grid-item>
+          </grid>
+          <cell title="公告">
+            <marquee>
+              <marquee-item v-for="item in jiangList" :key="item.id" direction="down" @click.native="onClick(i)">恭喜{{item.user_nickname}}在活动中抽中{{item.name}}</marquee-item>
+            </marquee>
+          </cell>
+        </group>
+        <group>
+          <div style="height:44px;">
+            <sticky
+              scroll-box="vux_view_box_body"
+              ref="sticky"
+              :offset="46"
+              :check-sticky-support="false"
+              :disabled="disabled">
+              <tab :line-width=2 active-color='#fc378c' v-model="activeValue">
+                <tab-item class="vux-center" :selected="activeValue == item.id" v-for="(item, index) in menuList" @on-item-click="handTab" :key="index">{{item.name}}</tab-item>
+              </tab>
+            </sticky>
+          </div>
 
-    <group>
-       <tab :line-width=2 active-color='#fc378c' v-model="activeValue">
-        <tab-item class="vux-center" :selected="activeValue == item.id" v-for="(item, index) in menuList" @on-item-click="handTab" :key="index">{{item.name}}</tab-item>
-      </tab>
-        <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-170" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
-          <div>
+          <!--<tab :line-width=2 active-color='#fc378c' v-model="activeValue">-->
+            <!--<tab-item class="vux-center" :selected="activeValue == item.id" v-for="(item, index) in menuList" @on-item-click="handTab" :key="index">{{item.name}}</tab-item>-->
+          <!--</tab>-->
+
+          <!--<div>-->
             <panel style="margin-top:0;" @click.native="goInfo(item.id)" v-for="(item,index) in proList" :key="index">
               <div slot="body">
                 <div class="dl product">
@@ -42,9 +56,10 @@
                 </div>
               </div>
             </panel>
-          </div>
-        </scroller>
-    </group>
+          <!--</div>-->
+        </group>
+      </div>
+    </scroller>
 
     <!-- 全部分类弹窗 -->
     <div v-transfer-dom>
@@ -57,7 +72,6 @@
         @on-click-right="show = false"></popup-header>
         <group gutter="0">
           <cell :title="item.name" v-for="item in goryList" :key="item.id" @click.native="handGory(item.id)">
-
           </cell>
         </group>
       </popup>
@@ -75,6 +89,7 @@
         swipeList: [],//图片轮播
         jiangList:[],//中奖用户列表
         proList:[],//商品列表
+        disabled: typeof navigator !== 'undefined' && /iphone/i.test(navigator.userAgent) && /ucbrowser/i.test(navigator.userAgent),
         tabList:[{
           name:'信息服务',
           icon:'#iconxinxichaxun',
@@ -101,7 +116,7 @@
         }],
         menuList:[{
           id:'0',
-          name:'全部分类  ∨'
+          name:'全部分类   v'
         },
         {
           id:'1',
