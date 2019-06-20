@@ -88,12 +88,11 @@ export default {
   -moz-transition: height 0.6s;
   -o-transition: height 0.6s;
   transition: height 0.6s;
-  padding: 0 20px;
 }
 .AccordionTitleL {
   float: left;
   font-size: 14px;
-  width: 80%;
+  width: 100%;
 }
 .AccordionTitleR {
   float: right;
@@ -115,6 +114,7 @@ export default {
 }
 .ContentA{
   padding-top: 10px;
+  background: #fbf9fe;
 }
 /* 后期如果有修改样式的需求，直接在你的引用页面修改就好 */
 </style>

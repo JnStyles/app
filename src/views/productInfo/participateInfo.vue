@@ -10,64 +10,41 @@
         
         <card>
             <div slot="content">
-                <!--<cell-->
-                    <!--title="参与详情"-->
-                    <!--is-link-->
-                    <!--:border-intent="false"-->
-                    <!--:arrow-direction="showContent001 ? 'up' : 'down'"-->
-                    <!--@click.native="showContent001 = !showContent001"></cell>-->
 
 
-                <x-table :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
-                  <thead>
-                  <tr style="background-color: #F7F7F7">
-                      <th>参与时间</th>
-                      <th>人次</th>
-                      <th>编码</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr></tr>
-                  </tbody>
+                  <div style="width: 100%;" class="tab_head">
+                    <span style="width: 53%;padding-left: 20px;">参与时间</span>
+                    <span style="width: 10%;">人次</span>
+                    <span style="width: 20%;">活动编码</span>
+                  </div>
 
-                  <Collapse class="rightFixed0"
+
+                  <Collapse2 v-for="(item,index) in list"
+                            class="rightFixed0"
                             :Accordionindex="0"
                             :isSlotSecond="0"
-                            :AccordionData="baseInformation"
-                            :AccordionData2="baseInformation">
+                            :AccordionData="item.create_msectime"
+                            :AccordionData2="item.pay_count"
+
+                  >
                     <div class="baseInformation"
                          slot="First">
                       <!-- 放入你要插入到内容 -->
-                      123
+                        <span v-for="son in item.lucky_code_list">
+                          {{son.lucky_code}}
+                        </span>
                     </div>
-                  </Collapse>
-                  <!--<tbody>-->
-                  <!--<tr>-->
-                      <!--<td>Apple</td>-->
-                      <!--<td>$1.25</td>-->
-                      <!--<td> x 1</td>-->
-                  <!--</tr>-->
-                  <!--<tr>-->
-                      <!--<td>Banana</td>-->
-                      <!--<td>$1.20</td>-->
-                      <!--<td> x 2</td>-->
-                  <!--</tr>-->
-                  <!--</tbody>-->
-                </x-table>
-
-
+                  </Collapse2>
 
             </div>   
-        </card>  
-
-        
+        </card>
  
 </div>
     
 </template>
 
 <script>
-  import Collapse from "@/components/Collapse";
+  import Collapse2 from "@/components/Collapse2";
 
   export default {
     data:function(){
@@ -80,7 +57,7 @@
       }
     },
     components: {
-      Collapse,
+      Collapse2,
     },
     created(){
         let id =this.$route.query.id
@@ -101,6 +78,23 @@
 <style scoped>
   .box{
       padding:10px;
+  }
+  .tab_head{
+    width: 100%;
+    height: 30px;
+    border-bottom: 1px solid #eee;
+    line-height: 30px;
+  }
+  .tab_head span{
+    display: inline-block;
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+  }
+  .baseInformation span{
+      display: inline-block;
+      width: 24%;
+      text-align: center;
   }
 </style>
 
