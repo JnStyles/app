@@ -3,7 +3,7 @@
     <x-header :left-options="{showBack: false}">会员活动<a slot="right" @click="goPerson">我的活动</a></x-header>
     <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-50" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
-        <swiper :list="swipeList" v-model="swipe"></swiper>
+        <swiper :list="swipeList" auto loop v-model="swipe"></swiper>
         <group gutter='0'>
           <grid :show-vertical-dividers="false">
             <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
@@ -13,8 +13,8 @@
             </grid-item>
           </grid>
           <cell title="公告">
-            <marquee>
-              <marquee-item v-for="item in jiangList" :key="item.id" direction="down" @click.native="onClick(i)">恭喜{{item.user_nickname}}在活动中抽中{{item.name}}</marquee-item>
+            <marquee :item-height="24">
+              <marquee-item v-for="item in jiangList" :key="item.id" direction="down" @click.native="onClick(item.id)">恭喜{{item.user_nickname}}在活动中抽中{{item.name}}</marquee-item>
             </marquee>
           </cell>
         </group>
@@ -27,7 +27,12 @@
               :check-sticky-support="false"
               :disabled="disabled">
               <tab :line-width=2 active-color='#fc378c' v-model="activeValue">
-                <tab-item class="vux-center" :selected="activeValue == item.id" v-for="(item, index) in menuList" @on-item-click="handTab" :key="index">{{item.name}}</tab-item>
+                <tab-item class="vux-center" :selected="activeValue == 0" @on-item-click="handTab">
+                  {{product_category_name}} <x-icon type="ios-arrow-down" size="12"></x-icon>
+                </tab-item>
+                <tab-item class="vux-center" :selected="activeValue == 1" @on-item-click="handTab">人气</tab-item>
+                <tab-item class="vux-center" :selected="activeValue == 2" @on-item-click="handTab">最新</tab-item>
+                <tab-item class="vux-center" :selected="activeValue == 3" @on-item-click="handTab">进度</tab-item>
               </tab>
             </sticky>
           </div>
@@ -71,7 +76,7 @@
         @on-click-left="show = false"
         @on-click-right="show = false"></popup-header>
         <group gutter="0">
-          <cell :title="item.name" v-for="item in goryList" :key="item.id" @click.native="handGory(item.id)">
+          <cell :title="item.name" v-for="item in goryList" :key="item.id" @click.native="handGory(item.id,item.name)">
           </cell>
         </group>
       </popup>
@@ -116,7 +121,7 @@
         }],
         menuList:[{
           id:'0',
-          name:'全部分类   v'
+          name:'全部分类v'
         },
         {
           id:'1',
@@ -147,7 +152,8 @@
           upContent:'释放刷新',
           loadingContent:'加载中'
         },
-        page:1
+        page:1,
+        product_category_name:'全部分类'
       }
     },
     components: {
@@ -166,7 +172,18 @@
       // 获取banner图和中奖纪录
       this.$api.activity.getBannerList({}).then(res =>{
         if(res){
-          this.swipeList =res.data.data.banner_list;
+          let bannerList =[];
+          if(res.data.data.banner_list && res.data.data.banner_list.length>0){
+            for(let i=0;i<res.data.data.banner_list.length;i++){
+                bannerList.push({
+                  img:res.data.data.banner_list[i].image,
+                  title:res.data.data.banner_list[i].title,
+                  url:res.data.data.banner_list[i].url,
+                })
+            }
+          }
+          
+          this.swipeList =bannerList;
           this.jiangList =res.data.data.product_periods_list;
         }
       });
@@ -185,6 +202,10 @@
           if(res){
             this.proList =res.data.data.list;
             this.$refs.scroller.enablePullup();  //启用上拉加载组件
+             if(res.data.data.totalCount<=10){
+               console.log('禁用')
+              this.$refs.scroller.disablePullup();
+              }
             cb && cb(res);
           }
         })
@@ -204,8 +225,10 @@
        
       },
       //点击全部分类
-      handGory(id){
+      handGory(id,name){
+        console.log(name)
         this.order_type =0;
+        this.product_category_name =name;
         this.product_category_id =id;
         this.getProList();
         this.show =false;
@@ -219,7 +242,8 @@
         })
       },
       //点击获奖名单
-      onClick(){
+      onClick(id){
+        console.log(id)
         console.log('点击获奖名单')
       },
       // 点击跳转礼品详情页面
@@ -261,8 +285,10 @@
         console.log('下拉刷新')
         this.page =1;
         this.getProList(res =>{
+          if(res.data.data.totalCount>10){
+            this.$refs.scroller.enablePullup() //启用上拉加载
+          }
           this.$refs.scroller.donePulldown()
-          this.$refs.scroller.enablePullup() //启用上拉加载
         });
       }
     }
@@ -333,6 +359,9 @@
 
     .home .weui-cells{
       margin-top: 10px !important;
+    }
+    .home .vux-label{
+      width:56px;
     }
 </style>
 

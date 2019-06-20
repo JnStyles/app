@@ -7,7 +7,7 @@
         </p>
       </x-input>
 
-      <x-input title="彩豆抵扣" class="weui-vcode" readonly value="剩余33个">
+      <x-input title="彩豆抵扣" class="weui-vcode" readonly :value="'剩余'+user_balance+'个'">
          
         <p slot="right">{{balance}}彩豆
             <icon type="success"></icon>
@@ -43,7 +43,7 @@
         this.balance =balance;
 
         //获取用户信息
-        this.$api.activity.getUserInfo(params).then(res =>{
+        this.$api.activity.getUserInfo({}).then(res =>{
            if(res){
               this.user_balance =res.data.data.balance
            }

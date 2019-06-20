@@ -10,6 +10,7 @@
     <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-100" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div class="timeline-demo">
         <timeline>
+          <template v-if="list &&list.length>0">
           <timeline-item v-for="(item,index) in list" :key ="index">
             <p class="time" v-if="item.month">{{item.month}}月{{item.day}}号</p>
             <template v-if="item.son && item.son.length>0">
@@ -51,6 +52,7 @@
           </timeline-item>
           <!--zu最后添加一个空的-->
           <timeline-item></timeline-item>
+          </template>
         </timeline>
       </div>
     </scroller>
@@ -119,7 +121,10 @@
             if(res.data.data.list.length>0){
               this.list =res.data.data.list
               this.$refs.scroller.enablePullup();  //启用上拉加载组件
-              console.log('回调函数执行')
+            }
+            if(res.data.data.totalCount<=10){
+               console.log('禁用')
+               this.$refs.scroller.disablePullup();
             }
             cb && cb(res);
           }
@@ -190,8 +195,10 @@
         console.log('下拉刷新')
         this.page =1;
         this.getList(res =>{
+          if(res.data.data.totalCount>10){
+            this.$refs.scroller.enablePullup() //启用上拉加载
+          }
           this.$refs.scroller.donePulldown();
-          this.$refs.scroller.enablePullup() //启用上拉加载
         });
       }
     }

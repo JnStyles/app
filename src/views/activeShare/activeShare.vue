@@ -88,6 +88,10 @@
         this.$api.activity.getShareList(params).then(res =>{
           if(res){
             this.list =res.data.data.list;
+             if(res.data.data.totalCount<=10){
+               console.log('禁用')
+               this.$refs.scroller.disablePullup();
+            }
             cb && cb(res)
           }
         })
@@ -96,15 +100,16 @@
       handZan(id,index){
         console.log(id)
         console.log(index)
-        this.list[index].like_count=1;
-        // let params ={
-        //   id:id,
-        // }
-        // this.$api.activity.shareLike(params).then(res =>{
-        //   if(res){
-        //
-        //   }
-        // })
+        
+        let params ={
+          id:id,
+        }
+        this.$api.activity.shareLike(params).then(res =>{
+          if(res){
+            this.list[index].like_count=1;
+            this.list[index].is_like=1;
+          }
+        })
       },
 
       //上拉加载
