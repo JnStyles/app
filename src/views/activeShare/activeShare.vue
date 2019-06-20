@@ -100,7 +100,6 @@
       handZan(id,index){
         console.log(id)
         console.log(index)
-        
         let params ={
           id:id,
         }
