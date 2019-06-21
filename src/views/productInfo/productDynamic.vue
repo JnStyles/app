@@ -2,9 +2,9 @@
   <div>
     <x-header :left-options="{backText: ''}">商品动态</x-header>
 
-    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-60" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-50" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
-        <panel :header="item.create_msectime" v-for="item in list" :key="item.id">
+        <panel :header="'第'+item.periods+'期 &nbsp;'+item.open_award_time" v-for="item in list" :key="item.id">
           <div slot="body">
             <div class="dl">
               <div class="dt">
@@ -30,24 +30,7 @@
   export default {
     data:function(){
       return {
-        list: [
-          {
-            "pay_count": "2",//参与人次
-            "create_msectime": "2019-05-31 16:59:57.186",//时间
-            "avatar": "https://act.fableedu.com/public/product/5d0355d16e952RQnUWM.jpg",//头像
-            "user_nickname": "w**eref",//昵称
-            "address": "中国",//地址
-            'lucky_code':432423423
-          },
-          {
-            "pay_count": "2",
-            "create_msectime": "2019-05-31 16:59:58.529",
-            "avatar": "https://act.fableedu.com/public/product/5d0355d16e952RQnUWM.jpg",
-            "user_nickname": "w**eref",
-            "address": "中国",
-            'lucky_code':432423423
-          }
-        ],
+        list: [],
         type:'1',
         pullupConfig: {
           content: '上拉加载更多',
@@ -73,9 +56,9 @@
           page:this.page,
           id:this.$route.query.id
         }
-        this.$api.activity.getProductPeriodsOrderList(params).then(res =>{
+        this.$api.activity.getProductPeriodsDynamic(params).then(res =>{
           if(res){
-            // this.list =res.data.data.list
+            this.list =res.data.data.list
             cb && cb(res);
           }
         })
@@ -85,9 +68,10 @@
       upLoad(){
         this.page +=1;
         let params ={
+          id:this.$route.query.id,
           page:this.page,
         }
-        this.$api.activity.getProductPeriodsList(params).then(res =>{
+        this.$api.activity.getProductPeriodsDynamic(params).then(res =>{
           if(res){
             if(res.data.data.list.length>0){
               this.list =this.list.concat(res.data.data.list)
@@ -124,12 +108,12 @@
     padding-left:10px;
   }
   .dt{
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     overflow: hidden;
   }
-  .dt image{
+  .dt img{
     width: 100%;
     max-height: 100%;
   }

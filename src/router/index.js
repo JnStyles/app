@@ -124,5 +124,10 @@ export default new Router({
       name: '修改资料',
       component:  resolve => require(['../views/personal/editDtat.vue'], resolve)
     },
+    {
+      path: '/calculate',
+      name: '计算详情',
+      component:  resolve => require(['../views/productInfo/calculate.vue'], resolve)
+    },
   ]
 })

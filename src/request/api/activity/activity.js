@@ -39,9 +39,14 @@ const activity = {
     return axios.get(`${base}/api/product/getProductPeriodsList`, {params:params});
   },
   //
-  //商品详情页的动态列表
+  //商品详情页的活动记录
   getProductPeriodsOrderList (params) {
     return axios.get(`${base}/api/product/getProductPeriodsOrderList`, {params:params});
+  },
+  //
+  //商品详情页的动态列表
+  getProductPeriodsDynamic (params) {
+    return axios.get(`${base}/api/product/getProductPeriodsDynamic`, {params:params});
   },
 
   //领取礼品
@@ -110,6 +115,11 @@ const activity = {
    //活动规则
    getArticlesList (params) {
     return axios.get(`${base}/api/portal/getArticlesList`, {params:params})
+  },
+
+  //计算详情
+  getCalculateInfo (params) {
+    return axios.get(`${base}/api/product/getCalculateInfo`, {params:params})
   },
 
 };
