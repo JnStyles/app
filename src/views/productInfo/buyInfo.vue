@@ -8,9 +8,12 @@
       </x-input>
 
       <x-input title="彩豆抵扣" class="weui-vcode" readonly :value="'剩余'+user_balance+'个'">
-         
-        <p slot="right">{{balance}}彩豆
+        <p v-if="user_balance>balance" slot="right">{{balance}}彩豆
             <icon type="success"></icon>
+        </p>
+
+        <p v-else slot="right">
+          <x-button type="warn" mini @click.native="handBtn">去充值</x-button>
         </p>
       </x-input>
     </group>

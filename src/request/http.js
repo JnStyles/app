@@ -62,6 +62,10 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 instance.interceptors.request.use(
 
     config => {
+        Vue.$vux.loading.show({
+          text: '加载中',
+          delay: 800
+        });
         // 登录流程控制中，根据本地是否存在token判断用户的登录情况
         // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
         // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
@@ -76,6 +80,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     // 请求成功
     response => {
+        Vue.$vux.loading.hide();
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
         if (response.status === 200) {
@@ -119,7 +124,8 @@ instance.interceptors.response.use(
     },
     // 请求失败
     error => {
-        console.log('请求失败');
+      Vue.$vux.loading.hide();
+      console.log('请求失败');
         console.log(error);
         const { response } = error;
         if (response) {

@@ -23,7 +23,7 @@
           inputOfFile="file"
           :data="data"
           :headers="header"
-          :max-file-size="5242880"
+          :max-file-size="1"
           :url="url">
           <img width="31" src="../../assets/cam.png"/>
         </vue-core-image-upload>
@@ -88,8 +88,14 @@
       },
       // 成功触发
       imageuploaded(res) {
-        this.list.push(res.data.image_url);
-        this.photo_urls.push(res.data.url);
+        console.log('success')
+        console.log(res)
+        if(res.code==1){
+          this.list.push(res.data.image_url);
+          this.photo_urls.push(res.data.url);
+        }else{
+          this.$vux.toast.text(res.msg)
+        }
       },
 
       //失败触发

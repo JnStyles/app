@@ -14,7 +14,7 @@
                     <div class="dt">
                         <badge :text="info.status ==1?'进行中':info.status==2?'即将揭晓':info.status==3?'已开奖':''"></badge>
                     </div>
-                    <div class="dd p_name">
+                    <div class="dd p_name" style="flex: 1">
                         【第{{info.periods}}期】{{info.name}}
                     </div>
                 </div>
@@ -29,11 +29,7 @@
                  <!-- 即将揭晓 -->
                  <template v-if="info.status==2">
                      <div class="time_ji red_bg">幸运编码计算中  
-                         <clocker :time="info.open_award_time" @on-finish="getInfo" format="%H小时%M分%S秒">
-                            <!-- <span style="color:red">%D 天</span>
-                            <span style="color:green">%H 小时</span>
-                            <span style="color:blue">%M 分 %S 秒</span> -->
-                         </clocker>
+                         <clocker :time="info.open_award_time" @on-finish="getInfo" format="%H小时%M分%S秒"></clocker>
                     </div>
                  </template>
 
@@ -53,13 +49,10 @@
                             </p>
                         </div>
                     </div>
-                    <div class="times red_bg">幸运编码：{{info.luck_code}}  <span>计算详情</span>  </div>
+                    <div class="times red_bg">幸运编码：{{info.luck_code}}  <span @click="goCalculate">计算详情</span>  </div>
                  </div>
-                
-            </div>
 
-           
-            
+            </div>
         </div>
     </card>
     <card>
@@ -96,10 +89,7 @@
             </grid>
         </div>
     </card>
-    <card>
-        <!-- <div slot="content" class="smail_box">
-            活动记录
-        </div> -->
+    <card class="card_list" v-if="list && list.length>0">
         <div slot="content">
             <cell
                 title="活动记录"
@@ -109,39 +99,39 @@
                 @click.native="showContent001 = !showContent001"></cell>
 
             <div class="slide" :class="showContent001?'animate':''">
-                <div class="dl">
+                <div class="dl" v-for="(item,index) in list" :key="index">
                     <div class="dt">
-                        <img src="../../assets/logo.png" alt="">
+                        <img :src="item.avatar" alt="">
                     </div>
                     <div class="dd">
-                        <p>用户名 <span class="font_small">[用户地址]</span></p>
-                        <p class="font_small">2019.06.62 12:00</p>
-                        <p class="p_position font_small">参与 <span class="red">130</span>人次 </p>
+                        <p>{{item.user_nickname}} <span class="font_small">[{{item.address}}]</span></p>
+                        <p class="font_small">{{item.create_msectime}}</p>
+                        <p class="p_position font_small">参与 <span class="red">{{item.pay_count}}</span>人次 </p>
                     </div>
                 </div>
             </div>
         </div>
     </card>
     
-      <!-- footer悬浮按钮 -->
-      <div class="footer">
-          <!-- 未参加 -->
-          <template v-if="info.status!=3">
-                <x-button type="warn" style="width:90%;margin:0 auto;"  @click.native="handJoin">立即参与</x-button>            
-          </template>
-          <!-- 参加过了 -->
-          <template v-else>
-                <p style="padding-left:10px;color:#ffffff;font-size:12px;">最新一期进行中</p>
-                <x-button type="warn" style="width:30%;" @click.native="goNew">立即前往</x-button>
-          </template>
-         
-      </div>
+    <!-- footer悬浮按钮 -->
+    <div class="footer">
+        <!-- 没开奖 -->
+        <template v-if="info.status!=3">
+              <x-button type="warn" style="width:90%;margin:0 auto;"  @click.native="handJoin">立即参与</x-button>
+        </template>
+        <!-- 已经开奖过了的 -->
+        <template v-else>
+              <p style="padding-left:10px;color:#ffffff;font-size:12px;">最新一期进行中</p>
+              <x-button type="warn" style="width:30%;" @click.native="goNew">立即前往</x-button>
+        </template>
+
+    </div>
       
     <!-- 立即参与弹窗 -->
     <div v-transfer-dom>
       <popup v-model="showBuy" height="264px" is-transparent>
           <popup-header
-        title="请选择参与次数"
+        :title="'请选择参与次数 (必须是'+info.participation_number+'的倍数)'"
         :show-bottom-border="false"></popup-header>
         <div style="background-color:#fff;height:210px;margin:0 auto;padding-top:10px;">
          <group class="g_box">
@@ -170,7 +160,6 @@
         <p style="text-align:center;">是否立即登录？</p>
       </confirm>
     </div>
-   
   </div>
 </template>
 
@@ -191,10 +180,12 @@
         swipe:0,
         percent:60,
         tabList:[],
-         showContent001:false,
-         info:'',
-         id:'',
-         buyNum:0
+        showContent001:true,
+        info:'',
+        id:'',
+        buyNum:0,
+        list:[],
+        page:1
       }
     },
     created(){
@@ -203,6 +194,7 @@
         this.getInfo();
     },
     methods:{
+        //获取详情
         getInfo(){
             let params ={
                     id:this.id
@@ -233,7 +225,7 @@
                       {
                         name:'活动动态',
                         icon:'#iconearth',
-                        url:'/activeDynamic?id='+this.id,
+                        url:'/productDynamic?id='+this.id,
                         id:3
                       },
                       {
@@ -245,6 +237,19 @@
                     this.tabList =tabList;
                 }
             })
+        },
+        //获取活动记录
+        getProList(){
+          let params ={
+            page:this.page,
+            id:this.id
+          };
+          this.$api.activity.getProductPeriodsOrderList(params).then(res =>{
+            if(res){
+              this.list =res.data.data.list;
+              cb && cb(res);
+            }
+          })
         },
         //点击分享
         toShare(){
@@ -287,6 +292,10 @@
       goNew(){
           this.id =this.info.newid;
           this.getInfo()
+      },
+      //跳往计算详情
+      goCalculate(){
+          this.$router.push('/calculate')
       }
     }
   }
@@ -417,12 +426,15 @@
     text-align: center;
     height: 30px;
     line-height:30px;
+  }
+    .demo1-item-selected {
+        border: 1px solid #E64340;
 }
-.demo1-item-selected {
-  border: 1px solid #E64340;
-}
-.weui-cells:before{
+    .weui-cells:before{
         border:none;
+    }
+    .card_list{
+      margin-bottom: 50px;
     }
     
 </style>

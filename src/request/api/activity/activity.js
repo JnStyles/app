@@ -38,6 +38,11 @@ const activity = {
   getProductPeriodsList (params) {
     return axios.get(`${base}/api/product/getProductPeriodsList`, {params:params});
   },
+  //
+  //商品详情页的动态列表
+  getProductPeriodsOrderList (params) {
+    return axios.get(`${base}/api/product/getProductPeriodsOrderList`, {params:params});
+  },
 
   //领取礼品
   getGift (params) {

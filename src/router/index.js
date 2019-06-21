@@ -29,6 +29,9 @@ export default new Router({
     {
       path: '/activeRecord',
       name: '活动记录',
+      meta:{
+        isLogin:true
+      },
       component:  resolve => require(['../views/activeRecord/activeRecord.vue'], resolve),
     },
     {
@@ -110,6 +113,16 @@ export default new Router({
       path: '/productIntroduce',
       name: '礼品简介',
       component:  resolve => require(['../views/productInfo/productIntroduce.vue'], resolve)
+    },
+    {
+      path: '/productDynamic',
+      name: '商品动态',
+      component:  resolve => require(['../views/productInfo/productDynamic.vue'], resolve)
+    },
+    {
+      path: '/editDtat',
+      name: '修改资料',
+      component:  resolve => require(['../views/personal/editDtat.vue'], resolve)
     },
   ]
 })

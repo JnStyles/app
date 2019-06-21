@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="login">
     <x-header :left-options="{showBack: false}">登录</x-header>
 
      <group title="">
@@ -26,6 +26,14 @@ export default {
             
         }
     },
+    beforeRouteEnter(to, from, next){
+        console.log('from')
+        console.log(from)
+        if(from.fullPath){
+          sessionStorage.setItem('goUrl',from.fullPath);
+        }
+        next();
+    },
     methods:{
         //登录
         hanBtn(){
@@ -34,8 +42,14 @@ export default {
                 if(res){
                     //返回上一页
                     console.log('登录成功')
-                  localStorage.setItem('token',res.data.data.token)
-                  this.$router.push('/')
+                    localStorage.setItem('token',res.data.data.token);
+                    if(sessionStorage.getItem('goUrl')){
+                        let url =sessionStorage.getItem('goUrl');
+                        sessionStorage.removeItem('goUrl')
+                        this.$router.replace(url);
+                    }else{
+                      this.$router.push('/')
+                    }
                 }
             })
         },

@@ -63,6 +63,14 @@
         </svg>
       </cell>
     </group>
+
+    <group title="">
+      <cell title="修改资料" link="/">
+        <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+          <use xlink:href="#iconChat"></use>
+        </svg>
+      </cell>
+    </group>
   </div>
 
 </template>

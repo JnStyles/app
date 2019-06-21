@@ -11,11 +11,12 @@ import api from './request/api' // 导入api接口
 
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
 
-import { WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin} from 'vux'
+import { WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin,LoadingPlugin} from 'vux'
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 Vue.use(AlertPlugin)
 Vue.use(ConfirmPlugin)
+Vue.use(LoadingPlugin)
 
 
 //全局注册组件
@@ -77,11 +78,18 @@ FastClick.attach(document.body)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  console.log(to);
   if (to.meta.title) {
     document.title = to.meta.title
   }
+  if(to.meta.isLogin){
+    if(!localStorage.getItem('token')){
+      next('/login');
+       return false;
+    }
+  }
   next();
-})
+});
 
 /* eslint-disable no-new */
 new Vue({
