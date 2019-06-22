@@ -2,29 +2,30 @@
   <div>
     <x-header :left-options="{backText: ''}">活动动态<a slot="right" @click="goRules">活动规则</a></x-header>
 
-    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-60" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-48" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
-        <panel style="margin:10px;border-radius:10px;" v-for="item in list" :key="item.id">
+        <panel style="margin:10px;border-radius:10px;" v-for="item in list" :key="item.id" @click.native="goInfo(item.id)">
           <div slot="body">
             <div class="dl product">
               <div class="dt">
                 <img :src="item.photo_urls" alt="">
               </div>
-              <div class="dd" v-if="item.status==1">
+              <div class="dd">
                 <p class="p_name">{{item.name}}</p>
                 <p class="code" v-if="item.status==1"><badge text="幸运编码"></badge>&nbsp;&nbsp;<span class="code_span">{{item.lucky_code}}</span></p>
 
                 <!--即将开奖-->
                 <!--icondashboard-->
                 <p class="code" v-else-if="item.status==2">
-                  <svg slot="icon" class="icon" aria-hidden="true">
+                  <svg slot="icon" class="icon" aria-hidden="true" style="width: 20px;height: 20px;">
                     <use xlink:href="#icondashboard"></use>
                   </svg>
-                  <clocker :time="item.open_award_time" @on-finish="getInfo" format="%H小时%M分%S秒"></clocker></p>
+                  <clocker :time="item.open_award_time" @on-finish="getInfo" format="%H小时%M分%S秒"  style="font-size: 20px;padding-left: 20px;" class="red"></clocker>
+                  <!--<clocker time="2019-06-22 18:47:02" @on-finish="getInfo" format="%H小时%M分%S秒" style="font-size: 20px;padding-left: 20px;" class="red"></clocker>-->
+                </p>
               </div>
-
-
             </div>
+
             <div class="dl" v-if="item.status ==1">
               <div class="dt_smail">
                 <img :src="item.avatar" alt="">
@@ -90,6 +91,11 @@
       // 倒计时结束时触发
       getInfo(id){
         this.getList()
+      },
+
+      //跳往商品详情页
+      goInfo(id){
+        this.$router.push('productInfo?id='+id)
       },
 
       //上拉加载

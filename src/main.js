@@ -18,12 +18,15 @@ Vue.use(AlertPlugin)
 Vue.use(ConfirmPlugin)
 Vue.use(LoadingPlugin)
 
+var VConsole = require('vconsole');
+var vConsole = new VConsole();
+
 
 //全局注册组件
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
-  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky} from 'vux'
+  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox} from 'vux'
 
 
 Vue.component('tab', Tab)
@@ -70,6 +73,7 @@ Vue.component('checker-item', CheckerItem)
 Vue.component('scroller', Scroller)
 Vue.component('spinner', Spinner)
 Vue.component('sticky', Sticky)
+Vue.component('view-box', ViewBox)
 
 Vue.use(VueRouter)
 

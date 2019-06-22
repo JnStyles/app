@@ -59,9 +59,18 @@
                 balance:this.balance
             }
             this.$api.activity.doPay(params).then(res =>{
+                let _this =this;
                 if(res){
-                  this.$router.push('/buySuccess');
-                  console.log('参与成功');
+                  this.$vux.alert.show({
+                    title: '恭喜您',
+                    content: '参与成功',
+                    onShow () {
+                      console.log('Plugin: I\'m showing')
+                    },
+                    onHide () {
+                      _this.$router.go(-1)
+                    }
+                  })
                 }
             })
         },

@@ -2,45 +2,48 @@
   <div class="activeShare">
     <x-header :left-options="{backText: ''}">活动分享</x-header>
 
-    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-50" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-51" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
-        <panel style="margin-top:0">
+        <panel style="margin-top:0" v-if="list && list.length>0">
           <div slot="body">
-            <div class="dl" v-for="(item,index) in list" :key="index">
-              <div class="dt">
-                <!--<img src="../../assets/logo.png" alt="">-->
-                 <img :src="item.avatar" alt="">
-              </div>
-              <div class="dd">
-                <p class="one"><span>{{item.user_nickname}} <i>地区</i></span><span class="span">{{item.create_time}}</span> </p>
-                <p  class="two">{{item.name}}</p>
-                <div class="info">
-                  <p>{{item.content}}</p>
-                  <template v-if="item.photo_urls && item.photo_urls.length>0">
-                    <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="cols">
-                      <grid-item link="/component/cell" v-for="(son,index) in item.photo_urls" :key="index">
-                        <!--<img slot="icon" src="../../assets/logo.png">-->
-                         <img slot="icon" :src="son">
-                      </grid-item>
-                    </grid>
-                  </template>
+            <template>
+              <div class="dl" v-for="(item,index) in list" :key="index">
+                <div class="dt">
+                  <img :src="item.avatar" alt="">
                 </div>
-                <div class="zan">
-                  <div @click="handZan(item.id,index)" v-if="item.is_like==0">
-                    <svg  slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-                      <use xlink:href="#iconlike"></use>
-                    </svg>
+                <div class="dd">
+                  <p class="one"><span>{{item.user_nickname}} <i>地区</i></span><span class="span">{{item.create_time}}</span> </p>
+                  <p  class="two">{{item.name}}</p>
+                  <div class="info">
+                    <p>{{item.content}}</p>
+                    <template v-if="item.photo_urls && item.photo_urls.length>0">
+                      <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="cols">
+                        <grid-item v-for="(son,index) in item.photo_urls" :key="index" @click.native="lookImg(son)">
+                          <img slot="icon" :src="son">
+                        </grid-item>
+                      </grid>
+                    </template>
                   </div>
+                  <div class="zan">
+                    <div @click="handZan(item.id,index)" v-if="item.is_like==0">
+                      <svg  slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                        <use xlink:href="#iconlike"></use>
+                      </svg>
+                    </div>
 
-                  <svg v-else-if="item.is_like==1" slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-                    <use xlink:href="#iconlike-copy"></use>
-                  </svg>
-                  {{item.like_count}}
+                    <svg v-else-if="item.is_like==1" slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                      <use xlink:href="#iconlike-copy"></use>
+                    </svg>
+                    {{item.like_count}}
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
           </div>
         </panel>
+        <div v-else-if="list && list.length==0 && isAxios">
+          <NoData></NoData>
+        </div>
       </div>
     </scroller>
     
@@ -50,6 +53,7 @@
 
 <script>
 
+  import NoData from "@/components/NoData";
 
   export default {
     data:function(){
@@ -59,6 +63,7 @@
         cols:3,
         page:1,
         id:'',
+        isAxios:false,//是否执行完axios
         pullupConfig: {
           content: '上拉加载更多',
           downContent: '松开进行加载',
@@ -72,6 +77,9 @@
           loadingContent:'加载中'
         },
       }
+    },
+    components: {
+      NoData,
     },
     created(){
       if(this.$route.query.id){
@@ -87,6 +95,7 @@
         };
         this.$api.activity.getShareList(params).then(res =>{
           if(res){
+            this.isAxios =true;
             this.list =res.data.data.list;
              if(res.data.data.totalCount<=10){
                console.log('禁用')
@@ -140,6 +149,11 @@
           this.$refs.scroller.donePulldown()
           this.$refs.scroller.enablePullup() //启用上拉加载
         });
+      },
+
+      //查看大图
+      lookImg(src){
+        console.log(src)
       }
     }
   }

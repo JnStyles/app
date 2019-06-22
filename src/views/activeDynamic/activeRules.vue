@@ -19,6 +19,7 @@
     <div style="line-height:50px;padding-left:15px;">{{type==1?'常见问题':type==2?'新手指南':type==3?'关于配送':type==4?'参与保障':type==5?'服务协议':''}}</div>
     <Collapse
               v-for="(item,index) in list"
+              :key="index"
               class="rightFixed0"
               :Accordionindex="0"
               :isSlotSecond="0"

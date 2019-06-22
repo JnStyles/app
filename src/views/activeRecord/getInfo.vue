@@ -4,7 +4,7 @@
 
     <group>
       <cell v-if="info.name" title="礼品名称" :value="info.name"></cell>
-      <cell v-if="info.all_get_type" title="领取方式" :value="info.all_get_type"></cell>
+      <cell v-if="info.all_get_type" title="领取方式" :value="info.all_get_type==0?'未领取':info.all_get_type==1?'邮递':info.all_get_type==2?'话费充值':info.all_get_type==3?'兑换彩豆':''"></cell>
       <cell v-if="info.update_time" title="领取时间" :value="info.update_time"></cell>
       <cell v-if="info.mobile" title="收货人手机号" :value="info.mobile"></cell>
       <cell v-if="info.address" title="收货地址" :value="info.address"></cell>

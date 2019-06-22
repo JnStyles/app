@@ -68,10 +68,12 @@ const activity = {
    verificationPassword (params) {
     return  axios({method:'post',url:`${base}/api/product/verificationPassword`,data:qs.stringify(params)})
   },
+
   //收货地址列表
   getShippingAddressList (params) {
     return axios.get(`${base}/api/user/getShippingAddressList`, {params:params});
   },
+
   //添加编辑收货地址列表
   addShippingAddress (params) {
     return  axios({method:'post',url:`${base}/api/user/addShippingAddress`,data:qs.stringify(params)})

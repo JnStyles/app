@@ -1,9 +1,10 @@
 <template>
   <div class="productIntroduce">
     <x-header :left-options="{backText: ''}">礼品简介</x-header>
-    <div v-html="content" class="content">
-
-    </div>
+    <scroller lock-x height="-48" ref="scroller">
+      <div v-html="content" class="content">
+      </div>
+    </scroller>
   </div>
 </template>
 

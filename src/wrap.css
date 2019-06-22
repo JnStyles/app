@@ -3,6 +3,11 @@ body{
   /*color: #656b79;*/
   /*font-size: 12px!important;*/
 }
+html, body {
+   height: 100%;
+   width: 100%;
+   overflow-x: hidden;
+ }
 .p1{
     line-height: 50px;
     padding-left:16px;
@@ -20,12 +25,19 @@ body{
 .blue{
   color:blue;
 }
+.yellow{
+  color: #ffc900;
+}
 .dl{
     display: flex;
 }
 .font_small{
     font-size:14px;
     color:#cccccc;
+}
+.font_smalls{
+  font-size:12px;
+  color:#666;
 }
 .icon {
   width: 1em; height: 1em;
@@ -132,5 +144,8 @@ button.weui-btn_inline, input.weui-btn_inline, button.weui-btn_mini, input.weui-
 .xs-plugin-pulldown-container{
   font-size:12px !important;
   line-height: 40px !important;
+}
+.weui-toast{
+  width: 120px !important;
 }
 

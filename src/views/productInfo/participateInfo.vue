@@ -19,7 +19,7 @@
                   </div>
 
 
-                  <Collapse2 v-for="(item,index) in list"
+                  <Collapse2 v-for="(item,index) in list" :key="index"
                             class="rightFixed0"
                             :Accordionindex="0"
                             :isSlotSecond="0"
@@ -60,7 +60,7 @@
       Collapse2,
     },
     created(){
-        let id =this.$route.query.id
+        let id =this.$route.query.id;
         this.$api.activity.getProductParticipationInfo({id:id}).then(res =>{
             if(res){
                 this.name =res.data.data.name;

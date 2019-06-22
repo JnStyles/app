@@ -1,7 +1,12 @@
 <template>
   <div class="home">
-    <x-header :left-options="{showBack: false}">会员活动<a slot="right" @click="goPerson">我的活动</a></x-header>
-    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-50" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+    <x-header :left-options="{showBack: false}">会员活动<a slot="right" @click="goPerson" style="display: flex;align-items: center;">
+      <!--icongerenzhongxin-->
+      <svg slot="icon" class="icon" aria-hidden="true" style="width: 20px;height: 20px;">
+        <use xlink:href="#icongerenzhongxin"></use>
+      </svg>
+      我的活动</a></x-header>
+    <scroller id="vux_view_box_body" lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-48" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
         <swiper :list="swipeList" auto loop v-model="swipe"></swiper>
         <group gutter='0'>
@@ -23,7 +28,7 @@
             <sticky
               scroll-box="vux_view_box_body"
               ref="sticky"
-              :offset="46"
+              :offset="200"
               :check-sticky-support="false"
               :disabled="disabled">
               <tab :line-width=2 active-color='#fc378c' v-model="activeValue">
@@ -164,7 +169,7 @@
       Grid,
       GridItem,
       Icon,
-      Marquee, 
+      Marquee,
       MarqueeItem,
       SwiperItem
     },
@@ -182,7 +187,7 @@
                 })
             }
           }
-          
+
           this.swipeList =bannerList;
           this.jiangList =res.data.data.product_periods_list;
         }
@@ -222,7 +227,7 @@
             this.getCategoryList();
           }
         }
-       
+
       },
       //点击全部分类
       handGory(id,name){

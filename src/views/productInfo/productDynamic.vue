@@ -4,7 +4,8 @@
 
     <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-50" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
-        <panel :header="'第'+item.periods+'期 &nbsp;'+item.open_award_time" v-for="item in list" :key="item.id">
+        <template v-if="list && list.length>0">
+          <panel :header="'第'+item.periods+'期 &nbsp;'+item.open_award_time" v-for="item in list" :key="item.id">
           <div slot="body">
             <div class="dl">
               <div class="dt">
@@ -18,6 +19,10 @@
             </div>
           </div>
         </panel>
+        </template>
+        <div v-else-if="list && list.length==0 && isAxios">
+          <NoData></NoData>
+        </div>
       </div>
     </scroller>
   </div>
@@ -26,12 +31,14 @@
 
 <script>
 
+  import NoData from "@/components/NoData";
 
   export default {
     data:function(){
       return {
         list: [],
         type:'1',
+        isAxios:false,
         pullupConfig: {
           content: '上拉加载更多',
           downContent: '松开进行加载',
@@ -47,6 +54,9 @@
         page:1
       }
     },
+    components: {
+      NoData,
+    },
     created(){
       this.getList();
     },
@@ -58,6 +68,7 @@
         }
         this.$api.activity.getProductPeriodsDynamic(params).then(res =>{
           if(res){
+            this.isAxios =true;
             this.list =res.data.data.list
             cb && cb(res);
           }

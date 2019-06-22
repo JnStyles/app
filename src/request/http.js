@@ -125,6 +125,16 @@ instance.interceptors.response.use(
     // 请求失败
     error => {
       Vue.$vux.loading.hide();
+      Vue.$vux.alert.show({
+        title: '提示',
+        content:'网络链接失败',
+        onShow () {
+          console.log('Plugin: I\'m showing')
+        },
+        onHide () {
+          console.log('Plugin: I\'m hiding now')
+        }
+      })
       console.log('请求失败');
         console.log(error);
         const { response } = error;

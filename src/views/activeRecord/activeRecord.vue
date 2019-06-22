@@ -11,48 +11,51 @@
       <div class="timeline-demo">
         <timeline>
           <template v-if="list &&list.length>0">
-          <timeline-item v-for="(item,index) in list" :key ="index">
-            <p class="time" v-if="item.month">{{item.month}}月{{item.day}}号</p>
-            <template v-if="item.son && item.son.length>0">
-              <panel style="margin:6px;" v-for="son in item.son" :key="son.id">
-                <div slot="body">
-                  <div class="dl product">
-                    <div class="dt">
-                      <img :src="son.photo_urls" alt="">
-                    </div>
-                    <div class="dd">
-                      <p class="p_name">{{son.name}}</p>
-                      <div class="dd_box"><p>我已参与 <span class="red">{{son.pay_count}}</span>人次</p>
-                        <template v-if="son.status==1">
-                            <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
-                              <use xlink:href="#iconzhongjiangliao"></use>
-                            </svg>
-                        </template>
-                        <template v-if="son.status==2">
-                            <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
-                              <use xlink:href="#iconjinhangzhong2"></use>
-                            </svg>
-                        </template>
-                        <template v-if="son.status==3">
-                            <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
-                              <use xlink:href="#iconweizhongjiang"></use>
-                            </svg>
-                        </template>
+            <timeline-item v-for="(item,index) in list" :key ="index">
+              <p class="time" v-if="item.month">{{item.month}}月{{item.day}}号</p>
+              <template v-if="item.son && item.son.length>0">
+                <panel style="margin:6px;" v-for="son in item.son" :key="son.id">
+                  <div slot="body">
+                    <div class="dl product">
+                      <div class="dt">
+                        <img :src="son.photo_urls" alt="">
+                      </div>
+                      <div class="dd">
+                        <p class="p_name">{{son.name}}</p>
+                        <div class="dd_box"><p>我已参与 <span class="red">{{son.pay_count}}</span>人次</p>
+                          <template v-if="son.status==1">
+                              <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                                <use xlink:href="#iconzhongjiangliao"></use>
+                              </svg>
+                          </template>
+                          <template v-if="son.status==2">
+                              <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                                <use xlink:href="#iconjinhangzhong2"></use>
+                              </svg>
+                          </template>
+                          <template v-if="son.status==3">
+                              <svg slot="icon" class="icon" aria-hidden="true" style="width: 50px;height: 50px;">
+                                <use xlink:href="#iconweizhongjiang"></use>
+                              </svg>
+                          </template>
+                        </div>
                       </div>
                     </div>
+                    <div class="btn_box" v-if="son.status==1">
+                      <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct(son.id,son.name,son.get_type)" style="margin-right:10px;" type="warn">立即领取</x-button>
+                      <x-button mini v-else plain :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
+                      <x-button mini plain :link="'/comments?id='+son.id">晒单</x-button>
+                    </div>
                   </div>
-                  <div class="btn_box" v-if="son.status==1">
-                    <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct(son.id,son.name,son.get_type)" style="margin-right:10px;" type="warn">立即领取</x-button>
-                    <x-button mini v-else plain :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
-                    <x-button mini plain :link="'/comments?id='+son.id">晒单</x-button>
-                  </div>
-                </div>
-              </panel>
-            </template>
-          </timeline-item>
-          <!--zu最后添加一个空的-->
-          <timeline-item></timeline-item>
+                </panel>
+              </template>
+            </timeline-item>
+            <!--zu最后添加一个空的-->
+            <timeline-item></timeline-item>
           </template>
+          <div v-else-if="list && list.length==0 && isAxios">
+            <NoData></NoData>
+          </div>
         </timeline>
       </div>
     </scroller>
@@ -75,6 +78,7 @@
 
 <script>
 
+  import NoData from "@/components/NoData";
 
   export default {
     data: function () {
@@ -84,6 +88,7 @@
         activeValue: '全部',
         isAlert: false,
         status:0,
+        isAxios:false,
         page:1,
         id:'',
         name:'',
@@ -102,6 +107,9 @@
         },
       }
     },
+    components: {
+      NoData,
+    },
 
     created(){
       console.log(this.$route.query)
@@ -118,6 +126,7 @@
         }
         this.$api.activity.getProductPeriodsLog(params).then(res =>{
           if(res){
+            this.isAxios =true;
             if(res.data.data.list.length>0){
               this.list =res.data.data.list
               this.$refs.scroller.enablePullup();  //启用上拉加载组件

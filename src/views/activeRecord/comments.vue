@@ -21,9 +21,10 @@
           @imageuploaded="imageuploaded"
           @errorhandle="errorhandle"
           inputOfFile="file"
+          :compress="50"
           :data="data"
           :headers="header"
-          :max-file-size="1"
+          :max-file-size="200"
           :url="url">
           <img width="31" src="../../assets/cam.png"/>
         </vue-core-image-upload>
@@ -93,6 +94,18 @@
         if(res.code==1){
           this.list.push(res.data.image_url);
           this.photo_urls.push(res.data.url);
+        }else if(res.code==10001){
+          this.$vux.alert.show({
+            title: '提示',
+            content: res.msg,
+            onShow () {
+              console.log('Plugin: I\'m showing')
+            },
+            onHide () {
+              localStorage.removeItem('token');
+              this.$router.push('/login');
+            }
+          });
         }else{
           this.$vux.toast.text(res.msg)
         }
@@ -103,13 +116,11 @@
         let _this =this;
         this.$vux.alert.show({
           title: '提示',
-          content: '上传失败',
+          content: err,
           onShow () {
             console.log('Plugin: I\'m showing')
           },
           onHide () {
-            localStorage.removeItem('token');
-            _this.$router.push('/login');
 
           }
         });
