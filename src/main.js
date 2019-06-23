@@ -26,7 +26,7 @@ var vConsole = new VConsole();
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
-  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox} from 'vux'
+  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio } from 'vux'
 
 
 Vue.component('tab', Tab)
@@ -74,6 +74,7 @@ Vue.component('scroller', Scroller)
 Vue.component('spinner', Spinner)
 Vue.component('sticky', Sticky)
 Vue.component('view-box', ViewBox)
+Vue.component('popup-radio', PopupRadio)
 
 Vue.use(VueRouter)
 

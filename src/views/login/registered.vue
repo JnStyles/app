@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="registered">
     <x-header :left-options="{backText: ''}">注册</x-header>
 
     <group title="">
@@ -91,7 +91,7 @@ export default {
 </script>
 
 <style>
-  .home .vux-check-icon > .weui-icon-success:before, .vux-check-icon > .weui-icon-success-circle:before{
+  .registered .vux-check-icon > .weui-icon-success:before, .vux-check-icon > .weui-icon-success-circle:before{
     color: #E64340!important;
   }
 </style>

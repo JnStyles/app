@@ -3,14 +3,12 @@
     <x-header :left-options="{backText: ''}">个人中心<a slot="right">客服</a></x-header>
     <div class="person_box dl">
         <div class="dt">
-            <!--<img src="../../assets/logo.png" alt="">-->
              <img v-if="info.avatar" :src="info.avatar" alt="">
-          <!--iconboy-cm-->
-            <template v-else>
+            <!-- <template v-else>
               <svg slot="icon" class="icon" aria-hidden="true" style="width: 100px;height: 100px;">
                 <use xlink:href="#iconboy-cm"></use>
               </svg>
-            </template>
+            </template> -->
         </div>
         <div class="dd">
             <p class="name">{{info.user_nickname}}</p>
@@ -56,16 +54,16 @@
       </cell>
       </group>
 
-      <group title="">
+      <!-- <group title="">
       <cell title="信息管理" link="/">
             <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
           <use xlink:href="#iconChat"></use>
         </svg>
       </cell>
-    </group>
+      </group> -->
 
     <group title="">
-      <cell title="修改资料" link="/">
+      <cell title="修改资料" link="/editData">
         <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
           <use xlink:href="#iconChat"></use>
         </svg>

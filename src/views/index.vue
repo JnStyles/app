@@ -223,6 +223,8 @@
           this.getProList();
         }else{
           this.show =true;
+          this.order_type =0;
+          this.getProList();
           if(this.goryList.length==0){
             this.getCategoryList();
           }
@@ -256,7 +258,12 @@
         this.$router.push('/productInfo?id='+id);
       },
       goPerson(){
-        this.$router.push('/person');
+         if(localStorage.getItem('token')){
+            this.$router.push('/person');
+          }else{
+            this.$router.push('/login');
+          }
+        
       },
       //上拉加载
       upLoad(){

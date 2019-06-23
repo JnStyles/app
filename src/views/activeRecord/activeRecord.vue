@@ -16,7 +16,7 @@
               <template v-if="item.son && item.son.length>0">
                 <panel style="margin:6px;" v-for="son in item.son" :key="son.id">
                   <div slot="body">
-                    <div class="dl product">
+                    <div class="dl product" @click="goProInfo(son.id)">
                       <div class="dt">
                         <img :src="son.photo_urls" alt="">
                       </div>
@@ -176,6 +176,10 @@
       },
       onHide() {
 
+      },
+
+      goProInfo(id){
+          this.$router.push('/productInfo?id='+id)
       },
 
       //上拉加载

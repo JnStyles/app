@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <x-header :left-options="{showBack: false}">登录</x-header>
+    <x-header :left-options="{backText: ''}">登录</x-header>
 
      <group title="">
         <x-input title="手机号码" v-model="form.mobile" :max="13" is-type="china-mobile"></x-input>

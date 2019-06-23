@@ -4,8 +4,8 @@
       <!--<a slot="right" @click="toShare">分享图标</a>-->
     </x-header>
 
-    <scroller lock-x use-pulldown :pulldown-config="pulldownConfig" height="-48" ref="scroller" @on-pulldown-loading="downLoad">
-        <view-box>
+    <scroller lock-x use-pulldown :pulldown-config="pulldownConfig" height="-92" ref="scroller" @on-pulldown-loading="downLoad">
+        <div>
           <card style="margin-top:0;">
             <div slot="content" class="card-demo-flex card-demo-content01">
               <swiper :list="info.photo_urls" v-model="swipe"></swiper>
@@ -91,10 +91,9 @@
             <div slot="content">
               <cell
                 title="活动记录"
-                is-link
                 :border-intent="false"
                 :arrow-direction="showContent001 ? 'up' : 'down'"
-                @click.native="showContent001 = !showContent001"></cell>
+               ></cell>
 
               <div class="slide" :class="showContent001?'animate':''">
                 <div class="dl" v-for="(item,index) in list" :key="index">
@@ -110,7 +109,7 @@
               </div>
             </div>
           </card>
-        </view-box>
+        </div>
     </scroller>
 
     <actionsheet

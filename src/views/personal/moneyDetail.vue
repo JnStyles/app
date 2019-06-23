@@ -124,6 +124,8 @@
     }
     .right{
       padding-right:16px;
+      float:right;
+      text-align: right;
     }
     .right span{
       font-size:16px;

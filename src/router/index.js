@@ -120,14 +120,14 @@ export default new Router({
       component:  resolve => require(['../views/productInfo/productDynamic.vue'], resolve)
     },
     {
-      path: '/editDtat',
+      path: '/editData',
       name: '修改资料',
-      component:  resolve => require(['../views/personal/editDtat.vue'], resolve)
+      component:  resolve => require(['../views/personal/editData.vue'], resolve)
     },
     {
       path: '/calculate',
       name: '计算详情',
       component:  resolve => require(['../views/productInfo/calculate.vue'], resolve)
-    },
+    }
   ]
 })

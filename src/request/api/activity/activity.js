@@ -124,6 +124,11 @@ const activity = {
     return axios.get(`${base}/api/product/getCalculateInfo`, {params:params})
   },
 
+  //修改资料
+  editUser (params) {
+    return  axios({method:'post',url:`${base}/api/user/editUser`,data:qs.stringify(params)})
+  },
+
 };
 
 export default activity;

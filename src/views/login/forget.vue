@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <x-header :left-options="{backText: ''}">忘记密码</x-header>
 
     <group title="">

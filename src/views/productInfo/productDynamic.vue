@@ -5,7 +5,7 @@
     <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-50" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
         <template v-if="list && list.length>0">
-          <panel :header="'第'+item.periods+'期 &nbsp;'+item.open_award_time" v-for="item in list" :key="item.id">
+          <panel :header="'第'+item.periods+'期 &nbsp;'+item.open_award_time" v-for="item in list" :key="item.id" @click.native="goProInfo(item.id)">
           <div slot="body">
             <div class="dl">
               <div class="dt">
@@ -73,6 +73,11 @@
             cb && cb(res);
           }
         })
+      },
+
+      // /跳往商品详情页
+      goProInfo(id){
+          this.$router.push('/productInfo?id='+id)
       },
 
       //上拉加载
