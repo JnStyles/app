@@ -5,28 +5,27 @@
     <group label-width="2.5em" label-margin-right="2em" label-align="right">
         <cell title="" is-link>
             <vue-core-image-upload
-                style="width:375px;"
+                style="width:355px;"
                 slot="icon"
                 crop="local"
                 @imageuploaded="imageuploaded"
                 @errorhandle="errorhandle"
                 inputOfFile="file"
                 compress="50"
-
                 :data="data"
                 :headers="header"
                 :max-file-size="2097152"
                 :url="url">
-                <img width="80" :src="avatar"/>
+                <img width="80" style="border-radius: 50%;" :src="avatar"/>
             </vue-core-image-upload>
         </cell>
-        <x-input title="昵称" v-model="user_nickname"></x-input>
+        <x-input text-align="right" title="昵称" v-model="user_nickname"></x-input>
         <popup-radio title="性别" :options="list" v-model="sex"></popup-radio>
 
     </group>
 
   
-    <x-button type="warn" class="btn" @click.native="handBtn">确认修改</x-button>
+    <x-button type="warn" class="my_btn" @click.native="handBtn">确认修改</x-button>
 
     </div>
   </div>
@@ -117,7 +116,7 @@
 </script>
 
 <style scoped>
-    .btn{
+    .my_btn{
         margin-top:20px;
 
     }

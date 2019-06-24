@@ -166,7 +166,11 @@
           password:value
         }
         this.$api.activity.verificationPassword(params).then(res =>{
+          this.$store.commit('setPassWord',{
+            value
+          });
           if(res){
+            sessionStorage.setItem('password',value);
             this.$router.push('/getProduct?id='+this.id+'&name='+this.name+'&get_type='+this.get_type)
           }
         })

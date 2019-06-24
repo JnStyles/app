@@ -8,8 +8,12 @@ import App from './App'
 import router from '@/router/index'
 import "./wrap.css"
 import api from './request/api' // 导入api接口
+import Vuex from 'vuex';
+import store from './vuex';
 
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
+Vue.prototype.$store = store;
+Vue.use(Vuex)
 
 import { WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin,LoadingPlugin} from 'vux'
 Vue.use(WechatPlugin)
@@ -26,7 +30,7 @@ var vConsole = new VConsole();
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
-  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio } from 'vux'
+  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio,XDialog,XImg,Previewer} from 'vux'
 
 
 Vue.component('tab', Tab)
@@ -75,6 +79,9 @@ Vue.component('spinner', Spinner)
 Vue.component('sticky', Sticky)
 Vue.component('view-box', ViewBox)
 Vue.component('popup-radio', PopupRadio)
+Vue.component('x-dialog', XDialog)
+Vue.component('x-img', XImg)
+Vue.component('previewer', Previewer)
 
 Vue.use(VueRouter)
 
@@ -89,6 +96,9 @@ router.beforeEach((to, from, next) => {
   }
   if(to.meta.isLogin){
     if(!localStorage.getItem('token')){
+      if(from.fullPath){
+        sessionStorage.setItem('goUrl',from.fullPath);
+      }
       next('/login');
        return false;
     }

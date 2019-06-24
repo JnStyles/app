@@ -16,8 +16,8 @@
               <p style="line-height:60px;">彩豆{{info.balance}}个</p>
               <x-button mini type="warn" class="btn">兑换</x-button>
             </div>
-            <p v-if="info.sex>0">成功抢到 <span style="color:#ff9000 ">{{info.sex}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
-            <p v-else="info.sex>0">还没有抢到礼品 <span class="look" @click="join">快去参加></span></p>
+            <p v-if="info.my_gift_count>0">成功抢到 <span style="color:#ff9000 ">{{info.my_gift_count}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
+            <p v-else="info.my_gift_count>0">还没有抢到礼品 <span class="look" @click="join">快去参加></span></p>
             
         </div>
     </div>

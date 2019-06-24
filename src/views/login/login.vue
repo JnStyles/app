@@ -26,14 +26,17 @@ export default {
             
         }
     },
-    beforeRouteEnter(to, from, next){
-        console.log('from')
-        console.log(from)
-        if(from.fullPath){
-          sessionStorage.setItem('goUrl',from.fullPath);
-        }
-        next();
-    },
+    // beforeRouteEnter(to, from, next){
+    //     console.log('from')
+    //     console.log(from)
+    //     if(){
+    //       if(from.fullPath){
+    //         sessionStorage.setItem('goUrl',from.fullPath);
+    //       }
+    //     }
+    //
+    //     next();
+    // },
     methods:{
         //登录
         hanBtn(){

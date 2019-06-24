@@ -4,7 +4,7 @@
       <!--<a slot="right" @click="toShare">分享图标</a>-->
     </x-header>
 
-    <scroller lock-x use-pulldown :pulldown-config="pulldownConfig" height="-92" ref="scroller" @on-pulldown-loading="downLoad">
+    <scroller lock-x use-pulldown :pulldown-config="pulldownConfig" height="-96" ref="scroller" @on-pulldown-loading="downLoad">
         <div>
           <card style="margin-top:0;">
             <div slot="content" class="card-demo-flex card-demo-content01">
@@ -21,7 +21,7 @@
                 </div>
                 <!-- 未开奖情况 -->
                 <div v-if="info.status==1">
-                  <p class="instructions">注：{{info.description}}</p>
+                  <p class="instructions" v-if="info.description">注：{{info.description}}</p>
                   <div class="pro_per">
                     <x-progress :percent="(Number(info.price)-Number(info.surplus_price))/(Number(info.price))*100" :show-cancel="false"></x-progress>
                     <div class="pro_box"><span>总需{{info.price}}</span><span>剩余 <span class="red">{{info.surplus_price}}</span></span></div>
@@ -30,7 +30,7 @@
                 <!-- 即将揭晓 -->
                 <template v-if="info.status==2">
                   <div class="time_ji red_bg">幸运编码计算中
-                    <clocker :time="info.open_award_time" @on-finish="getInfo" format="%H小时%M分%S秒"></clocker>
+                    <clocker :time="info.open_award_time" @on-finish="getInfo" style="font-size: 20px;" format="%M分%S秒"></clocker>
                   </div>
                 </template>
 
@@ -49,9 +49,8 @@
                       </p>
                     </div>
                   </div>
-                  <div class="times red_bg"><div>幸运编码：<strong class="yellow">{{info.luck_code}}</strong> </div> <span @click="goCalculate">计算详情</span>  </div>
+                  <div class="times red_bg"><div>幸运编码：<strong class="yellow">{{info.lucky_code}}</strong> </div> <span @click="goCalculate">计算详情</span>  </div>
                 </div>
-
               </div>
             </div>
           </card>
@@ -140,7 +139,7 @@
         :show-bottom-border="false"></popup-header>
         <div style="background-color:#fff;height:210px;margin:0 auto;padding-top:10px;">
          <group class="g_box">
-          <x-number v-model="buyNum" :fillable="true" :min="0" :max="info.surplus_price" :step="info.participation_number" width="7rem"></x-number>
+          <x-number v-model="buyNum" :fillable="true" :min="0" :max="Number(info.surplus_price)" :step="info.participation_number" width="7rem"></x-number>
             <div class="numBox">
                 <checker v-model="buyNum" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
                     <checker-item :value="Number(info.participation_number*1)">{{info.participation_number*1}}</checker-item>

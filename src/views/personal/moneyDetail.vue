@@ -11,8 +11,7 @@
               <div class="pbox" v-for="son in item.son" :key="son.id">
                   <div class="left">
                       <h4>剩余{{son.balance}}豆</h4>
-                      <!-- <p>{{son.name}}</p> -->
-                      <p>参与我爱我家的第三期活动</p>
+                       <p>参与第 {{son.periods}} 期 {{son.name}}</p>
                   </div>
                   <div class="right">
                       <span>-{{Number(son.change)}}</span>

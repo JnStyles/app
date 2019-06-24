@@ -71,6 +71,7 @@
     methods: {
 
       handBtn(){
+        let _this =this;
         let params ={
           id:this.id,
           content:this.content,
@@ -85,7 +86,7 @@
                 console.log('Plugin: I\'m showing')
               },
               onHide () {
-                this.$router.go(-1);
+                _this.$router.go(-1);
               }
             })
           }

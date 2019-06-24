@@ -17,7 +17,7 @@
               </svg>
             </grid-item>
           </grid>
-          <cell title="公告">
+          <cell title="公告" v-if="jiangList && jiangList.length>0">
             <marquee :item-height="24">
               <marquee-item v-for="item in jiangList" :key="item.id" direction="down" @click.native="onClick(item.id)">恭喜{{item.user_nickname}}在活动中抽中{{item.name}}</marquee-item>
             </marquee>

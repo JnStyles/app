@@ -69,6 +69,22 @@
       }
     },
     created(){
+        console.log('vuex数据为');
+        console.log(this.$store.state.passWord);
+        let value =this.$store.state.passWord;
+        if(!value){
+          this.$router.replace('/activeRecord');
+        }
+        // let params ={
+        //   password:value
+        // };
+        // this.$api.activity.verificationPassword(params).then(res =>{
+        //   if(res){
+        //     sessionStorage.setItem('password',value);
+        //     this.$router.push('/getProduct?id='+this.id+'&name='+this.name+'&get_type='+this.get_type)
+        //   }
+        // })
+
         let id =this.$route.query.id;
         let name =this.$route.query.name;
         let get_type =this.$route.query.get_type;

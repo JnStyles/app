@@ -68,6 +68,10 @@
         }
         this.$api.activity.getProductPeriodsDynamic(params).then(res =>{
           if(res){
+            if(res.data.data.totalCount<=10){
+              console.log('禁用')
+              this.$refs.scroller.disablePullup();
+            }
             this.isAxios =true;
             this.list =res.data.data.list
             cb && cb(res);
@@ -106,8 +110,12 @@
         console.log('下拉刷新')
         this.page =1;
         this.getList(res =>{
+          if(res.data.data.totalCount<=10){
+            this.$refs.scroller.disablePullup();//禁用上拉加载
+          }else{
+            this.$refs.scroller.enablePullup() //启用上拉加载
+          }
           this.$refs.scroller.donePulldown()
-          this.$refs.scroller.enablePullup() //启用上拉加载
         });
       }
     }
