@@ -80,9 +80,9 @@
       </x-dialog>
     </div>
 
-    <div v-transfer-dom>
+    <!--<div v-transfer-dom>-->
       <previewer :list="img_list" ref="previewer" :options="options" @on-index-change="logIndexChange" @on-close="handClose"></previewer>
-    </div>
+    <!--</div>-->
 
   </div>
    
@@ -214,19 +214,20 @@
             img_list.push({
               msrc: srcArr[i],
               src: srcArr[i],
-              w: 800,
-              h: 400
             })
           }
         }
         console.log(img_list)
         this.img_list =img_list;
-        this.$refs.previewer.show(index)
+
+        setTimeout(res =>{
+          this.$refs.previewer.show(index)
+        },300)
 
       },
 
       handClose(){
-        // this.img_list =[];
+        this.img_list =[];
       },
 
       logIndexChange(){
