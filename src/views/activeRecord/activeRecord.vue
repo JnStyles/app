@@ -127,8 +127,8 @@
         this.$api.activity.getProductPeriodsLog(params).then(res =>{
           if(res){
             this.isAxios =true;
+            this.list =res.data.data.list
             if(res.data.data.list.length>0){
-              this.list =res.data.data.list
               this.$refs.scroller.enablePullup();  //启用上拉加载组件
             }
             if(res.data.data.totalCount<=10){

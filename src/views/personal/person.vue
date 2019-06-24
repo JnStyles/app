@@ -13,7 +13,7 @@
         <div class="dd">
             <p class="name">{{info.user_nickname}}</p>
             <div class="btn_box">
-              <p style="line-height:60px;">彩豆{{info.sex}}个</p>
+              <p style="line-height:60px;">彩豆{{info.balance}}个</p>
               <x-button mini type="warn" class="btn">兑换</x-button>
             </div>
             <p v-if="info.sex>0">成功抢到 <span style="color:#ff9000 ">{{info.sex}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
@@ -113,10 +113,15 @@
         height: 200px;
         position:relative;
     }
-    .dt img{
+    .dt{
         width: 60px;
         height: 60px;
         border-radius: 50%;
+    }
+    .dt img{
+      width: 100%;
+      max-height: 100%;
+      border-radius: 50%;
     }
     .dd{
         padding-left:20px;

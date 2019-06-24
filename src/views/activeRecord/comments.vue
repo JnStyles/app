@@ -13,25 +13,29 @@
                   <use xlink:href="#iconclose-circle"></use>
             </svg>
         </span>
-        <img style="width: 100%;" :src="item" alt="" >
+        <img style="max-width: 100%;max-height: 100%;" :src="item" alt="" >
       </div>
       <div class="upload" v-if="list && list.length<3">
         <vue-core-image-upload
           :crop="false"
+          @imagechanged="imagechanged"
           @imageuploaded="imageuploaded"
           @errorhandle="errorhandle"
           inputOfFile="file"
-          :compress="50"
+          compress="50"
           :data="data"
           :headers="header"
-          :max-file-size="200"
+          :max-file-size="2097152"
           :url="url">
-          <img width="31" src="../../assets/cam.png"/>
+          <img width="30" src="../../assets/cam.png"/>
         </vue-core-image-upload>
       </div>
     </div>
 
-    <x-button type="warn" class="btn" @click.native="handBtn">提交</x-button>
+    <!--图片上传 jpg 限制2M-->
+    <!--其它的限制200k-->
+
+    <x-button type="warn" class="btn_my" @click.native="handBtn">提交</x-button>
 
   </div>
 </template>
@@ -87,8 +91,17 @@
           }
         })
       },
+
+      // 图片上传前
+      imagechanged(e){
+        // console.log(e)
+        this.$vux.loading.show({
+          text: 'Loading'
+        })
+      },
       // 成功触发
       imageuploaded(res) {
+        this.$vux.loading.hide()
         console.log('success')
         console.log(res)
         if(res.code==1){
@@ -113,6 +126,7 @@
 
       //失败触发
       errorhandle(err){
+        this.$vux.loading.hide()
         let _this =this;
         this.$vux.alert.show({
           title: '提示',
@@ -158,20 +172,22 @@
       right: -16px;
       top: -17px;
   }
-  .upload_box{
+
+
+  .comments .upload_box{
     display: flex;
   }
-  .g-core-image-upload-btn{
+  .comments .g-core-image-upload-btn{
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .btn{
+  .comments .btn_my{
     width: 80%;
   }
-  .p1{
+  .comments .p1{
     line-height:30px;
     padding-left:10px;
     font-size: 16px;

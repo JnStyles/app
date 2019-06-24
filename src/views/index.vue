@@ -57,8 +57,8 @@
                     <p class="p_name">{{item.name}}</p>
                     <div class="dd_box">
                       <div class="dd_box_div">
-                        <x-progress :percent="(item.sell_price)/(Number(item.surplus_price)+Number(item.sell_price))*100" :show-cancel="false"></x-progress>
-                        <div class="num"><p>总需 &nbsp;{{Number(item.surplus_price)+Number(item.sell_price)}}</p><p>剩余&nbsp;<span>{{item.surplus_price}}</span></p></div>
+                        <x-progress :percent="(item.sold_price)/(Number(item.surplus_price)+Number(item.sold_price))*100" :show-cancel="false"></x-progress>
+                        <div class="num"><p>总需 &nbsp;{{Number(item.surplus_price)+Number(item.sold_price)}}</p><p>剩余&nbsp;<span>{{item.surplus_price}}</span></p></div>
                       </div>
                       <x-button mini type="warn">立即参与</x-button>
                     </div>

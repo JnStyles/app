@@ -7,14 +7,15 @@
             <vue-core-image-upload
                 style="width:375px;"
                 slot="icon"
-                :crop="false"
+                crop="local"
                 @imageuploaded="imageuploaded"
                 @errorhandle="errorhandle"
                 inputOfFile="file"
-                :compress="50"
+                compress="50"
+
                 :data="data"
                 :headers="header"
-                :max-file-size="200"
+                :max-file-size="2097152"
                 :url="url">
                 <img width="80" :src="avatar"/>
             </vue-core-image-upload>
@@ -42,14 +43,14 @@
                 avatar:'',
                 sex:'',
                 list: [{
-                    key: '1',
+                    key: 1,
                     value: '男'
                 }, {
-                    key: '2',
+                    key: 2,
                     value: '女'
                 },
                 {
-                    key: '0',
+                    key: 0,
                     value: '保密'
                 }],
                 header:{
@@ -75,11 +76,24 @@
             })
         },
         methods: {
-            imageuploaded(){
-
+          // 图片上传前
+          imagechanged(e){
+            // console.log(e)
+            this.$vux.loading.show({
+              text: 'Loading'
+            })
+          },
+            imageuploaded(res){
+              this.$vux.loading.hide()
+              if(res.code==1){
+                this.$vux.toast.text('上传成功');
+                this.avatar =res.data.image_url;
+              }else {
+                this.$vux.toast.text(res.msg)
+              }
             },
             errorhandle(){
-
+              this.$vux.loading.hide()
             },
             handBtn(){
                 let params ={
@@ -90,7 +104,10 @@
 
                 this.$api.activity.editUser(params).then(res =>{
                     if(res){
-                        
+                      this.$vux.toast.text('修改成功')
+                      setTimeout(res=>{{
+                          this.$router.go(-1);
+                      }},1000)
                     }
                 })
             }
@@ -102,5 +119,11 @@
 <style scoped>
     .btn{
         margin-top:20px;
+
     }
+</style>
+<style>
+  .editDtat .btn{
+    width: 100px !important;
+  }
 </style>
