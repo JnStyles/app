@@ -4,22 +4,18 @@
     <!--<scroller lock-x height="-48" ref="scroller">-->
       <div>
         <div style="background:#fff;" class="box">
-          <p>
+          <h3 class="p_name">
             {{name}}
-          </p>
-          <p>我已参与{{pay_count}}人次</p>
+          </h3>
+          <p class="p_count">我已参与 <span>{{pay_count}}</span>人次</p>
         </div>
         <card>
           <div slot="content">
-
-
             <div style="width: 100%;" class="tab_head">
               <span style="width: 53%;padding-left: 20px;">参与时间</span>
               <span style="width: 10%;">人次</span>
-              <span style="width: 20%;">活动编码</span>
+              <span style="width: 24%;text-align:right;">活动编码</span>
             </div>
-
-
             <Collapse2 v-for="(item,index) in list" :key="index"
                        class="rightFixed0"
                        :Accordionindex="0"
@@ -82,6 +78,9 @@
 <style scoped>
   .box{
       padding:10px;
+  }
+  .p_count{
+    font-size: 14px;
   }
   .tab_head{
     width: 100%;

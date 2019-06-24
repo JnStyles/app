@@ -6,7 +6,7 @@
       <div class="timeline-demo">
         <timeline v-if="list.length>0">
           <timeline-item v-for="(item,index) in list" :key ="index">
-            <p  v-if="item.month">{{item.month}}月{{item.day}}号</p>
+            <p v-if="item.month">{{item.month}}月{{item.day}}号</p>
             <template v-if="item.son && item.son.length>0">
               <div class="pbox" v-for="son in item.son" :key="son.id">
                   <div class="left">
@@ -37,6 +37,7 @@
     data: function () {
       return {
         list: [],
+        arrIndex:[],
         pullupConfig: {
           content: '上拉加载更多',
           downContent: '松开进行加载',
@@ -66,6 +67,7 @@
             if(res.data.data.list.length==0){
               this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
             }
+            this.arrIndex.push(res.data.data.list[0].month_day)
             this.list =res.data.data.list;
             cb && cb();
           }
@@ -81,6 +83,19 @@
         this.$api.activity.balanceLog(params).then(res =>{
           if(res){
             if(res.data.data.list.length>0){
+              // if(this.arrIndex.length>0){
+              //   for(let i=0;i<this.arrIndex.length;i++){
+              //     if(this.arrIndex.indexOf(res.data.data.list[i].month_day)>-1){
+              //         // 说明在同一个日期里
+              //         this.list =this.list[i].son.push(res.data.data.list[0].son)
+              //     }else{
+              //       this.arrIndex.push(res.data.data.list[0].month_day)
+              //       this.list =this.list.concat(res.data.data.list)
+              //     }
+              //   }
+              // }
+              
+              
               this.list =this.list.concat(res.data.data.list)
               this.$nextTick(() => {
                 this.$refs.scroller.reset()

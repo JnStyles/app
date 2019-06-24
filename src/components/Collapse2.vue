@@ -10,7 +10,7 @@
       </div>
 
       <div v-if="AccordionData2" style="width: 50%;text-align: left;padding-left: 0;" class="AccordionTitleL LEFTTEXT">
-        lala
+        {{AccordionData2}}
       </div>
 
       <div class="ClickArea">
