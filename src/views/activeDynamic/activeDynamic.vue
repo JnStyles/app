@@ -22,7 +22,6 @@
                       <use xlink:href="#icondashboard"></use>
                     </svg>
                     <clocker :time="item.open_award_time" @on-finish="getInfo" format="%M分%S秒"  style="font-size: 20px;padding-left: 20px;" class="red"></clocker>
-                    <!--<clocker time="2019-06-22 18:47:02" @on-finish="getInfo" format="%H小时%M分%S秒" style="font-size: 20px;padding-left: 20px;" class="red"></clocker>-->
                   </p>
                 </div>
               </div>

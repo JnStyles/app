@@ -148,4 +148,7 @@ button.weui-btn_inline, input.weui-btn_inline, button.weui-btn_mini, input.weui-
 .weui-toast{
   width: 120px !important;
 }
+.vux-timeline-item-tail{
+  display: block!important;
+}
 

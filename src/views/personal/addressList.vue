@@ -1,14 +1,25 @@
 <template>
   <div>
     <x-header :left-options="{backText: ''}">地址管理</x-header>
+    <group>
+      <swipeout>
 
-     <!-- <panel v-if="list.length>0" :list="list" :type="type"></panel> -->
-
-     <group>
-      <cell v-for="item in list" :key="item.id" :title="item.title"
-       :link="'/addAddress?id='+item.id+'&username='+item.username+'&mobile='+item.mobile+'&province_id='+item.province_id+'&city_id='+item.city_id+'&area_id='+item.area_id+'&address='+item.address" 
-       :inline-desc='item.desc'></cell>
+        <swipeout-item @on-close="handleEvents('on-close')" @on-open="handleEvents('on-open')" transition-mode="follow" v-for="item in list" :key="item.id">
+          <div slot="right-menu">
+            <swipeout-button @click.native="onButtonClick('fav')" type="primary">删除</swipeout-button>
+            <swipeout-button @click.native="onButtonClick('delete')" type="warn">哈哈</swipeout-button>
+          </div>
+          <div slot="content" class="demo-content vux-1px-t">
+            <cell :title="item.title"
+                  :link="'/addAddress?id='+item.id+'&username='+item.username+'&mobile='+item.mobile+'&province_id='+item.province_id+'&city_id='+item.city_id+'&area_id='+item.area_id+'&address='+item.address"
+                  :inline-desc='item.desc'></cell>
+          </div>
+        </swipeout-item>
+      </swipeout>
     </group>
+
+
+
 
      <x-button style="width:80%;margin-top:30px;" type="warn" @click.native="hanBtn">添加收货地址</x-button>
   </div>
@@ -50,9 +61,17 @@ export default {
   methods:{
     hanBtn(){
       this.$router.push('/addAddress')
+    },
+    handleEvents(){
+
+    },
+    onButtonClick(){
+
+    },
+    onButtonClick(){
+
     }
   }
     
 }
 </script>
-    

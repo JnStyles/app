@@ -128,6 +128,11 @@ export default new Router({
       path: '/calculate',
       name: '计算详情',
       component:  resolve => require(['../views/productInfo/calculate.vue'], resolve)
+    },
+    {
+      path: '/test',
+      name: '测试',
+      component:  resolve => require(['../views/test.vue'], resolve)
     }
   ]
 })

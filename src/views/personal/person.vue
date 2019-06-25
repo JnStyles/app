@@ -31,7 +31,7 @@
       </group>
 
       <group title="">
-      <cell title="菜豆明细" :link="{path:'/moneyDetail'}">
+      <cell title="彩豆明细" :link="{path:'/moneyDetail'}">
             <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
           <use xlink:href="#iconChat"></use>
         </svg>
@@ -46,13 +46,13 @@
       </cell>
       </group>
 
-      <group title="">
-      <cell title="邀请好友">
-            <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
-        </svg>
-      </cell>
-      </group>
+      <!--<group title="">-->
+      <!--<cell title="邀请好友">-->
+            <!--<svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">-->
+          <!--<use xlink:href="#iconChat"></use>-->
+        <!--</svg>-->
+      <!--</cell>-->
+      <!--</group>-->
 
       <!-- <group title="">
       <cell title="信息管理" link="/">
@@ -69,6 +69,23 @@
         </svg>
       </cell>
     </group>
+
+    <group title="">
+      <cell title="退出登录" primary="content" @click.native="tLogin">
+        <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+          <use xlink:href="#iconChat"></use>
+        </svg>
+      </cell>
+    </group>
+
+    <div v-transfer-dom>
+      <confirm v-model="showLogin"
+               title="退出登录"
+               @on-cancel="onCancel"
+               @on-confirm="onConfirm">
+        <p style="text-align:center;">确定退出么？</p>
+      </confirm>
+    </div>
   </div>
 
 </template>
@@ -79,7 +96,8 @@
   export default {
     data: function () {
       return {
-        info:''
+        info:'',
+        showLogin:false,
       }
     },
 
@@ -97,6 +115,16 @@
       },
       join(){
         this.$router.push('/')
+      },
+      tLogin(){
+        this.showLogin =true;
+      },
+      onConfirm(){
+        localStorage.removeItem('token');
+        this.$router.replace('/login');
+      },
+      onCancel(){
+
       }
     }
   }

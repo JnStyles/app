@@ -7,7 +7,7 @@ if (process.env.NODE_ENV == 'development') {
 } else if (process.env.NODE_ENV == 'debug') {
     base ='/api';
 } else if (process.env.NODE_ENV == 'production') {
-    base ='/';
+    base ='';
     // base ='https://6bouseradmin.6bo.pw';
 }
 

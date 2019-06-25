@@ -99,6 +99,7 @@
         },
 
         handBtn(){
+          let _this =this;
           if(this.get_type==1 && this.inlineDescListValue.length==0 && this.stringValue!=1){
             this.$vux.toast.text('请选择地址')
             return false;
@@ -130,7 +131,7 @@
                       console.log('Plugin: I\'m showing')
                     },
                     onHide () {
-                      this.$router.go(-1)
+                      _this.$router.go(-1)  //跳转到上一页 具体便签下
                       console.log('Plugin: I\'m hiding')
                     }
                   })

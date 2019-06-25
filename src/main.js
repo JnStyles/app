@@ -30,7 +30,7 @@ var vConsole = new VConsole();
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
-  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio,XDialog,XImg,Previewer} from 'vux'
+  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio,XDialog,XImg,Previewer,Swipeout, SwipeoutItem, SwipeoutButton} from 'vux'
 
 
 Vue.component('tab', Tab)
@@ -82,6 +82,9 @@ Vue.component('popup-radio', PopupRadio)
 Vue.component('x-dialog', XDialog)
 Vue.component('x-img', XImg)
 Vue.component('previewer', Previewer)
+Vue.component('swipeout', Swipeout)
+Vue.component('swipeout-item', SwipeoutItem)
+Vue.component('swipeout-button', SwipeoutButton)
 
 Vue.use(VueRouter)
 

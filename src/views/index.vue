@@ -1,36 +1,51 @@
 <template>
   <div class="home">
     <x-header :left-options="{showBack: false}">会员活动<a slot="right" @click="goPerson" style="display: flex;align-items: center;">
-      <!--icongerenzhongxin-->
       <svg slot="icon" class="icon" aria-hidden="true" style="width: 20px;height: 20px;">
         <use xlink:href="#icongerenzhongxin"></use>
       </svg>
       我的活动</a></x-header>
-    <scroller id="vux_view_box_body" lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-48" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
-      <div>
+    <div style="height:44px;" v-if="isTap" class='index_fixed'>
+      <tab :line-width=2 active-color='#fc378c' v-model="activeValue">
+        <tab-item class="vux-center" :selected="activeValue == 0" @on-item-click="handTab">
+          {{product_category_name}} <x-icon type="ios-arrow-down" size="12"></x-icon>
+        </tab-item>
+        <tab-item class="vux-center" :selected="activeValue == 1" @on-item-click="handTab">人气</tab-item>
+        <tab-item class="vux-center" :selected="activeValue == 2" @on-item-click="handTab">最新</tab-item>
+        <tab-item class="vux-center" :selected="activeValue == 3" @on-item-click="handTab">进度</tab-item>
+      </tab>
+    </div>
+
+    <scroller id="vux_view_box_body" lock-x use-pullup use-pulldown :pullup-config="pullupConfig"
+              :pulldown-config="pulldownConfig" ref="scroller" height="-48"
+              @on-pullup-loading="upLoad"
+              @on-pulldown-loading="downLoad"
+              @on-scroll ="handScroll"
+    >
+      <view-box>
         <swiper :list="swipeList" auto loop v-model="swipe"></swiper>
         <group gutter='0'>
           <grid :show-vertical-dividers="false">
-            <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
+            <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id" style="position: relative;">
+              <div v-if="item.name=='活动记录' && unclaimed_count>0" slot="label">
+                <p>{{item.name}}</p>
+                <badge :text="unclaimed_count" style="position: absolute;top: 15px;right: 22px;"></badge>
+              </div>
               <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
                 <use :xlink:href="item.icon"></use>
               </svg>
             </grid-item>
           </grid>
-          <cell title="公告" v-if="jiangList && jiangList.length>0">
+          <cell title="公告" v-if="jiangList && jiangList.length>0" is-link>
             <marquee :item-height="24">
               <marquee-item v-for="item in jiangList" :key="item.id" direction="down" @click.native="onClick(item.id)">恭喜{{item.user_nickname}}在活动中抽中{{item.name}}</marquee-item>
             </marquee>
           </cell>
         </group>
         <group>
-          <div style="height:44px;">
-            <sticky
-              scroll-box="vux_view_box_body"
-              ref="sticky"
-              :offset="200"
-              :check-sticky-support="false"
-              :disabled="disabled">
+
+          <div style="height: 44px;" v-if="isTap"></div>
+          <div style="height:44px;" v-if="!isTap">
               <tab :line-width=2 active-color='#fc378c' v-model="activeValue">
                 <tab-item class="vux-center" :selected="activeValue == 0" @on-item-click="handTab">
                   {{product_category_name}} <x-icon type="ios-arrow-down" size="12"></x-icon>
@@ -39,14 +54,8 @@
                 <tab-item class="vux-center" :selected="activeValue == 2" @on-item-click="handTab">最新</tab-item>
                 <tab-item class="vux-center" :selected="activeValue == 3" @on-item-click="handTab">进度</tab-item>
               </tab>
-            </sticky>
           </div>
 
-          <!--<tab :line-width=2 active-color='#fc378c' v-model="activeValue">-->
-            <!--<tab-item class="vux-center" :selected="activeValue == item.id" v-for="(item, index) in menuList" @on-item-click="handTab" :key="index">{{item.name}}</tab-item>-->
-          <!--</tab>-->
-
-          <!--<div>-->
             <panel style="margin-top:0;" @click.native="goInfo(item.id)" v-for="(item,index) in proList" :key="index">
               <div slot="body">
                 <div class="dl product">
@@ -68,7 +77,7 @@
             </panel>
           <!--</div>-->
         </group>
-      </div>
+      </view-box>
     </scroller>
 
     <!-- 全部分类弹窗 -->
@@ -99,7 +108,9 @@
         swipeList: [],//图片轮播
         jiangList:[],//中奖用户列表
         proList:[],//商品列表
+        isTap:false,
         disabled: typeof navigator !== 'undefined' && /iphone/i.test(navigator.userAgent) && /ucbrowser/i.test(navigator.userAgent),
+        unclaimed_count:'',
         tabList:[{
           name:'信息服务',
           icon:'#iconxinxichaxun',
@@ -144,7 +155,10 @@
         order_type:'',
         product_category_id:'',
         show:false,
-        goryList:[],
+        goryList:[ {
+          id:0,
+          name:'全部分类'
+        }],
         pullupConfig: {
           content: '上拉加载更多',
           downContent: '松开进行加载',
@@ -190,6 +204,7 @@
 
           this.swipeList =bannerList;
           this.jiangList =res.data.data.product_periods_list;
+          this.unclaimed_count =res.data.data.unclaimed_count
         }
       });
       this.getProList();
@@ -225,7 +240,7 @@
           this.show =true;
           this.order_type =0;
           this.getProList();
-          if(this.goryList.length==0){
+          if(this.goryList.length==1){
             this.getCategoryList();
           }
         }
@@ -244,7 +259,7 @@
       getCategoryList(){
         this.$api.activity.getCategoryList({}).then(res =>{
           if(res){
-            this.goryList =res.data.data;
+            this.goryList =this.goryList.concat(res.data.data);
           }
         })
       },
@@ -252,6 +267,7 @@
       onClick(id){
         console.log(id)
         console.log('点击获奖名单')
+        this.$router.push('/productInfo?id='+id)
       },
       // 点击跳转礼品详情页面
       goInfo(id){
@@ -302,6 +318,15 @@
           }
           this.$refs.scroller.donePulldown()
         });
+      },
+
+      handScroll(e){
+        console.log(e)
+        if(e.top>342){
+            this.isTap =true;
+        }else{
+          this.isTap =false;
+        }
       }
     }
   }
@@ -374,6 +399,12 @@
     }
     .home .vux-label{
       width:56px;
+    }
+    .index_fixed{
+      width: 100%;
+      position: fixed;
+      top: 46px;
+      z-index: 999;
     }
 </style>
 

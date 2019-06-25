@@ -4,7 +4,7 @@
       <!--<a slot="right" @click="toShare">分享图标</a>-->
     </x-header>
 
-    <scroller lock-x use-pulldown :pulldown-config="pulldownConfig" height="-96" ref="scroller" @on-pulldown-loading="downLoad">
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-96" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
         <div>
           <card style="margin-top:0;">
             <div slot="content" class="card-demo-flex card-demo-content01">
@@ -191,6 +191,12 @@
         buyNum:0,
         list:[],
         page:1,
+        pullupConfig: {
+          content: '上拉加载更多',
+          downContent: '松开进行加载',
+          upContent: '上拉加载更多',
+          loadingContent: '加载中...'
+        },
         pulldownConfig:{
           content:'下拉刷新',
           downContent:'下拉刷新',
@@ -231,8 +237,8 @@
                       {
                         name:'活动分享',
                         icon:'#iconcamera',
-                        // url:'/activeShare?id='+this.id,
-                        url:'/comments?id='+this.id,
+                        url:'/activeShare?id='+this.id,
+                        // url:'/comments?id='+this.id,
                         id:2
                       },
                       {
@@ -297,6 +303,8 @@
             }
         },
       onConfirm(){
+          console.log(this.$route)
+          sessionStorage.setItem('goUrl',this.$route.fullPath);
           this.$router.push('/login')
       },
       onCancel(){
@@ -305,6 +313,7 @@
       //去往最新一期的商品
       goNew(){
           this.id =this.info.newid;
+          this.page =1;
           let url ='/productInfo?id='+this.id;
           this.$router.replace(url);
           this.getInfo();
@@ -314,6 +323,29 @@
       goCalculate(){
           this.$router.push('/calculate?id='+this.id)
       },
+
+      //上拉加载
+      upLoad(){
+        this.page +=1;
+        let params ={
+          page:this.page,
+          id:this.id
+        }
+        this.$api.activity.getProductPeriodsOrderList(params).then(res =>{
+          if(res){
+            if(res.data.data.list.length>0){
+              this.$nextTick(() => {
+                this.list =this.list.concat(res.data.data.list)
+                this.$refs.scroller.reset()
+              })
+              this.$refs.scroller.donePullup()  // 设置上拉加载操作完成，在数据加载后执行
+            }else{
+              this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
+            }
+          }
+        })
+      },
+
       //下拉刷新
       downLoad(){
         console.log('下拉刷新')

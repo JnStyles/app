@@ -196,8 +196,8 @@
         this.$api.activity.getProductPeriodsLog(params).then(res =>{
           if(res){
             if(res.data.data.list.length>0){
-              this.list =this.list.concat(res.data.data.list)
               this.$nextTick(() => {
+                this.list =this.list.concat(res.data.data.list)
                 this.$refs.scroller.reset()
               })
               this.$refs.scroller.donePullup()  // 设置上拉加载操作完成，在数据加载后执行

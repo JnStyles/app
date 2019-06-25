@@ -32,7 +32,7 @@
 
                     <div @click="handZan(item.id,index)" v-if="item.is_like==0" class="fa">
                       <vue-star animate="yourAnimateCssClass" color="rgb(152, 138, 222)">
-                        <svg  slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;" @click="handZan(item.id,index)">
+                        <svg  slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
                           <use xlink:href="#iconlike"></use>
                         </svg>
                       </vue-star>

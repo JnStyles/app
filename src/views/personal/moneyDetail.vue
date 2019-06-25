@@ -6,7 +6,8 @@
       <div class="timeline-demo">
         <timeline v-if="list.length>0">
           <timeline-item v-for="(item,index) in list" :key ="index">
-            <p v-if="item.month">{{item.month}}月{{item.day}}号</p>
+            <p class="time">{{item.month}}月{{item.day}}号</p>
+            <!--<p>{{arrIndex[index]}}</p>-->
             <template v-if="item.son && item.son.length>0">
               <div class="pbox" v-for="son in item.son" :key="son.id">
                   <div class="left">
@@ -36,7 +37,34 @@
   export default {
     data: function () {
       return {
-        list: [],
+        // list: [],
+        list:[
+          {"month_day":"0625","month":"06","day":"25",
+            "son":[
+              {"id":216,"create_time":"10:52:38","change":"100","balance":"95110","name":"华为 P30 Pro 超大广角 超感光徕卡四射 10倍混合变焦 全网通版双4G","periods":1,"month":"06","day":"25","month_day":"0625"},
+              {"id":215,"create_time":"10:51:10","change":"50","balance":"95210","name":"移动 联通 电信全国通用 200元 手机充值卡","periods":1,"month":"06","day":"25","month_day":"0625"},
+              {"id":214,"create_time":"10:50:32","change":"500","balance":"95260","name":"京东E卡经典卡1000面值实体卡 全国通用","periods":1,"month":"06","day":"25","month_day":"0625"},
+              {"id":213,"create_time":"10:50:16","change":"30","balance":"95760","name":"Apple iphone XS 256GB 超视网膜显示屏 全网通4G手机","periods":1,"month":"06","day":"25","month_day":"0625"},
+              {"id":212,"create_time":"10:45:52","change":"10","balance":"95790","name":"移动 联通 电信全国通用 200元 手机充值卡","periods":1,"month":"06","day":"25","month_day":"0625"},
+              {"id":211,"create_time":"10:18:27","change":"3","balance":"95800","name":"京东E卡经典卡500面值实体卡 全国通用","periods":9,"month":"06","day":"25","month_day":"0625"}
+              ]
+          },
+          {"month_day":"0624","month":"06","day":"24",
+            "son":[{"id":210,"create_time":"21:32:05","change":"1","balance":"95803","name":"京东E卡经典卡500面值实体卡 全国通用","periods":9,"month":"06","day":"24","month_day":"0624"},
+              {"id":209,"create_time":"21:21:42","change":"3","balance":"95804","name":"京东E卡经典卡500面值实体卡 全国通用","periods":9,"month":"06","day":"24","month_day":"0624"},
+              {"id":208,"create_time":"15:32:37","change":"600","balance":"95807","name":"京东E卡经典卡500面值实体卡 全国通用","periods":8,"month":"06","day":"24","month_day":"0624"},
+              {"id":207,"create_time":"15:31:30","change":"600","balance":"96407","name":"京东E卡经典卡500面值实体卡 全国通用","periods":7,"month":"06","day":"24","month_day":"0624"}]
+          },
+          {"month_day":"0624","month":"06","day":"24",
+            "son":[{"id":206,"create_time":"15:30:13","change":"600","balance":"97007","name":"京东E卡经典卡500面值实体卡 全国通用","periods":6,"month":"06","day":"24","month_day":"0624"},
+              {"id":205,"create_time":"15:28:47","change":"600","balance":"97607","name":"京东E卡经典卡500面值实体卡 全国通用","periods":5,"month":"06","day":"24","month_day":"0624"},
+              {"id":200,"create_time":"14:28:31","change":"600","balance":"98207","name":"京东E卡经典卡500面值实体卡 全国通用","periods":3,"month":"06","day":"24","month_day":"0624"},
+              {"id":199,"create_time":"14:25:42","change":"600","balance":"98807","name":"京东E卡经典卡500面值实体卡 全国通用","periods":2,"month":"06","day":"24","month_day":"0624"},
+              {"id":198,"create_time":"14:09:26","change":"599","balance":"99407","name":"京东E卡经典卡500面值实体卡 全国通用","periods":1,"month":"06","day":"24","month_day":"0624"},
+              {"id":197,"create_time":"14:09:01","change":"7","balance":"100006","name":null,"periods":null,"month":"06","day":"24","month_day":"0624"},
+              {"id":196,"create_time":"14:09:01","change":"100000","balance":"99999","name":null,"periods":null,"month":"06","day":"24","month_day":"0624"},
+              {"id":195,"create_time":"12:33:51","change":"1","balance":"9989956","name":"京东E卡经典卡500面值实体卡 全国通用","periods":1,"month":"06","day":"24","month_day":"0624"}]
+          }],
         arrIndex:[],
         pullupConfig: {
           content: '上拉加载更多',
@@ -67,7 +95,12 @@
             if(res.data.data.list.length==0){
               this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
             }
-            this.arrIndex.push(res.data.data.list[0].month_day)
+
+            // 时间去重
+            for(let i=0;i<res.data.data.list.length;i++){
+              this.arrIndex.push(res.data.data.list[i].month_day)
+            }
+
             this.list =res.data.data.list;
             cb && cb();
           }
@@ -94,11 +127,17 @@
               //     }
               //   }
               // }
-              
-              
-              this.list =this.list.concat(res.data.data.list)
+
+              // 时间去重
+              for(let i=0;i<res.data.data.list.length;i++){
+                if(this.arrIndex.indexOf(res.data.data.list[i].month_day)==-1){
+                  this.arrIndex.push(res.data.data.list[i].month_day)
+                }
+              }
+
               this.$nextTick(() => {
                 this.$refs.scroller.reset()
+                this.list =this.list.concat(res.data.data.list)
               })
               this.$refs.scroller.donePullup()  // 设置上拉加载操作完成，在数据加载后执行
             }else{
@@ -144,6 +183,10 @@
     .right span{
       font-size:16px;
       color:#E64340
+    }
+    .time{
+      font-size:16px;
+      font-weight: 600;
     }
 </style>
 
