@@ -129,6 +129,10 @@ const activity = {
     return  axios({method:'post',url:`${base}/api/user/editUser`,data:qs.stringify(params)})
   },
 
+  //删除收获地址
+  deleteShippingAddress (params) {
+    return  axios({method:'post',url:`${base}/api/user/deleteShippingAddress`,data:qs.stringify(params)})
+  },
 };
 
 export default activity;
