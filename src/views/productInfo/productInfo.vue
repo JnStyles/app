@@ -120,7 +120,7 @@
     <!-- footer悬浮按钮 -->
     <div class="footer">
         <!-- 没开奖 -->
-        <template v-if="info.status!=3">
+        <template v-if="info.status==1">
               <x-button type="warn" style="width:90%;margin:0 auto;"  @click.native="handJoin">立即参与</x-button>
         </template>
         <!-- 已经开奖过了的 -->

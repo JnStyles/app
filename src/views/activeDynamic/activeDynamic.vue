@@ -21,7 +21,8 @@
                     <svg slot="icon" class="icon" aria-hidden="true" style="width: 20px;height: 20px;">
                       <use xlink:href="#icondashboard"></use>
                     </svg>
-                    <clocker :time="item.open_award_time" @on-finish="getInfo" format="%M分%S秒"  style="font-size: 20px;padding-left: 20px;" class="red"></clocker>
+                    <!--<clocker :time="item.open_award_time" @on-finish="getInfo" format="%M分%S秒"  style="font-size: 20px;padding-left: 20px;" class="red"></clocker>-->
+                    <Clockers :time="item.open_award_time" @on-finish="getInfo" format="%S 秒 %Z"  style="font-size: 20px;padding-left: 20px;" class="red"></Clockers>
                   </p>
                 </div>
               </div>
@@ -52,6 +53,7 @@
 <script>
 
   import NoData from "@/components/NoData";
+  import Clockers from "@/components/clocker/index";
 
   export default {
     data:function(){
@@ -76,15 +78,31 @@
     },
     components: {
       NoData,
+      Clockers
     },
-    created(){
-      this.getList();
+    activated(){
+      if (!this.$route.meta.isUserCache) {
+        this.page =1;
+        this.getList();
+      }
+      this.$route.meta.isUserCache = false;
     },
+
+    beforeRouteLeave(to, from, next) {
+      if (to.path=="/productInfo") {
+        console.log('开启缓存');
+        from.meta.isUserCache = true; //开启缓存
+      }
+      next();
+    },
+
     methods:{
       getList(cb){
         let params ={
           page:this.page
         }
+        // this.$refs.scroller.disablePullup(); //默认禁用
+
         this.$api.activity.getProductPeriodsList(params).then(res =>{
           if(res){
             this.isAxios =true;

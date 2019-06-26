@@ -3,7 +3,7 @@
     <x-header :left-options="{backText: ''}">修改资料</x-header>
      <div>
     <group label-width="2.5em" label-margin-right="2em" label-align="right">
-        <cell title="" is-link>
+        <cell title="头像" is-link>
             <vue-core-image-upload
                 style="width:355px;"
                 slot="icon"

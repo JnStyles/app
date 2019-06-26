@@ -13,7 +13,7 @@
     data: function () {
       return {
         mydata: [{
-          actEndTime: '2019-06-26 18:50:00'
+          actEndTime: '2019-06-26 17:06:00'
         }, {
             actEndTime: '2018-11-20 01:00:00'
           }, {
@@ -54,16 +54,20 @@
           let obj = null;
           // 如果活动未结束，对时间进行处理
           if (endTime - newTime > 0) {
-            let time = (endTime - newTime)/1000;  //毫秒
+            let time = (endTime - newTime)/1000;  //秒
+
             // console.log(time)
             // 获取天、时、分、秒
             let day = parseInt(time / (60 * 60 * 24));
             let hou = parseInt(time % (60 * 60 * 24) / 3600);
 
             let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
-            let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+            // let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+            let sec = parseInt(time % 60);
 
             let ms = parseInt(time *1000 % 1000);
+
+
 
             // let day = parseInt(time / 1000 / 60 / 60 / 24);
             // let hou = parseInt(time / 1000 / 60 / 60 % 24);
@@ -93,7 +97,7 @@
           countDownArr.push(obj);
         });
         this.countDownList = countDownArr;
-        setTimeout(this.countDown, 100);
+        setTimeout(this.countDown, 10);
       }
 
     }

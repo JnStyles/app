@@ -26,8 +26,8 @@
         <swiper :list="swipeList" auto loop v-model="swipe"></swiper>
         <group gutter='0'>
           <grid :show-vertical-dividers="false">
-            <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id" style="position: relative;">
-              <div v-if="item.name=='活动记录' && unclaimed_count>0" slot="label">
+            <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id" style="position: relative;" @click.native="handGrid(item.id)">
+              <div v-if="item.id==4 && unclaimed_count>0" slot="label">
                 <p>{{item.name}}</p>
                 <badge :text="unclaimed_count" style="position: absolute;top: 15px;right: 22px;"></badge>
               </div>
@@ -281,6 +281,23 @@
           }
         
       },
+
+      //点击信息 服务
+      handGrid(id){
+        if(id==1){
+          this.$vux.alert.show({
+            title: 'Vux is Cool',
+            content: 'Do you agree?',
+            onShow () {
+              console.log('Plugin: I\'m showing')
+            },
+            onHide () {
+              console.log('Plugin: I\'m hiding')
+            }
+          })
+        }
+      },
+
       //上拉加载
       upLoad(){
         console.log('上拉加载')
@@ -321,7 +338,6 @@
       },
 
       handScroll(e){
-        console.log(e)
         if(e.top>342){
             this.isTap =true;
         }else{

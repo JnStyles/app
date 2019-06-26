@@ -111,17 +111,31 @@
       NoData,
     },
 
-    created(){
-      console.log(this.$route.query)
-      if(this.$route.query.status){
-        this.status =2
+    activated(){
+      if (!this.$route.meta.isUserCache) {
+        this.page =1;
+        console.log('我是缓存瓦哈啊哈')
+        console.log(this.$route.query)
+        if(this.$route.query.status){
+          this.status =2
+        }
+        this.getList();
       }
-      this.getList();
+      this.$route.meta.isUserCache = false;
     },
+
+    beforeRouteLeave(to, from, next) {
+      if (to.path=="/productInfo" || to.path=="/comments") {
+        console.log('开启缓存');
+        from.meta.isUserCache = true; //开启缓存
+      }
+      next();
+    },
+
     methods: {
       getList(cb){
         let params ={
-          page:1,
+          page:this.page,
           status:this.status
         }
         this.$api.activity.getProductPeriodsLog(params).then(res =>{
@@ -142,6 +156,7 @@
       onItemClick(index) {
         console.log(index)
         this.status =index;
+        this.page =1;
         this.getList();
       },
 

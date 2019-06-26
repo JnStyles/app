@@ -14,11 +14,19 @@ export default new Router({
     {
       path: '/activeDynamic',
       name: '活动动态',
+      meta:{
+        keepAlive: true,
+        isUserCache: false
+      },
       component:  resolve => require(['../views/activeDynamic/activeDynamic.vue'], resolve),
     },
     {
       path: '/activeShare',
       name: '活动分享',
+      meta:{
+        keepAlive: true,
+        isUserCache: false
+      },
       component:  resolve => require(['../views/activeShare/activeShare.vue'], resolve),
     },
     {
@@ -30,7 +38,9 @@ export default new Router({
       path: '/activeRecord',
       name: '活动记录',
       meta:{
-        isLogin:true
+        isLogin:true,
+        keepAlive: true,
+        isUserCache: false
       },
       component:  resolve => require(['../views/activeRecord/activeRecord.vue'], resolve),
     },

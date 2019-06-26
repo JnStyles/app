@@ -146,11 +146,14 @@
       NoData,
       VueStar
     },
-    created(){
-      if(this.$route.query.id){
-        this.id =this.$route.query.id;
+    activated(){
+      if (!this.$route.meta.isUserCache) {
+        if(this.$route.query.id){
+          this.id =this.$route.query.id;
+        }
+        this.getList();
       }
-      this.getList();
+      this.$route.meta.isUserCache = false;
     },
 
     methods:{
