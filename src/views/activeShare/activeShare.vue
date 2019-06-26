@@ -306,7 +306,7 @@
       font-size: 14px;
   }
   .one span{
-      color:#ccc;
+      color:#666;
   }
   .one .span{
       float: right;
@@ -316,7 +316,7 @@
       font-style: normal;
   }
   .info{
-      color:#ccc;
+      color:#666;
   }
   .zan{
       float: right;
