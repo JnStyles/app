@@ -74,6 +74,7 @@
                   <grid-item v-for="item in info.orderList" :key="item.lucky_code">
                     {{item.lucky_code}}
                   </grid-item>
+                  <grid-item v-if="info.userOrderCount>info.lucky_code.length">...</grid-item>
                 </grid>
               </div>
             </template>
