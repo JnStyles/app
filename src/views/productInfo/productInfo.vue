@@ -29,8 +29,11 @@
                 </div>
                 <!-- 即将揭晓 -->
                 <template v-if="info.status==2">
-                  <div class="time_ji red_bg">幸运编码计算中
-                    <clocker :time="info.open_award_time" @on-finish="getInfo" style="font-size: 20px;" format="%M分%S秒"></clocker>
+                  <div class="time_ji red_bg">
+                    <span>幸运编码计算中</span>
+                    <div style="width: 160px;">
+                      <Clockers :time="info.open_award_time" @on-finish="getInfo" style="font-size: 20px;" format="%S 秒 %Z"></Clockers>
+                    </div>
                   </div>
                 </template>
 
@@ -169,6 +172,10 @@
 </template>
 
 <script>
+
+  import Clockers from "@/components/clocker/index";
+
+
   export default {
     data:function(){
       return {
@@ -205,12 +212,19 @@
         },
       }
     },
-    created(){
+    activated(){
         let id =this.$route.query.id;
         this.id =id;
         this.getInfo();
+
+        this.page =1;
         this.getProList();//获取活动记录
     },
+
+    components: {
+      Clockers
+    },
+
     methods:{
         //获取详情
         getInfo(cb){
@@ -378,12 +392,14 @@
         font-size:14px;
     }
     .time_ji{
+        display: flex;
         height:40px;
         font-size:14px;
         line-height:40px;
         text-align:center;
         color:#ffffff;
         margin:10px 0;
+        justify-content: center;
     }
     .times{
         height:40px;

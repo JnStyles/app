@@ -7,6 +7,7 @@
          <x-input title="手机号码" v-model="form.mobile" :max="11" is-type="china-mobile"></x-input>
         <x-address title="所在地区" v-model="cityArr" :list="addressData" placeholder="请选择地址" :show.sync="showAddress"></x-address>
         <x-input title="详细地址" v-model="form.address" class="weui-vcode"></x-input>
+        <x-switch title="设置为默认地址" :value-map="['0', '1']" v-model="form.is_default"></x-switch>
     </group>
     
     <x-button style="width:80%;margin-top:60px;" type="warn" @click.native="hanBtn">确定</x-button>
@@ -25,6 +26,7 @@ export default {
           username:'',
           mobile:'',
           address:'',
+          is_default:0
         },
         cityArr:[]
       }
@@ -41,13 +43,13 @@ export default {
         this.form.username =this.$route.query.username
         this.form.mobile =this.$route.query.mobile
         this.form.address =this.$route.query.address
+        this.form.is_default =this.$route.query.is_default
         this.cityArr =arr;
-
       }
     },
     methods:{
       hanBtn(){
-        console.log(this.cityArr)
+        console.log(this.form.stringValue)
         if(!this.form.username){
             this.$vux.toast.text('请填写收货人姓名');
             return false;
@@ -72,6 +74,7 @@ export default {
           province_id:this.cityArr[0],
           city_id:this.cityArr[1],
           area_id:this.cityArr[2],
+          is_default:this.form.is_default
         }
         if(this.$route.query.id){
            params.id =this.$route.query.id
@@ -87,4 +90,3 @@ export default {
     }
 }
 </script>
-    

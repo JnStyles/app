@@ -6,11 +6,18 @@
 
         <swipeout-item @on-close="handleEvents('on-close')" @on-open="handleEvents('on-open')" transition-mode="follow" v-for="item in list" :key="item.id">
           <div slot="right-menu">
+            <swipeout-button v-if="item.is_default!=1" @click.native="onButtonClicks(item.id)" type="primary">设置默认</swipeout-button>
             <swipeout-button @click.native="onButtonClick(item.id)" type="warn">删除</swipeout-button>
           </div>
-          <div slot="content" class="demo-content vux-1px-t">
+
+          <div slot="content" class="demo-content vux-1px-t" style="position: relative">
+            <span v-if="item.is_default==1" class="default_adress">
+                <svg slot="icon" class="icon" aria-hidden="true" style="width: 80px;height: 50px;">
+                    <use xlink:href="#iconmorendizhi"></use>
+                </svg>
+            </span>
             <cell :title="item.title"
-                  :link="'/addAddress?id='+item.id+'&username='+item.username+'&mobile='+item.mobile+'&province_id='+item.province_id+'&city_id='+item.city_id+'&area_id='+item.area_id+'&address='+item.address"
+                  :link="'/addAddress?id='+item.id+'&username='+item.username+'&mobile='+item.mobile+'&province_id='+item.province_id+'&city_id='+item.city_id+'&area_id='+item.area_id+'&address='+item.address+'&is_default='+item.is_default"
                   :inline-desc='item.desc'></cell>
           </div>
         </swipeout-item>
@@ -53,6 +60,7 @@ export default {
                 city_id:res.data.data.list[i].city_id,
                 area_id:res.data.data.list[i].area_id,
                 address:res.data.data.list[i].address,
+                is_default:res.data.data.list[i].is_default,
               })
             }
             this.list =list;
@@ -83,7 +91,31 @@ export default {
         }
       })
     },
+
+    //设置默认
+    onButtonClicks(id){
+      let params ={
+        id:id
+      }
+      this.$api.activity.setDefaultShippingAddress(params).then(res =>{
+        if(res){
+          this.$vux.toast.text('设置成功');
+          this.getList();
+        }
+      })
+    }
   }
     
 }
 </script>
+<style scoped>
+    .default_adress{
+      position: absolute;
+      right: 40px;
+      top: 0;
+      /*font-size: 12px;*/
+      /*padding: 2px 10px;*/
+      /*background: #eee;*/
+      /*border-radius: 10px;*/
+    }
+</style>

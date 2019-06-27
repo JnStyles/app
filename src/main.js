@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import 'lib-flexible/flexible.js'
 import FastClick from 'fastclick'
@@ -15,23 +13,15 @@ Vue.prototype.$api = api; // 将api挂载到vue的原型上
 Vue.prototype.$store = store;
 Vue.use(Vuex)
 
-import { WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin,LoadingPlugin} from 'vux'
-Vue.use(WechatPlugin)
-Vue.use(ToastPlugin)
-Vue.use(AlertPlugin)
-Vue.use(ConfirmPlugin)
-Vue.use(LoadingPlugin)
-
 var VConsole = require('vconsole');
 var vConsole = new VConsole();
-
 
 //全局注册组件
 import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
-  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio,XDialog,XImg,Previewer,Swipeout, SwipeoutItem, SwipeoutButton} from 'vux'
-
+  CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio,XDialog,XImg,Previewer,Swipeout, SwipeoutItem, SwipeoutButton
+,WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin,LoadingPlugin} from 'vux'
 
 Vue.component('tab', Tab)
 Vue.component('tab-item', TabItem)
@@ -85,6 +75,12 @@ Vue.component('previewer', Previewer)
 Vue.component('swipeout', Swipeout)
 Vue.component('swipeout-item', SwipeoutItem)
 Vue.component('swipeout-button', SwipeoutButton)
+
+Vue.use(WechatPlugin)
+Vue.use(ToastPlugin)
+Vue.use(AlertPlugin)
+Vue.use(ConfirmPlugin)
+Vue.use(LoadingPlugin)
 
 Vue.use(VueRouter)
 

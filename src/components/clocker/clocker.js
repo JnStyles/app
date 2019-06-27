@@ -204,7 +204,7 @@ var fns = {
     // Calculate the offsets
     console.log(this.totalSecsLeft)
     return {
-      ms: (this.totalSecsLeft *1000 % 1000).toFixed(3),
+      ms: (this.totalSecsLeft *1000 % 1000).toFixed(2).toString().substring(0,2),
       seconds: Math.floor(this.totalSecsLeft % 60),
       minutes: Math.floor(this.totalSecsLeft / 60) % 60,
       hours: Math.floor(this.totalSecsLeft / 60 / 60) % 24,

@@ -3,12 +3,12 @@
     <x-header :left-options="{backText: ''}">注册</x-header>
 
     <group title="">
-      <x-input title="手机号码" required v-model="form.mobile" :max="13" is-type="china-mobile"></x-input>
-      <x-input title="发送验证码" v-model="form.verification_code" class="weui-vcode" :max="6">
+      <x-input title="手机号码" required v-model="form.mobile" type="number" :max="13" is-type="china-mobile"></x-input>
+      <x-input title="验证码" v-model="form.verification_code" class="weui-vcode" :max="6" type="number">
         <x-button slot="right" type="warn" mini @click.native="handCode">{{isDisabled?btntxt:'获取验证码'}}</x-button>
       </x-input>
        <x-input title="昵称" v-model="form.user_nickname" class="weui-vcode"></x-input>
-        <x-input title="密码" type="password" v-model="form.password" class="weui-vcode"></x-input>
+       <x-input title="密码" type="password" v-model="form.password" class="weui-vcode"></x-input>
     </group>
     <check-icon :value.sync="isAgree" type="plain" style="line-height:60px;">注册即同意协议</check-icon>
     <x-button style="width:80%;margin-top:60px;" type="warn" action-type="submit" @click.native="hanBtn">注册</x-button>

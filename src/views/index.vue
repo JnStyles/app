@@ -187,7 +187,7 @@
       MarqueeItem,
       SwiperItem
     },
-    created(){
+    activated(){
       // 获取banner图和中奖纪录
       this.$api.activity.getBannerList({}).then(res =>{
         if(res){

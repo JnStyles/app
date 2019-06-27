@@ -9,6 +9,10 @@ export default new Router({
     {
       path: '/',
       name: 'index',
+      meta:{
+        keepAlive: true,
+        isUserCache: false
+      },
       component: index
     },
     {
@@ -62,6 +66,10 @@ export default new Router({
     {
       path: '/productInfo',
       name: '礼品详情',
+      meta:{
+        keepAlive: true,
+        isUserCache: false
+      },
       component:  resolve => require(['../views/productInfo/productInfo.vue'], resolve)
     },
     {
@@ -143,6 +151,11 @@ export default new Router({
       path: '/test',
       name: '测试',
       component:  resolve => require(['../views/test.vue'], resolve)
-    }
+    },
+    {
+      path: '/setPassword',
+      name: '重置密码',
+      component:  resolve => require(['../views/personal/setPassword.vue'], resolve)
+    },
   ]
 })

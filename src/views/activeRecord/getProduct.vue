@@ -7,13 +7,13 @@
         <x-switch :value-map="['0', '1']" v-model="stringValue"></x-switch>
       </x-input>
 
-       <x-input v-if="get_type==2" title="手机号码" type="tel"  placeholder="" v-model="mobile" :min="11" :max="11" @on-change="change"></x-input>
-       <x-input v-if="get_type==2" title="确认号码" v-model="mobile2" type="tel" placeholder="" :min="11" :max="11" :equal-with="mobile"></x-input>
+       <x-input v-if="get_type==2 && stringValue!=1" title="手机号码" type="tel"  placeholder="" v-model="mobile" :min="11" :max="11" @on-change="change"></x-input>
+       <x-input v-if="get_type==2 && stringValue!=1" title="确认号码" v-model="mobile2" type="tel" placeholder="" :min="11" :max="11" :equal-with="mobile"></x-input>
        <x-switch title="是否兑换为彩豆" :value-map="['0', '1']" v-model="stringValue"></x-switch>
 
-       <cell v-if="get_type==1 && inlineDescListValue.length==0" title="选择收货地址" @click.native="handSele" is-link :inline-desc='address'></cell>
+       <cell v-if="get_type==1 && inlineDescListValue.length==0 && stringValue!=1" title="选择收货地址" @click.native="handSele" is-link :inline-desc='address'></cell>
 
-       <cell v-if="inlineDescListValue.length>0" :title="selectName"  @click.native="handSele"  :inline-desc='selectInlineDesc' is-link></cell>
+       <cell v-if="inlineDescListValue.length>0 && get_type==1 && stringValue!=1" :title="selectName"  @click.native="handSele"  :inline-desc='selectInlineDesc' is-link></cell>
     </group>
 
     <x-button type="warn" class="btn" @click.native="handBtn">提交</x-button>
@@ -75,16 +75,6 @@
         if(!value){
           this.$router.replace('/activeRecord');
         }
-        // let params ={
-        //   password:value
-        // };
-        // this.$api.activity.verificationPassword(params).then(res =>{
-        //   if(res){
-        //     sessionStorage.setItem('password',value);
-        //     this.$router.push('/getProduct?id='+this.id+'&name='+this.name+'&get_type='+this.get_type)
-        //   }
-        // })
-
         let id =this.$route.query.id;
         let name =this.$route.query.name;
         let get_type =this.$route.query.get_type;
@@ -100,20 +90,23 @@
 
         handBtn(){
           let _this =this;
-          if(this.get_type==1 && this.inlineDescListValue.length==0 && this.stringValue!=1){
-            this.$vux.toast.text('请选择地址')
-            return false;
+          if(this.stringValue!=1){
+            if(this.get_type==1 && this.inlineDescListValue.length==0 && this.stringValue!=1){
+              this.$vux.toast.text('请选择地址')
+              return false;
+            }
+            if(this.get_type==2 && !this.mobile){
+              this.$vux.toast.text('请填写手机号')
+              return false;
+            }else if(this.get_type==2 && this.mobile.length!=11){
+              this.$vux.toast.text('手机号有误')
+              return false;
+            }else if(this.get_type==2 &&this.mobile !=this.mobile2){
+              this.$vux.toast.text('两次输入手机号不一样')
+              return false;
+            }
           }
-          if(this.get_type==2 && !this.mobile){
-            this.$vux.toast.text('请填写手机号')
-            return false;
-          }else if(this.get_type==2 && this.mobile.length!=11){
-            this.$vux.toast.text('手机号有误')
-             return false;
-          }else if(this.get_type==2 &&this.mobile !=this.mobile2){
-             this.$vux.toast.text('两次输入手机号不一样')
-             return false;
-          }
+
           let id =this.$route.query.id;
           let params ={
             id:this.id,

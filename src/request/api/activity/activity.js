@@ -133,6 +133,16 @@ const activity = {
   deleteShippingAddress (params) {
     return  axios({method:'post',url:`${base}/api/user/deleteShippingAddress`,data:qs.stringify(params)})
   },
+
+  //收货地址设置默认
+  setDefaultShippingAddress (params) {
+    return  axios({method:'post',url:`${base}/api/user/setDefaultShippingAddress`,data:qs.stringify(params)})
+  },
+
+  //修改密码
+  setPassword (params) {
+    return  axios({method:'post',url:`${base}//api/user/login/setPassword`,data:qs.stringify(params)})
+  },
 };
 
 export default activity;

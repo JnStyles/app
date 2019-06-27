@@ -13,7 +13,7 @@
                 </div>
                 <div class="dd">
                   <p class="p_name">{{item.name}}</p>
-                  <p class="code" v-if="item.status==1"><badge text="幸运编码"></badge>&nbsp;&nbsp;<span class="code_span">{{item.lucky_code}}</span></p>
+                  <p class="code" v-if="item.status==1"><span>幸运编码</span>&nbsp;&nbsp;<span class="code_span">{{item.lucky_code}}</span></p>
 
                   <!--即将开奖-->
                   <!--icondashboard-->
@@ -217,8 +217,10 @@
     align-items: center;
   }
   .code_span{
-    font-size: 16px;
+    /*background: #E64340;*/
+    font-size: 22px;
     color:#E64340;
+
   }
 
 </style>

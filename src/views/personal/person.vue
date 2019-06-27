@@ -1,82 +1,89 @@
 <template>
   <div class="person">
     <x-header :left-options="{backText: ''}">个人中心<a slot="right">客服</a></x-header>
-    <div class="person_box dl">
-        <div class="dt">
-             <img v-if="info.avatar" :src="info.avatar" alt="">
-            <!-- <template v-else>
-              <svg slot="icon" class="icon" aria-hidden="true" style="width: 100px;height: 100px;">
-                <use xlink:href="#iconboy-cm"></use>
-              </svg>
-            </template> -->
-        </div>
-        <div class="dd">
-            <p class="name">{{info.user_nickname}}</p>
-            <div class="btn_box">
-              <p style="line-height:60px;">彩豆{{info.balance}}个</p>
-              <x-button mini type="warn" class="btn">充值</x-button>
+    <scroller lock-x ref="scroller" height="-48">
+        <div>
+          <div class="person_box dl">
+            <div class="dt">
+              <img v-if="info.avatar" :src="info.avatar" alt="">
             </div>
-            <p v-if="info.my_gift_count>0">成功抢到 <span style="color:#ff9000 ">{{info.my_gift_count}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
-            <p v-else="info.my_gift_count>0">还没有抢到礼品 <span class="look" @click="join">快去参加></span></p>
-            
-        </div>
-    </div>
+            <div class="dd">
+              <p class="name">{{info.user_nickname}}</p>
+              <div class="btn_box">
+                <p style="line-height:60px;">彩豆{{info.balance}}个</p>
+                <x-button mini type="warn" class="btn">充值</x-button>
+              </div>
+              <p v-if="info.my_gift_count>0">成功抢到 <span style="color:#ff9000 ">{{info.my_gift_count}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
+              <p v-else="info.my_gift_count>0">还没有抢到礼品 <span class="look" @click="join">快去参加></span></p>
+            </div>
+          </div>
 
-    <group title="">
-      <cell title="活动记录" :link="{path:'/activeRecord'}">
-         <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
-        </svg>
-      </cell>
-      </group>
+          <group title="">
+            <cell title="活动记录" :link="{path:'/activeRecord'}">
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                <use xlink:href="#iconChat"></use>
+              </svg>
+            </cell>
+          </group>
 
-      <group title="">
-      <cell title="6豆明细" :link="{path:'/moneyDetail'}">
-            <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
-        </svg>
-      </cell>
-      </group>
+          <group title="">
+            <cell title="6豆明细" :link="{path:'/moneyDetail'}">
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                <use xlink:href="#iconChat"></use>
+              </svg>
+            </cell>
+          </group>
 
-      <group title="">
-      <cell title="地址管理" :link="{path:'/addressList'}">
-            <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
-        </svg>
-      </cell>
-      </group>
+          <group title="">
+            <cell title="地址管理" :link="{path:'/addressList'}">
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                <use xlink:href="#iconChat"></use>
+              </svg>
+            </cell>
+          </group>
 
-      <!--<group title="">-->
-      <!--<cell title="邀请好友">-->
-            <!--<svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">-->
+          <!--<group title="">-->
+          <!--<cell title="邀请好友">-->
+          <!--<svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">-->
           <!--<use xlink:href="#iconChat"></use>-->
-        <!--</svg>-->
-      <!--</cell>-->
-      <!--</group>-->
+          <!--</svg>-->
+          <!--</cell>-->
+          <!--</group>-->
 
-      <!-- <group title="">
-      <cell title="信息管理" link="/">
-            <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
-        </svg>
-      </cell>
-      </group> -->
+          <!-- <group title="">
+          <cell title="信息管理" link="/">
+                <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+              <use xlink:href="#iconChat"></use>
+            </svg>
+          </cell>
+          </group> -->
 
-    <group title="">
-      <cell title="修改资料" link="/editData">
-        <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
-        </svg>
-      </cell>
-    </group>
+          <group title="">
+            <cell title="修改资料" link="/editData">
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                <use xlink:href="#iconChat"></use>
+              </svg>
+            </cell>
+          </group>
 
-    <group title="">
-      <cell title="退出登录" primary="content" @click.native="tLogin">
-        <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-          <use xlink:href="#iconChat"></use>
-        </svg>
-      </cell>
-    </group>
+          <group title="">
+            <cell title="重置密码" primary="content" @click.native="tSetPass">
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                <use xlink:href="#iconChat"></use>
+              </svg>
+            </cell>
+          </group>
+
+          <group title="">
+            <cell title="退出登录" primary="content" @click.native="tLogin">
+              <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                <use xlink:href="#iconChat"></use>
+              </svg>
+            </cell>
+          </group>
+        </div>
+    </scroller>
+
 
     <div v-transfer-dom>
       <confirm v-model="showLogin"
@@ -125,6 +132,11 @@
       },
       onCancel(){
 
+      },
+
+      //重置密码
+      tSetPass(){
+        this.$router.push('/setPassword')
       }
     }
   }
@@ -179,4 +191,7 @@
       .person .weui-cells{
         margin-top: 10px;
       }
+     .person .weui-cell__hd{
+        display: flex;
+     }
  </style>
