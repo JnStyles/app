@@ -18,11 +18,11 @@
                   <!--即将开奖-->
                   <!--icondashboard-->
                   <p class="code" v-else-if="item.status==2">
-                    <svg slot="icon" class="icon" aria-hidden="true" style="width: 20px;height: 20px;">
-                      <use xlink:href="#icondashboard"></use>
-                    </svg>
-                    <!--<clocker :time="item.open_award_time" @on-finish="getInfo" format="%M分%S秒"  style="font-size: 20px;padding-left: 20px;" class="red"></clocker>-->
-                    <Clockers :time="item.open_award_time" @on-finish="getInfo" format="%S 秒 %Z"  style="font-size: 20px;padding-left: 20px;" class="red"></Clockers>
+                    <!--<svg slot="icon" class="icon" aria-hidden="true" style="width: 20px;height: 20px;">-->
+                      <!--<use xlink:href="#icondashboard"></use>-->
+                    <!--</svg>-->
+                    <span class="web-font red">即将揭晓</span>
+                    <Clockers :time="item.open_award_time" @on-finish="getInfo" format="%M : %S : %Z"  style="font-size: 26px;padding-left: 6px;" class="red"></Clockers>
                   </p>
                 </div>
               </div>

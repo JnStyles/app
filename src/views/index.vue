@@ -285,16 +285,24 @@
       //点击信息 服务
       handGrid(id){
         if(id==1){
-          this.$vux.alert.show({
-            title: '提示',
-            content: '信息服务还剩好几次',
-            onShow () {
-              console.log('Plugin: I\'m showing')
-            },
-            onHide () {
-              console.log('Plugin: I\'m hiding')
+
+          //获取用户信息
+          this.$api.activity.getUserInfo({}).then(res =>{
+            if(res){
+              this.$vux.alert.show({
+                title: '提示',
+                content: '信息服务'+res.data.data.total_recharge+'次',
+                onShow () {
+                  console.log('Plugin: I\'m showing')
+                },
+                onHide () {
+                  console.log('Plugin: I\'m hiding')
+                }
+              })
             }
           })
+
+
         }
       },
 

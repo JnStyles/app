@@ -34,8 +34,7 @@
             :AccordionData="item.post_title"
             @click.native="handClick">
             <div class="baseInformation"
-                 slot="First">
-              {{item.post_title}}
+                 slot="First" v-html="item.post_content">
             </div>
           </Collapse>
         </div>

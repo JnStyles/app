@@ -6,8 +6,8 @@
       <div class="timeline-demo">
         <timeline v-if="list.length>0">
           <timeline-item v-for="(item,index) in list" :key ="index">
-            <p class="time red" v-if=" index==0">{{item.month}}月{{item.day}}号</p>
-            <p class="time red" v-if=" index>0 && (list[index].month_day!=list[index-1].month_day)">{{item.month}}月{{item.day}}号</p>
+            <p class="time" v-if=" index==0">{{item.month}}月{{item.day}}号</p>
+            <p class="time" v-if=" index>0 && (list[index].month_day!=list[index-1].month_day)">{{item.month}}月{{item.day}}号</p>
             <template v-if="item.son && item.son.length>0">
               <div class="pbox" v-for="son in item.son" :key="son.id">
                 <template v-if="son.is_income==2">

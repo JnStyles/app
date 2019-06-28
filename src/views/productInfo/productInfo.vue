@@ -34,9 +34,9 @@
               <template v-if="info.status==2">
                 <div class="time_ji red_bg">
                   <span>幸运编码计算中</span>
-                  <div style="width: 160px;">
+                  <div style="width: 150px;">
                     <Clockers :time="info.open_award_time" @on-finish="getInfo" style="font-size: 20px;"
-                              format="%S 秒 %Z"></Clockers>
+                              format="%M : %S : %Z"></Clockers>
                   </div>
                 </div>
               </template>

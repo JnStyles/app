@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import 'lib-flexible/flexible.js'
-import FastClick from 'fastclick'
+// import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
 import router from '@/router/index'
@@ -84,7 +84,7 @@ Vue.use(LoadingPlugin)
 
 Vue.use(VueRouter)
 
-FastClick.attach(document.body)
+// FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 

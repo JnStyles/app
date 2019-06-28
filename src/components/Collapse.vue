@@ -111,7 +111,7 @@ export default {
 }
 .isshrink{
   width: 100%;
-  height: 20px;
+  /*height: 20px;*/
 }
 .ContentA{
   padding-top: 10px;
