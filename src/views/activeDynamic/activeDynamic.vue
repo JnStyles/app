@@ -73,12 +73,18 @@
           upContent:'释放刷新',
           loadingContent:'加载中'
         },
-        page:1
+        page:1,
+        usePullup:false
       }
     },
     components: {
       NoData,
       Clockers
+    },
+    created(){
+      setTimeout(res =>{
+        this.$refs.scroller.disablePullup();
+      },1)
     },
     activated(){
       if (!this.$route.meta.isUserCache) {
@@ -101,17 +107,14 @@
         let params ={
           page:this.page
         }
-        // this.$refs.scroller.disablePullup(); //默认禁用
-
         this.$api.activity.getProductPeriodsList(params).then(res =>{
           if(res){
             this.isAxios =true;
-            if(res.data.data.list.length>0){
-              this.$refs.scroller.enablePullup();  //启用上拉加载组件
-            }
             if(res.data.data.totalCount<=10){
               console.log('禁用')
               this.$refs.scroller.disablePullup();
+            }else{
+              this.$refs.scroller.enablePullup();  //启用上拉加载组件
             }
             this.list =res.data.data.list
             cb && cb(res);
@@ -159,7 +162,9 @@
         this.page =1;
         this.getList(res =>{
           this.$refs.scroller.donePulldown()
-          this.$refs.scroller.enablePullup() //启用上拉加载
+          if(res.data.data.totalCount>10){
+            this.$refs.scroller.enablePullup() //启用上拉加载
+          }
         });
       }
     }

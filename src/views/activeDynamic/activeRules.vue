@@ -1,10 +1,18 @@
 <template>
   <div class="activeRules">
-    <x-header :left-options="{backText: ''}"><a slot="left" class="close_icon" @click="goIndex">×</a>活动规则</x-header>
-  
-    <group gutter='0'>
-      <grid :show-vertical-dividers="false">
-        <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
+    <x-header :left-options="{backText: ''}">
+      <a slot="left" class="close_icon" @click="goIndex">
+        <svg slot="icon" class="icon" aria-hidden="true" style="width: 20px;height: 20px;">
+          <use xlink:href="#iconclose"></use>
+        </svg>
+      </a>
+      活动规则</x-header>
+
+    <scroller lock-x ref="scroller" height="-51">
+      <div>
+        <group gutter='0'>
+          <grid :show-vertical-dividers="false">
+            <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
           <span slot="icon">
               <div :style="{'background':item.bg}" class="icon_fa" @click="handTab(item.id)">
                 <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;color: #666">
@@ -12,24 +20,29 @@
                 </svg>
               </div>
           </span>
-        </grid-item>
-      </grid>
-    </group>
+            </grid-item>
+          </grid>
+        </group>
 
-    <div style="line-height:50px;padding-left:15px;">{{type==1?'常见问题':type==2?'新手指南':type==3?'关于配送':type==4?'参与保障':type==5?'服务协议':''}}</div>
-    <Collapse
-              v-for="(item,index) in list"
-              :key="index"
-              class="rightFixed0"
-              :Accordionindex="0"
-              :isSlotSecond="0"
-              :AccordionData="item.post_title">
-      <div class="baseInformation"
-           slot="First">
-        {{item.post_title}}
-      </div>
-    </Collapse>
+        <div style="line-height:50px;padding-left:15px;">{{type==1?'常见问题':type==2?'新手指南':type==3?'关于配送':type==4?'参与保障':type==5?'服务协议':''}}</div>
+          <Collapse
+            v-for="(item,index) in list"
+            :key="index"
+            class="rightFixed0"
+            :Accordionindex="0"
+            :isSlotSecond="0"
+            :AccordionData="item.post_title"
+            @click.native="handClick">
+            <div class="baseInformation"
+                 slot="First">
+              {{item.post_title}}
+            </div>
+          </Collapse>
+        </div>
+    </scroller>
   </div>
+
+
 </template>
 
 <script>
@@ -92,7 +105,13 @@
         })
       },
       handClick(index){
+        setTimeout(res =>{
           console.log(index)
+          this.$nextTick(() => {
+            this.$refs.scroller.reset()
+          })
+        },100)
+
       },
       //回首页
       goIndex(){
@@ -152,7 +171,8 @@
     justify-content: center;
   }
   .close_icon{
-    padding-left:20px;font-size:22px
+    margin-left:30px;
+    font-size:22px
   }
 </style>
 <style>

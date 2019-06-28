@@ -6,8 +6,8 @@
       <div class="timeline-demo">
         <timeline v-if="list.length>0">
           <timeline-item v-for="(item,index) in list" :key ="index">
-            <p class="time">{{item.month}}月{{item.day}}号</p>
-            <!--<p>{{arrIndex[index]}}</p>-->
+            <p class="time red" v-if=" index==0">{{item.month}}月{{item.day}}号</p>
+            <p class="time red" v-if=" index>0 && (list[index].month_day!=list[index-1].month_day)">{{item.month}}月{{item.day}}号</p>
             <template v-if="item.son && item.son.length>0">
               <div class="pbox" v-for="son in item.son" :key="son.id">
                 <template v-if="son.is_income==2">
@@ -23,7 +23,7 @@
                 <template v-else-if="son.is_income==1">
                     <div class="left">
                       <h4>充值</h4>
-                      <p>{{son.balance}}豆</p>
+                      <p>剩余{{son.balance}}豆</p>
                     </div>
                     <div class="right">
                       <span>+{{Number(son.change)}}</span>
@@ -111,18 +111,6 @@
         this.$api.activity.balanceLog(params).then(res =>{
           if(res){
             if(res.data.data.list.length>0){
-              // if(this.arrIndex.length>0){
-              //   for(let i=0;i<this.arrIndex.length;i++){
-              //     if(this.arrIndex.indexOf(res.data.data.list[i].month_day)>-1){
-              //         // 说明在同一个日期里
-              //         this.list =this.list[i].son.push(res.data.data.list[0].son)
-              //     }else{
-              //       this.arrIndex.push(res.data.data.list[0].month_day)
-              //       this.list =this.list.concat(res.data.data.list)
-              //     }
-              //   }
-              // }
-
               // 时间去重
               for(let i=0;i<res.data.data.list.length;i++){
                 if(this.arrIndex.indexOf(res.data.data.list[i].month_day)==-1){
@@ -180,7 +168,7 @@
       color:#E64340
     }
     .time{
-      font-size:16px;
+      font-size:18px;
       font-weight: 600;
     }
 </style>

@@ -286,8 +286,8 @@
       handGrid(id){
         if(id==1){
           this.$vux.alert.show({
-            title: 'Vux is Cool',
-            content: 'Do you agree?',
+            title: '提示',
+            content: '信息服务还剩好几次',
             onShow () {
               console.log('Plugin: I\'m showing')
             },
@@ -316,15 +316,13 @@
                 this.$refs.scroller.reset()
               })
               this.$refs.scroller.donePullup()  // 设置上拉加载操作完成，在数据加载后执行
-              // if(res.data.data.totalCount==this.proList){
-              //   this.$refs.scroller.disablePullup()
-              // }
             }else{
               this.$refs.scroller.disablePullup() //禁用上拉刷新，在没有更多数据时执行
             }
           }
         })
       },
+
       //下拉刷新
       downLoad(){
         console.log('下拉刷新')
@@ -337,6 +335,7 @@
         });
       },
 
+      // 分类悬浮
       handScroll(e){
         if(e.top>342){
             this.isTap =true;
@@ -353,17 +352,6 @@
     display:flex;
     padding:10px;
   }
-  /* .dt{
-    width:100px;
-    height:100px;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .dt img{
-    width:100%;
-    max-height:100%;
-  } */
   .dd{
     padding-left:10px;
     flex: 1;

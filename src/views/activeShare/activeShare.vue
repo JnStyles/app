@@ -146,8 +146,15 @@
       NoData,
       VueStar
     },
+    created(){
+      setTimeout(res =>{
+        this.$refs.scroller.disablePullup();
+      },1)
+    },
     activated(){
       if (!this.$route.meta.isUserCache) {
+        this.page =1;
+        this.id ='';
         if(this.$route.query.id){
           this.id =this.$route.query.id;
         }
@@ -162,6 +169,7 @@
           page:1,
           id:this.id
         };
+
         this.$api.activity.getShareList(params).then(res =>{
           if(res){
             this.isAxios =true;
@@ -169,7 +177,9 @@
              if(res.data.data.totalCount<=10){
                console.log('禁用')
                this.$refs.scroller.disablePullup();
-            }
+            }else{
+               this.$refs.scroller.enablePullup();  //启用上拉加载组件
+             }
             cb && cb(res)
           }
         })
@@ -264,7 +274,9 @@
         this.page =1;
         this.getList(res =>{
           this.$refs.scroller.donePulldown()
-          this.$refs.scroller.enablePullup() //启用上拉加载
+          if(res.data.data.totalCount>10){
+            this.$refs.scroller.enablePullup() //启用上拉加载
+          }
         });
       },
     }

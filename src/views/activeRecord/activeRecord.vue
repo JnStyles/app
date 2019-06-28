@@ -7,14 +7,16 @@
       <tab-item @on-item-click="onItemClick">已抢到</tab-item>
       <tab-item @on-item-click="onItemClick">未领取</tab-item>
     </tab>
-    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-100" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
+    <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-90" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div class="timeline-demo">
         <timeline>
           <template v-if="list &&list.length>0">
             <timeline-item v-for="(item,index) in list" :key ="index">
-              <p class="time" v-if="item.month">{{item.month}}月{{item.day}}号</p>
+              <p class="time" v-if=" index==0">{{item.month}}月{{item.day}}号</p>
+              <p class="time" v-if=" index>0 && (list[index].month_day!=list[index-1].month_day)">{{item.month}}月{{item.day}}号</p>
+
               <template v-if="item.son && item.son.length>0">
-                <panel style="margin:6px;" v-for="son in item.son" :key="son.id">
+                <panel style="margin-bottom:0.266667rem;" v-for="son in item.son" :key="son.id">
                   <div slot="body">
                     <div class="dl product" @click="goProInfo(son.id)">
                       <div class="dt">
@@ -110,12 +112,15 @@
     components: {
       NoData,
     },
+    created(){
+      setTimeout(res =>{
+        this.$refs.scroller.disablePullup();
+      },1)
+    },
 
     activated(){
       if (!this.$route.meta.isUserCache) {
         this.page =1;
-        console.log('我是缓存瓦哈啊哈')
-        console.log(this.$route.query)
         if(this.$route.query.status){
           this.status =2
         }
@@ -142,22 +147,24 @@
           if(res){
             this.isAxios =true;
             this.list =res.data.data.list
-            if(res.data.data.list.length>0){
-              this.$refs.scroller.enablePullup();  //启用上拉加载组件
-            }
             if(res.data.data.totalCount<=10){
                console.log('禁用')
                this.$refs.scroller.disablePullup();
+            }else{
+              this.$refs.scroller.enablePullup();  //启用上拉加载组件
             }
             cb && cb(res);
           }
         })
       },
       onItemClick(index) {
-        console.log(index)
         this.status =index;
         this.page =1;
-        this.getList();
+        this.getList(res =>{
+          this.$nextTick(() => {
+            this.$refs.scroller.reset({top: 0})
+          })
+        });
       },
 
       //点击领取礼品页
