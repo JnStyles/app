@@ -8,7 +8,7 @@
       </x-input>
 
       <x-input title="彩豆抵扣" class="weui-vcode" readonly :value="'剩余'+user_balance+'个'">
-        <p v-if="user_balance>balance" slot="right">{{balance}}彩豆
+        <p v-if="Number(user_balance)>Number(balance)" slot="right">{{balance}}彩豆
             <icon type="success"></icon>
         </p>
 

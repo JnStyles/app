@@ -131,7 +131,7 @@
     },
 
     beforeRouteLeave(to, from, next) {
-      if (to.path=="/productInfo" || to.path=="/comments") {
+      if (to.path=="/productInfo" || to.path=="/comments" ||to.path=="/getInfo") {
         console.log('开启缓存');
         from.meta.isUserCache = true; //开启缓存
       }

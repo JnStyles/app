@@ -12,7 +12,7 @@
       <cell v-if="info.change" title="兑换彩豆金额" :value="info.change"></cell>
       <cell v-if="info.shipments_description" title="发货信息" :value="info.shipments_description"></cell>
     </group>
-    <p class="p1">客服电话：<span style="color:blue">13611266774</span></p>
+    <p class="p1">客服电话：<span style="color:blue">110</span></p>
   </div>
 </template>
 
@@ -32,9 +32,9 @@
         }
       })
     },
-  
+
     methods:{
-   
+
     }
   }
 </script>
