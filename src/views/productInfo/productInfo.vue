@@ -9,7 +9,7 @@
       <div>
         <card style="margin-top:0;">
           <div slot="content" class="card-demo-flex card-demo-content01">
-            <swiper :list="info.photo_urls" v-model="swipe"></swiper>
+            <swiper :list="info.photo_urls" loop v-model="swipe" :show-desc-mask="false"></swiper>
 
             <div class="box">
               <div class="dl" style="border:none;">
@@ -250,9 +250,10 @@
               this.buyNum = this.info.participation_number;
               let arr = [];
               for (let i = 0; i < res.data.data.photo_urls.length; i++) {
-                arr = [{"img": res.data.data.photo_urls[i]}]
+                arr.push({"img": res.data.data.photo_urls[i]})
               }
               this.info.photo_urls = arr;
+              console.log(this.info.photo_urls)
             }
             let tabList = [{
               name: '礼品简介',
@@ -506,6 +507,11 @@
 
   .p_name {
     font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp:2;
   }
 
   .instructions {
@@ -606,6 +612,9 @@
 
   .productInfo .vux-x-icon {
     fill: blue;
+  }
+  .vux-slider > .vux-swiper > .vux-swiper-item > a > .vux-img{
+    background-size: contain !important;
   }
 </style>
 

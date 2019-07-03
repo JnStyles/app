@@ -44,7 +44,7 @@
                       </div>
                     </div>
                     <div class="btn_box" v-if="son.status==1">
-                      <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct(son.id,son.name,son.get_type)" style="margin-right:10px;" type="warn">立即领取</x-button>
+                      <x-button  mini v-if="son.all_get_type==0" @click.native="goGetproduct(son.id,son.name,son.get_type,son.original_price)" style="margin-right:10px;" type="warn">立即领取</x-button>
                       <x-button mini v-else plain :link="'/getInfo?id='+son.id" style="margin-right:10px;">领取详情</x-button>
                       <x-button mini plain :link="'/comments?id='+son.id">晒单</x-button>
                     </div>
@@ -95,6 +95,7 @@
         id:'',
         name:'',
         get_type:'',//领取方式
+        original_price:'',//商品兑换价
         pullupConfig: {
           content: '上拉加载更多',
           downContent: '松开进行加载',
@@ -168,11 +169,12 @@
       },
 
       //点击领取礼品页
-      goGetproduct(id,name,get_type) {
+      goGetproduct(id,name,get_type,original_price) {
         this.id =id;
         this.name =name;
         this.get_type =get_type;
         this.isAlert = true;
+        this.original_price =original_price;
       },
 
       //点击取消按钮触发
@@ -193,7 +195,7 @@
           });
           if(res){
             sessionStorage.setItem('password',value);
-            this.$router.push('/getProduct?id='+this.id+'&name='+this.name+'&get_type='+this.get_type)
+            this.$router.push('/getProduct?id='+this.id+'&name='+this.name+'&get_type='+this.get_type+'&original_price='+this.original_price)
           }
         })
       },
@@ -314,6 +316,6 @@
   }
 </style>
 <style>
-  
+
 </style>
 

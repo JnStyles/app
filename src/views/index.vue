@@ -23,7 +23,7 @@
               @on-scroll ="handScroll"
     >
       <view-box>
-        <swiper :list="swipeList" auto loop v-model="swipe"></swiper>
+        <swiper :list="swipeList" auto loop v-model="swipe" :show-desc-mask="false"></swiper>
         <group gutter='0'>
           <grid :show-vertical-dividers="false">
             <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id" style="position: relative;" @click.native="handGrid(item.id)">
@@ -279,7 +279,7 @@
           }else{
             this.$router.push('/login');
           }
-        
+
       },
 
       //点击信息 服务

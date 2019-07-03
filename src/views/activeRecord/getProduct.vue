@@ -9,7 +9,7 @@
 
        <x-input v-if="get_type==2 && stringValue!=1" title="手机号码" type="tel"  placeholder="" v-model="mobile" :min="11" :max="11" @on-change="change"></x-input>
        <x-input v-if="get_type==2 && stringValue!=1" title="确认号码" v-model="mobile2" type="tel" placeholder="" :min="11" :max="11" :equal-with="mobile"></x-input>
-       <x-switch title="是否兑换为彩豆" :value-map="['0', '1']" v-model="stringValue"></x-switch>
+       <x-switch :title="'是否兑换为'+original_price+'豆'" :value-map="['0', '1']" v-model="stringValue"></x-switch>
 
        <cell v-if="get_type==1 && inlineDescListValue.length==0 && stringValue!=1" title="选择收货地址" @click.native="handSele" is-link :inline-desc='address'></cell>
 
@@ -46,7 +46,7 @@
       </popup>
     </div>
 
-    
+
   </div>
 </template>
 
@@ -78,14 +78,16 @@
         let id =this.$route.query.id;
         let name =this.$route.query.name;
         let get_type =this.$route.query.get_type;
+        let original_price =this.$route.query.original_price;
         this.name =name;
         this.get_type =get_type;
+        this.original_price =original_price;
         this.id =id;
         this.getAddreee();
     },
     methods:{
         change(){
-            
+
         },
 
         handBtn(){
@@ -138,7 +140,7 @@
             if(res){
               let inlineDescList =[];
               if(res.data.data.list && res.data.data.list.length>0){
-                  let num =res.data.data.list; 
+                  let num =res.data.data.list;
                   for(let i=0;i<num.length;i++){
                     inlineDescList.push({
                       key:num[i].id,
@@ -176,7 +178,7 @@
                   }
               }
           }
-          // 
+          //
         },
         //跳转去添加地址按钮
         goAddress(){

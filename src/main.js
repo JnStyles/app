@@ -13,11 +13,11 @@ Vue.prototype.$api = api; // 将api挂载到vue的原型上
 Vue.prototype.$store = store;
 Vue.use(Vuex)
 
-var VConsole = require('vconsole');
-var vConsole = new VConsole();
+// var VConsole = require('vconsole');
+// var vConsole = new VConsole();
 
 //全局注册组件
-import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab, 
+import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, MarqueeItem,SwiperItem,Tab,
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
   CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio,XDialog,XImg,Previewer,Swipeout, SwipeoutItem, SwipeoutButton
