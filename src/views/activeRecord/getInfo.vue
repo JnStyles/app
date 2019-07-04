@@ -12,7 +12,7 @@
       <cell v-if="info.change" title="兑换彩豆金额" :value="info.change"></cell>
       <cell v-if="info.shipments_description" title="发货信息" :value="info.shipments_description"></cell>
     </group>
-    <p class="p1">客服电话：<span style="color:blue">110</span></p>
+    <p class="p1">客服电话：<span style="color:blue"> <a :href="'tel:' + phone">{{phone}}</a> </span></p>
   </div>
 </template>
 
@@ -20,7 +20,8 @@
   export default {
     data:function(){
       return {
-        info:''
+        info:'',
+        phone:''
       }
     },
 
@@ -30,11 +31,19 @@
         if(res){
           this.info =res.data.data;
         }
-      })
+      });
+      this.getPhone();
     },
 
     methods:{
-
+      //获取客服号码
+      getPhone(){
+        this.$api.activity.getServiceTel({}).then(res =>{
+          if(res){
+            this.phone =res.data.data.mobile
+          }
+        })
+      }
     }
   }
 </script>

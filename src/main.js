@@ -21,7 +21,7 @@ import { Group, Cell,CellBox ,XHeader,Swiper,Grid,Icon, GridItem,Marquee, Marque
   TabItem,Panel,XButton,XProgress,Card,Timeline,TimelineItem,Badge,XTextarea,XInput,Confirm,TransferDom,
   Actionsheet,Flexbox,FlexboxItem,Clocker,Divider,XAddress ,PopupHeader,Popup,CheckIcon,Alert,XSwitch,Checklist,
   CellFormPreview,XTable,XNumber, Checker, CheckerItem,Scroller,Spinner,Sticky,ViewBox,PopupRadio,XDialog,XImg,Previewer,Swipeout, SwipeoutItem, SwipeoutButton
-,WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin,LoadingPlugin} from 'vux'
+,WechatPlugin,ToastPlugin ,AlertPlugin,ConfirmPlugin,LoadingPlugin,Loading} from 'vux'
 
 Vue.component('tab', Tab)
 Vue.component('tab-item', TabItem)
@@ -75,6 +75,7 @@ Vue.component('previewer', Previewer)
 Vue.component('swipeout', Swipeout)
 Vue.component('swipeout-item', SwipeoutItem)
 Vue.component('swipeout-button', SwipeoutButton)
+Vue.component('loading', Loading)
 
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
@@ -89,6 +90,8 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  console.log('beforeEachbeforeEachbeforeEachbeforeEach')
+  store.commit('updateLoadingStatus', {isLoading: true})
   console.log(to);
   if (to.meta.title) {
     document.title = to.meta.title
@@ -104,6 +107,11 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
+
+router.afterEach(function (to) {
+  console.log('afterEachafterEachafterEachafterEach')
+  store.commit('updateLoadingStatus', {isLoading: false})
+})
 
 /* eslint-disable no-new */
 new Vue({

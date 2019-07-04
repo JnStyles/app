@@ -7,121 +7,128 @@
     <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig"
               ref="scroller" height="-96" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div>
-        <card style="margin-top:0;">
-          <div slot="content" class="card-demo-flex card-demo-content01">
-            <swiper :list="info.photo_urls" loop v-model="swipe" :show-desc-mask="false"></swiper>
+          <card style="margin-top:0;">
+            <div slot="content" class="card-demo-flex card-demo-content01">
+              <swiper :list="info.photo_urls" loop v-model="swipe" :show-desc-mask="false"></swiper>
 
-            <div class="box">
-              <div class="dl" style="border:none;">
-                <div class="dt">
-                  <badge :text="info.status ==1?'进行中':info.status==2?'即将揭晓':info.status==3?'已开奖':''"></badge>
-                </div>
-                <div class="dd p_name" style="flex: 1">
-                  【第{{info.periods}}期】{{info.name}}
-                </div>
-              </div>
-              <!-- 未开奖情况 -->
-              <div v-if="info.status==1">
-                <p class="instructions" v-if="info.description">注：{{info.description}}</p>
-                <div class="pro_per">
-                  <x-progress :percent="(Number(info.price)-Number(info.surplus_price))/(Number(info.price))*100"
-                              :show-cancel="false"></x-progress>
-                  <div class="pro_box"><span>总需{{info.price}}</span><span>剩余 <span
-                    class="red">{{info.surplus_price}}</span></span></div>
-                </div>
-              </div>
-              <!-- 即将揭晓 -->
-              <template v-if="info.status==2">
-                <div class="time_ji red_bg">
-                  <span>幸运编码计算中</span>
-                  <div style="width: 150px;">
-                    <Clockers :time="info.open_award_time" @on-finish="getInfo" style="font-size: 20px;"
-                              format="%M : %S : %Z"></Clockers>
-                  </div>
-                </div>
-              </template>
-
-              <!-- 已开奖 -->
-              <div v-if="info.status==3" class="kai_box">
-                <div class="dl" style="border: none;">
+              <div class="box">
+                <div class="dl" style="border:none;" v-if="info">
                   <div class="dt">
-                    <img :src="info.avatar" alt="">
+                    <badge :text="info.status ==1?'进行中':info.status==2?'即将揭晓':info.status==3?'已开奖':''"></badge>
                   </div>
-                  <div class="dd">
-                    <p class="blue">{{info.user_nickname}} &nbsp;&nbsp; <span
-                      class="font_small">{{this.info.address}}</span></p>
-                    <p>参与 <span class="red">{{info.pay_count}}</span>人次</p>
-                    <p class="font_small" style="font-size:12px;">揭晓时间&nbsp;&nbsp;{{info.open_award_time}}</p>
-                    <p class="p_position font_small">
-                      <badge text="获得者"></badge>
-                    </p>
+                  <div class="dd p_name" style="flex: 1">
+                    【第{{info.periods}}期】{{info.name}}
                   </div>
                 </div>
-                <div class="times red_bg">
-                  <div>幸运编码：<strong class="yellow">{{info.lucky_code}}</strong></div>
-                  <span @click="goCalculate">计算详情</span></div>
+                <!-- 未开奖情况 -->
+                <div v-if="info.status==1">
+                  <p class="instructions" v-if="info.description">注：{{info.description}}</p>
+                  <div class="pro_per">
+                    <x-progress :percent="(Number(info.price)-Number(info.surplus_price))/(Number(info.price))*100"
+                                :show-cancel="false"></x-progress>
+                    <div class="pro_box"><span>总需{{info.price}}</span><span>剩余 <span
+                      class="red">{{info.surplus_price}}</span></span></div>
+                  </div>
+                </div>
+                <!-- 即将揭晓 -->
+                <template v-if="info.status==2">
+                  <div class="time_ji red_bg">
+                    <span>幸运编码计算中</span>
+                    <div style="width: 150px;">
+                      <Clockers :time="info.open_award_time" @on-finish="getInfo" style="font-size: 20px;"
+                                format="%M : %S : %Z"></Clockers>
+                    </div>
+                  </div>
+                </template>
+
+                <!-- 已开奖 -->
+                <div v-if="info.status==3" class="kai_box">
+                  <div class="dl" style="border: none;">
+                    <div class="dt">
+                      <img :src="info.avatar" alt="">
+                    </div>
+                    <div class="dd">
+                      <p class="blue">{{info.user_nickname}} &nbsp;&nbsp; <span
+                        class="font_small">{{this.info.address}}</span></p>
+                      <p>参与 <span class="red">{{info.pay_count}}</span>人次</p>
+                      <p class="font_small" style="font-size:12px;">揭晓时间&nbsp;&nbsp;{{info.open_award_time}}</p>
+                      <p class="p_position font_small">
+                        <badge text="获得者"></badge>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="times red_bg">
+                    <div>幸运编码：<strong class="yellow">{{info.lucky_code}}</strong></div>
+                    <span @click="goCalculate">计算详情</span></div>
+                </div>
               </div>
             </div>
-          </div>
-        </card>
-        <card>
-          <!-- 我未参与 -->
-          <div slot="content" v-if="info.orderList && info.orderList.length==0" class="smail_box">
-            赶快试试手气吧
-          </div>
-          <!--我已参与 -->
-          <template v-else>
-            <div slot="content" class="can_box">
-              <p>我已参与<span class="red">{{info.userOrderCount}}</span>人次</p>
-              <p @click="goInfo" class="blue can_box_p">查看详情
-                <x-icon type="ios-arrow-forward" size="14"></x-icon>
-              </p>
+          </card>
+          <card>
+            <!-- 我未参与 -->
+            <div slot="content" v-if="info.orderList && info.orderList.length==0" class="smail_box">
+              赶快试试手气吧
             </div>
-            <div slot="footer" class="smail_footer">
-              <p style="padding-left:10px;font-size:12px;color:#ccc;line-height:40px;">活动编码</p>
-              <grid :cols="4" :show-lr-borders="false" :show-vertical-dividers="false">
-                <grid-item v-for="item in info.orderList" :key="item.lucky_code">
-                  {{item.lucky_code}}
+            <!--我已参与 -->
+            <template v-else>
+              <div slot="content" class="can_box">
+                <p>我已参与<span class="red">{{info.userOrderCount}}</span>人次</p>
+                <p @click="goInfo" class="blue can_box_p">查看详情
+                  <x-icon type="ios-arrow-forward" size="14"></x-icon>
+                </p>
+              </div>
+              <div slot="footer" class="smail_footer">
+                <p style="padding-left:10px;font-size:12px;color:#ccc;line-height:40px;">活动编码</p>
+                <grid :cols="4" :show-lr-borders="false" :show-vertical-dividers="false">
+                  <grid-item v-for="item in info.orderList" :key="item.lucky_code">
+                    {{item.lucky_code}}
+                  </grid-item>
+                  <grid-item v-if="Number(info.userOrderCount)>Number(info.orderList && info.orderList.length)">......</grid-item>
+                </grid>
+              </div>
+            </template>
+          </card>
+          <card>
+            <div slot="content">
+              <grid :show-lr-borders="false">
+                <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
+                  <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
+                    <use :xlink:href="item.icon"></use>
+                  </svg>
                 </grid-item>
-                <grid-item v-if="Number(info.userOrderCount)>Number(info.orderList && info.orderList.length)">......</grid-item>
               </grid>
             </div>
-          </template>
-        </card>
-        <card>
-          <div slot="content">
-            <grid :show-lr-borders="false">
-              <grid-item :label="item.name" :link="item.url" v-for="item in tabList" :key="item.id">
-                <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
-                  <use :xlink:href="item.icon"></use>
-                </svg>
-              </grid-item>
-            </grid>
-          </div>
-        </card>
-        <card class="card_list" v-if="list && list.length>0">
-          <div slot="content">
-            <cell
-              title="活动记录"
-              :border-intent="false"
-              :arrow-direction="showContent001 ? 'up' : 'down'"
-            ></cell>
+          </card>
+          <card class="card_list" v-if="info && list && list.length>0">
+            <div slot="content">
+              <cell
+                title="活动记录"
+                :border-intent="false"
+                :arrow-direction="showContent001 ? 'up' : 'down'"
+              ></cell>
 
-            <div class="slide" :class="showContent001?'animate':''">
-              <div class="dl" v-for="(item,index) in list" :key="index">
-                <div class="dt">
-                  <img :src="item.avatar" alt="">
-                </div>
-                <div class="dd">
-                  <p class="blue">{{item.user_nickname}} <span class="font_smalls">[{{item.address}}]</span></p>
-                  <p class="font_smalls padtop">{{item.create_msectime}}</p>
-                  <p class="p_position font_smalls">参与 <span class="red">{{item.pay_count}}</span>人次 </p>
+              <div class="slide" :class="showContent001?'animate':''">
+                <div class="dl" v-for="(item,index) in list" :key="index">
+                  <div class="dt">
+                    <img :src="item.avatar" alt="">
+                  </div>
+                  <div class="dd">
+                    <p class="blue">{{item.user_nickname}} <span class="font_smalls">[{{item.address}}]</span></p>
+                    <p class="font_smalls padtop">{{item.create_msectime}}</p>
+                    <p class="p_position font_smalls">参与 <span class="red">{{item.pay_count}}</span>人次 </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </card>
-      </div>
+          </card>
+        </div>
+      <!--<div class="pro_loading">-->
+        <!--<group>-->
+          <!--<cell>-->
+            <!--<spinner type="ios"></spinner>-->
+          <!--</cell>-->
+        <!--</group>-->
+      <!--</div>-->
     </scroller>
 
     <actionsheet
@@ -131,13 +138,13 @@
       @on-click-menu="click"></actionsheet>
 
     <!-- footer悬浮按钮 -->
-    <div class="footer">
+    <div class="footer" v-if="info">
       <!-- 没开奖 -->
       <template v-if="info.status==1">
         <x-button type="warn" style="width:90%;margin:0 auto;" @click.native="handJoin">立即参与</x-button>
       </template>
       <!-- 已经开奖过了的 -->
-      <template v-else>
+      <template v-else-if="info.status==2 || info.status==3">
         <p style="padding-left:10px;color:#ffffff;font-size:12px;">最新一期进行中</p>
         <x-button type="warn" style="width: 60% !important;" @click.native="goNew">立即前往</x-button>
       </template>
@@ -206,6 +213,7 @@
         tabList: [],
         showContent001: true,
         info: '',
+        isInfo:false,
         id: '',
         buyNum: 0,
         list: [],
@@ -225,12 +233,27 @@
       }
     },
     activated() {
-      let id = this.$route.query.id;
-      this.id = id;
-      this.getInfo();
+      if (!this.$route.meta.isUserCache) {
+        setTimeout(res =>{
+          this.$refs.scroller.disablePullup();
+        },100);
+        let id = this.$route.query.id;
+        this.info='';
+        this.isInfo=false;
+        this.id = id;
+        this.page = 1;
+        this.getInfo();
+        this.getProList();//获取活动记录
+      }
+      this.$route.meta.isUserCache = false;
+    },
 
-      this.page = 1;
-      this.getProList();//获取活动记录
+    beforeRouteLeave(to, from, next) {
+      if (to.path=="/productIntroduce" || to.path=="/productDynamic" ||to.path=="/calculationRules" ||to.path=="/calculate" ||to.path=="/activeShare") {
+        console.log('开启缓存');
+        from.meta.isUserCache = true; //开启缓存
+      }
+      next();
     },
 
     components: {
@@ -245,16 +268,6 @@
         }
         this.$api.activity.getProductInfo(params).then(res => {
           if (res) {
-            this.info = res.data.data;
-            if (res.data.data.photo_urls.length > 0) {
-              this.buyNum = this.info.participation_number;
-              let arr = [];
-              for (let i = 0; i < res.data.data.photo_urls.length; i++) {
-                arr.push({"img": res.data.data.photo_urls[i]})
-              }
-              this.info.photo_urls = arr;
-              console.log(this.info.photo_urls)
-            }
             let tabList = [{
               name: '礼品简介',
               icon: '#icongift',
@@ -280,10 +293,20 @@
                 url: '/calculationRules',
                 id: 4
               }];
-            this.tabList = tabList;
-            // this.$nextTick(() => {
-            //   this.$refs.scroller.reset()
-            // })
+            this.$nextTick(() => {
+              this.tabList = tabList;
+              this.info = res.data.data;
+              this.isInfo = true;
+              if (res.data.data.photo_urls.length > 0) {
+                this.buyNum = this.info.participation_number;
+                let arr = [];
+                for (let i = 0; i < res.data.data.photo_urls.length; i++) {
+                  arr.push({"img": res.data.data.photo_urls[i]})
+                }
+                this.info.photo_urls = arr;
+              }
+              this.$refs.scroller.reset()
+            })
             cb && cb(res)
           }
         })
@@ -296,10 +319,15 @@
         };
         this.$api.activity.getProductPeriodsOrderList(params).then(res => {
           if (res) {
-            this.list = res.data.data.list;
-            // this.$nextTick(() => {
-            //   this.$refs.scroller.reset()
-            // })
+            if(res.data.data.totalCount<=10){
+              this.$refs.scroller.disablePullup();
+            }else{
+              this.$refs.scroller.enablePullup()
+            }
+            this.$nextTick(() => {
+              this.list = res.data.data.list;
+              this.$refs.scroller.reset()
+            })
             cb && cb(res);
           }
         })
@@ -571,6 +599,18 @@
     font-size: 12px;
     display: flex;
     align-items: center;
+  }
+  .pro_loading{
+    width: 100%;
+    height: 100vh;
+    background:#fbf9fe;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 

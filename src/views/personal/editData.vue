@@ -3,10 +3,9 @@
     <x-header :left-options="{backText: ''}">修改资料</x-header>
      <div>
     <group label-width="2.5em" label-margin-right="2em" label-align="right">
-        <cell title="头像" is-link>
+        <cell title="头像">
             <vue-core-image-upload
-                style="width:355px;"
-                slot="icon"
+                style="width:200px"
                 crop="local"
                 @imageuploaded="imageuploaded"
                 @errorhandle="errorhandle"
@@ -24,7 +23,7 @@
 
     </group>
 
-  
+
     <x-button type="warn" class="my_btn" @click.native="handBtn">确认修改</x-button>
 
     </div>
@@ -65,6 +64,7 @@
         'vue-core-image-upload': VueCoreImageUpload
         },
         created(){
+          console.log(window.history)
             //获取用户信息
             this.$api.activity.getUserInfo({}).then(res =>{
                 if(res){

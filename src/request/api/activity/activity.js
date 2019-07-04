@@ -19,7 +19,7 @@ const activity = {
   getBannerList (params) {
     return axios.get(`${base}/api/product/getBannerList`, {params:params});
   },
-  
+
   //首页商品分类
   getCategoryList (params) {
     return axios.get(`${base}/api/product/getCategoryList`, {params:params});
@@ -142,6 +142,11 @@ const activity = {
   //修改密码
   setPassword (params) {
     return  axios({method:'post',url:`${base}//api/user/login/setPassword`,data:qs.stringify(params)})
+  },
+
+  //获取客服电话
+  getServiceTel (params) {
+    return axios.get(`${base}/api/setting/getServiceTel`, {params:params})
   },
 };
 

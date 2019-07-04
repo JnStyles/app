@@ -158,6 +158,8 @@
           }
         })
       },
+
+      //点击tab切换
       onItemClick(index) {
         this.status =index;
         this.page =1;

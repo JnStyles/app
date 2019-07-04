@@ -1,3 +1,4 @@
 export default{
-  passWord:''
+  passWord:'',
+  isLoading:false
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="person">
-    <x-header :left-options="{backText: ''}">个人中心<a slot="right">客服</a></x-header>
+    <x-header :left-options="{backText: ''}">个人中心<a slot="right" :href="'tel:' + phone">客服</a></x-header>
     <scroller lock-x ref="scroller" height="-48">
         <div>
           <div class="person_box dl">
@@ -10,7 +10,7 @@
             <div class="dd">
               <p class="name">{{info.user_nickname}}</p>
               <div class="btn_box">
-                <p style="line-height:60px;">彩豆{{info.balance}}个</p>
+                <p style="line-height:40px;">彩豆{{info.balance}}个</p>
                 <x-button mini type="warn" class="btn">充值</x-button>
               </div>
               <p v-if="info.my_gift_count>0">成功抢到 <span style="color:#ff9000 ">{{info.my_gift_count}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
@@ -105,6 +105,7 @@
       return {
         info:'',
         showLogin:false,
+        phone:''
       }
     },
 
@@ -115,6 +116,9 @@
           this.info =res.data.data;
         }
       })
+
+      //获取客服电话
+      this.getPhone();
     },
     methods: {
       look(){
@@ -137,6 +141,15 @@
       //重置密码
       tSetPass(){
         this.$router.push('/setPassword')
+      },
+
+      //获取客服号码
+      getPhone(){
+        this.$api.activity.getServiceTel({}).then(res =>{
+          if(res){
+            this.phone =res.data.data.mobile
+          }
+        })
       }
     }
   }
@@ -150,7 +163,7 @@
     .dl{
         align-items: center;
         padding-left:20px;
-        height: 200px;
+        height: 180px;
         position:relative;
     }
     .dt{

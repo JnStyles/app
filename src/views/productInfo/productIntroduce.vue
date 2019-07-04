@@ -2,8 +2,7 @@
   <div class="productIntroduce">
     <x-header :left-options="{backText: ''}">礼品简介</x-header>
     <scroller lock-x height="-48" ref="scroller">
-      <div v-html="content" class="content">
-      </div>
+      <div v-html="content" class="content"></div>
     </scroller>
   </div>
 </template>
@@ -22,7 +21,13 @@
         }
         this.$api.activity.getProductInfo(params).then(res =>{
           if(res){
-              this.content =res.data.data.content
+              this.content =res.data.data.content;
+              setTimeout(res =>{
+                this.$nextTick(() => {
+                  this.$refs.scroller.reset()
+                })
+              },300)
+
           }
         })
         }

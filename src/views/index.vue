@@ -95,6 +95,16 @@
         </group>
       </popup>
     </div>
+
+    <!--登录后参与-->
+    <div v-transfer-dom>
+      <confirm v-model="showLogin"
+               title="请登录后查看"
+               @on-cancel="onCancel"
+               @on-confirm="onConfirm">
+        <p style="text-align:center;">是否立即登录？</p>
+      </confirm>
+    </div>
   </div>
 </template>
 
@@ -159,6 +169,8 @@
           id:0,
           name:'全部分类'
         }],
+        showLogin:false,
+        scroll:0,
         pullupConfig: {
           content: '上拉加载更多',
           downContent: '松开进行加载',
@@ -188,26 +200,38 @@
       SwiperItem
     },
     activated(){
-      // 获取banner图和中奖纪录
-      this.$api.activity.getBannerList({}).then(res =>{
-        if(res){
-          let bannerList =[];
-          if(res.data.data.banner_list && res.data.data.banner_list.length>0){
-            for(let i=0;i<res.data.data.banner_list.length;i++){
+
+      if (!this.$route.meta.isUserCache) {
+        // 获取banner图和中奖纪录
+        this.$api.activity.getBannerList({}).then(res =>{
+          if(res){
+            let bannerList =[];
+            if(res.data.data.banner_list && res.data.data.banner_list.length>0){
+              for(let i=0;i<res.data.data.banner_list.length;i++){
                 bannerList.push({
                   img:res.data.data.banner_list[i].image,
                   title:res.data.data.banner_list[i].title,
                   url:res.data.data.banner_list[i].url,
                 })
+              }
             }
-          }
 
-          this.swipeList =bannerList;
-          this.jiangList =res.data.data.product_periods_list;
-          this.unclaimed_count =res.data.data.unclaimed_count
-        }
-      });
-      this.getProList();
+            this.swipeList =bannerList;
+            this.jiangList =res.data.data.product_periods_list;
+            this.unclaimed_count =res.data.data.unclaimed_count
+          }
+        });
+        this.getProList();
+        this.$route.meta.isUserCache = false;
+      }
+    },
+
+    beforeRouteLeave(to, from, next) {
+      if (to.path=="/productInfo") {
+        console.log('开启缓存');
+        from.meta.isUserCache = true; //开启缓存
+      }
+      next();
     },
 
     methods:{
@@ -230,29 +254,52 @@
           }
         })
       },
+
       //点击tab切换
       handTab(index){
         console.log(index)
         if(index!=0){
           this.order_type =index;
-          this.getProList();
+          this.getProList(res=>{
+            this.$nextTick(() => {
+              if(this.scroll>342){
+                this.$refs.scroller.reset({top: 302})
+              }else{
+                this.$refs.scroller.reset({top: this.scroll})
+              }
+              this.isTap =false;
+
+            })
+          });
         }else{
+          //点击全部分类
           this.show =true;
-          this.order_type =0;
-          this.getProList();
           if(this.goryList.length==1){
             this.getCategoryList();
           }
         }
-
       },
-      //点击全部分类
+
+      //点击全部分类的子分类
       handGory(id,name){
         console.log(name)
         this.order_type =0;
         this.product_category_name =name;
         this.product_category_id =id;
-        this.getProList();
+
+        this.getProList(res =>{
+          this.$nextTick(() => {
+            if(this.scroll>342){
+              this.$refs.scroller.reset({top: 302})
+            }else{
+              this.$refs.scroller.reset({top: this.scroll})
+            }
+            this.isTap =false;
+
+          })
+        });
+
+
         this.show =false;
       },
       //获取全部分类列表
@@ -285,25 +332,38 @@
       //点击信息 服务
       handGrid(id){
         if(id==1){
-
-          //获取用户信息
-          this.$api.activity.getUserInfo({}).then(res =>{
-            if(res){
-              this.$vux.alert.show({
-                title: '提示',
-                content: '信息服务'+res.data.data.total_recharge+'次',
-                onShow () {
-                  console.log('Plugin: I\'m showing')
-                },
-                onHide () {
-                  console.log('Plugin: I\'m hiding')
-                }
-              })
-            }
-          })
-
+          if (localStorage.getItem('token')) {
+            //获取用户信息
+            this.$api.activity.getUserInfo({}).then(res =>{
+              if(res){
+                this.$vux.alert.show({
+                  title: '提示',
+                  content: '信息服务'+res.data.data.total_recharge+'次',
+                  onShow () {
+                    console.log('Plugin: I\'m showing')
+                  },
+                  onHide () {
+                    console.log('Plugin: I\'m hiding')
+                  }
+                })
+              }
+            })
+          } else {
+            // this.showLogin =true;
+            sessionStorage.setItem('goUrl', this.$route.fullPath);
+            this.$router.push('/login')
+          }
 
         }
+      },
+
+      onConfirm() {
+        sessionStorage.setItem('goUrl', this.$route.fullPath);
+        this.$router.push('/login')
+      },
+
+      onCancel() {
+        this.showLogin = false;
       },
 
       //上拉加载
@@ -345,6 +405,7 @@
 
       // 分类悬浮
       handScroll(e){
+        this.scroll =e.top;
         if(e.top>342){
             this.isTap =true;
         }else{

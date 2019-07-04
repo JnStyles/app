@@ -8,13 +8,24 @@
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive"></router-view>
 
+    <!--<loading v-model="isLoading"></loading>-->
+
 
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
 export default {
-  name: 'app' 
+  name: 'app' ,
+  created(){
+
+  },
+  computed: {
+    ...mapState({
+      isLoading: state => state.isLoading
+    })
+  }
 }
 </script>
 
