@@ -26,7 +26,7 @@
             </thead>
             <tbody v-if="info && info.orderlist && info.orderlist.length>0">
             <tr v-for="(item,index) in info.orderlist" :key="index">
-              <td>{{index}}</td>
+              <td>{{index+1}}</td>
               <td>{{item.create_msectime}} <span class="red">({{item.create_time_string}})</span></td>
               <td> {{item.user_nickname}}</td>
             </tr>

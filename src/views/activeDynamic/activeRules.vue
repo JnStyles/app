@@ -91,7 +91,7 @@
     created(){
         this.getList();
     },
-   
+
     methods:{
       getList(){
         let params ={

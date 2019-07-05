@@ -249,7 +249,7 @@
     },
 
     beforeRouteLeave(to, from, next) {
-      if (to.path=="/productIntroduce" || to.path=="/productDynamic" ||to.path=="/calculationRules" ||to.path=="/calculate" ||to.path=="/activeShare") {
+      if (to.path=="/productIntroduce" || to.path=="/productDynamic" ||to.path=="/calculationRules" ||to.path=="/calculate" ||to.path=="/activeShare" ||to.path=="/participateInfo") {
         console.log('开启缓存');
         from.meta.isUserCache = true; //开启缓存
       }

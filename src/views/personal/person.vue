@@ -11,7 +11,7 @@
               <p class="name">{{info.user_nickname}}</p>
               <div class="btn_box">
                 <p style="line-height:40px;">彩豆{{info.balance}}个</p>
-                <x-button mini type="warn" class="btn">充值</x-button>
+                <x-button mini type="warn" class="btn" @click.native="goTopUp">充值</x-button>
               </div>
               <p v-if="info.my_gift_count>0">成功抢到 <span style="color:#ff9000 ">{{info.my_gift_count}}</span> 件礼品 <span class="look" @click="look">快去查看></span></p>
               <p v-else="info.my_gift_count>0">还没有抢到礼品 <span class="look" @click="join">快去参加></span></p>
@@ -150,6 +150,9 @@
             this.phone =res.data.data.mobile
           }
         })
+      },
+      goTopUp(){
+        this.$router.push('/topUp')
       }
     }
   }

@@ -157,5 +157,15 @@ export default new Router({
       name: '重置密码',
       component:  resolve => require(['../views/personal/setPassword.vue'], resolve)
     },
+    {
+      path: '/agreement',
+      name: '用户协议',
+      component:  resolve => require(['../views/login/agreement.vue'], resolve)
+    },
+    {
+      path: '/topUp',
+      name: '充值',
+      component:  resolve => require(['../views/personal/topUp.vue'], resolve)
+    },
   ]
 })

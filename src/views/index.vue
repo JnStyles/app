@@ -479,5 +479,8 @@
       top: 46px;
       z-index: 999;
     }
+  .home .weui-tab__panel{
+    padding-bottom: 0 !important;
+  }
 </style>
 

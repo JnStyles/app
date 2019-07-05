@@ -148,6 +148,11 @@ const activity = {
   getServiceTel (params) {
     return axios.get(`${base}/api/setting/getServiceTel`, {params:params})
   },
+
+  //付款码详情
+  getPayPortalInfo (params) {
+    return axios.get(`${base}/api/portal/getPayPortalInfo`, {params:params})
+  },
 };
 
 export default activity;

@@ -10,7 +10,7 @@
        <x-input title="昵称" v-model="form.user_nickname" class="weui-vcode"></x-input>
        <x-input title="密码" type="password" v-model="form.password" class="weui-vcode"></x-input>
     </group>
-    <check-icon :value.sync="isAgree" type="plain" style="line-height:60px;">注册即同意协议</check-icon>
+    <check-icon :value.sync="isAgree" type="plain" style="line-height:60px;">我已阅读并同意 </check-icon> <a class="blue" @click="goAgree">《6博网协议》</a>
     <x-button style="width:80%;margin-top:60px;" type="warn" action-type="submit" @click.native="hanBtn">注册</x-button>
   </div>
 </template>
@@ -35,7 +35,10 @@ export default {
         //注册
         hanBtn(){
           if(this.form.mobile && this.form.password && this.form.verification_code && this.form.user_nickname){
-            console.log('注册')
+            if(!this.isAgree){
+              this.$vux.toast.text('请您阅读并同意相关协议')
+              return false;
+            }
             let params =this.form;
             this.$api.login.register(params).then(res =>{
                 if(res){
@@ -44,7 +47,7 @@ export default {
                 }
             })
           }else{
-            this.$vux.toast.text('资料填写不完整')
+            this.$vux.toast.text('资料填写不完整或格式有误')
           }
 
         },
@@ -86,6 +89,9 @@ export default {
           }
         },
 
+        goAgree(){
+          this.$router.push('/agreement');
+        }
     }
 }
 </script>
