@@ -200,7 +200,6 @@
       SwiperItem
     },
     activated(){
-
       if (!this.$route.meta.isUserCache) {
         // 获取banner图和中奖纪录
         this.$api.activity.getBannerList({}).then(res =>{
@@ -302,6 +301,7 @@
 
         this.show =false;
       },
+
       //获取全部分类列表
       getCategoryList(){
         this.$api.activity.getCategoryList({}).then(res =>{
@@ -310,16 +310,19 @@
           }
         })
       },
+
       //点击获奖名单
       onClick(id){
         console.log(id)
         console.log('点击获奖名单')
         this.$router.push('/productInfo?id='+id)
       },
+
       // 点击跳转礼品详情页面
       goInfo(id){
         this.$router.push('/productInfo?id='+id);
       },
+
       goPerson(){
          if(localStorage.getItem('token')){
             this.$router.push('/person');

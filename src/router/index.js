@@ -167,5 +167,10 @@ export default new Router({
       name: '充值',
       component:  resolve => require(['../views/personal/topUp.vue'], resolve)
     },
+    {
+      path: '/articleInfo',
+      name: '文章详情',
+      component:  resolve => require(['../views/activeRecord/articleInfo.vue'], resolve)
+    },
   ]
 })

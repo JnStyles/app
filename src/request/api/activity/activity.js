@@ -153,6 +153,11 @@ const activity = {
   getPayPortalInfo (params) {
     return axios.get(`${base}/api/portal/getPayPortalInfo`, {params:params})
   },
+
+  //获取banner详情
+  getPortalInfo (params) {
+    return axios.get(`${base}/api/portal/getPortalInfo`, {params:params})
+  },
 };
 
 export default activity;
