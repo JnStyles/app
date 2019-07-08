@@ -3,17 +3,17 @@
     <x-header :left-options="{backText: ''}">支付</x-header>
     <group>
       <x-input title="共需支付" class="weui-vcode" readonly>
-          <p slot="right">{{balance}}彩豆
+          <p slot="right">{{balance}}6豆
         </p>
       </x-input>
 
-      <x-input title="彩豆抵扣" class="weui-vcode" readonly :value="'剩余'+user_balance+'个'">
-        <p v-if="Number(user_balance)>Number(balance)" slot="right">{{balance}}彩豆
+      <x-input title="6豆抵扣" class="weui-vcode" readonly :value="'剩余'+user_balance+'个'">
+        <p v-if="Number(user_balance)>Number(balance)" slot="right">{{balance}}6豆
             <icon type="success"></icon>
         </p>
 
         <p v-else slot="right">
-          <x-button type="warn" mini @click.native="handBtn">去充值</x-button>
+          <x-button type="warn" mini @click.native="goTopUp">去充值</x-button>
         </p>
       </x-input>
     </group>
@@ -22,9 +22,9 @@
 
     <div class="instructions">
         <p>说明：</p>
-        <p>1.支付一元兑换一次信息服务，赠送一个彩豆，使用彩豆可参与活动（支付成功后不可退回）</p>
+        <p>1.支付一元兑换一次信息服务，赠送一个6豆，使用6豆可参与活动（支付成功后不可退回）</p>
         <p>2.如发现提交后48小时后未到账，请于客服联系。</p>
-        <p>3.该礼品支持兑换为彩豆，兑换彩豆后不另获信息服务次数。</p>
+        <p>3.该礼品支持兑换为6豆，兑换6豆后不另获信息服务次数。</p>
     </div>
   </div>
 </template>
@@ -74,6 +74,9 @@
                 }
             })
         },
+      goTopUp(){
+        this.$router.push('/topUp')
+      }
     }
   }
 </script>

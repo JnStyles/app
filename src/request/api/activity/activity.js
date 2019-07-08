@@ -79,7 +79,7 @@ const activity = {
     return  axios({method:'post',url:`${base}/api/user/addShippingAddress`,data:qs.stringify(params)})
   },
 
-  //彩豆明细
+  //6豆明细
   balanceLog (params) {
     return axios.get(`${base}/api/user/balanceLog`, {params:params});
   },

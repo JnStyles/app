@@ -7,8 +7,8 @@ if (process.env.NODE_ENV == 'development') {
 } else if (process.env.NODE_ENV == 'debug') {
     base ='/api';
 } else if (process.env.NODE_ENV == 'production') {
-    // base ='';
-    base ='https://api.6bo.pw';
+    base ='';
+    // base ='http://api.6bo.pw/';
 }
 
 export default base;

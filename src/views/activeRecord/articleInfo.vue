@@ -34,8 +34,12 @@
 <style scoped>
   .top_box{
     text-align: center;
+    padding: 10px;
   }
   .top_box h3{
     padding: 20px 0;
+  }
+  .top_box img{
+    max-width: 100% !important;
   }
 </style>

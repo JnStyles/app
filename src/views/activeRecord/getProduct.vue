@@ -3,7 +3,7 @@
     <x-header :left-options="{backText: ''}">礼品领取</x-header>
     <group>
       <x-input title="礼品名称" class="weui-vcode" readonly :value="name">
-        <!-- <x-button slot="right" type="primary" mini>兑换为彩豆</x-button> -->
+        <!-- <x-button slot="right" type="primary" mini>兑换为6豆</x-button> -->
         <x-switch :value-map="['0', '1']" v-model="stringValue"></x-switch>
       </x-input>
 
@@ -22,7 +22,7 @@
         <p>说明：</p>
         <p>1.填写充值号码并提交后，系统将自动为此号码进行充值。</p>
         <p>2.如发现提交后48小时后未到账，请于客服联系。</p>
-        <p>3.该礼品支持兑换为彩豆，兑换彩豆后不另获信息服务次数。</p>
+        <p>3.该礼品支持兑换为6豆，兑换6豆后不另获信息服务次数。</p>
     </div>
 
     <!-- 选择收货地址弹窗 -->
