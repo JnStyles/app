@@ -60,7 +60,7 @@
               <div slot="body">
                 <div class="dl product">
                   <div class="dt">
-                    <img :src=item.photo_urls alt="">
+                    <img :src=item.thumbnail alt="">
                   </div>
                   <div class="dd">
                     <p class="p_name">{{item.name}}</p>

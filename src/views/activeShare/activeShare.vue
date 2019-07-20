@@ -13,12 +13,11 @@
                 </div>
                 <div class="dd">
                   <p class="one"><span>{{item.user_nickname}} <i>{{item.address}}</i></span><span class="span">{{item.create_time}}</span> </p>
-                  <p  class="two">{{item.name}}</p>
+                  <p  class="two"> <span v-if="item.periods">【第{{item.periods}}期 】</span>  {{item.name}}</p>
                   <div class="info">
                     <p>{{item.content}}</p>
                     <template v-if="item.photo_urls && item.photo_urls.length>0">
                       <grid :show-lr-borders="false" :show-vertical-dividers="false" :cols="cols">
-                        <!--<grid-item v-for="(son,index) in item.photo_urls" :key="index" @click.native="lookImg(item.photo_urls)">-->
                         <grid-item v-for="(son,index) in item.photo_urls" :key="index">
                           <img slot="icon" :src="son" class="previewer-demo-img" @click="show(index,item.photo_urls)">
                         </grid-item>
@@ -26,10 +25,7 @@
                     </template>
                   </div>
 
-
-
                   <div class="zan">
-
                     <div @click="handZan(item.id,index)" v-if="item.is_like==0" class="fa">
                       <vue-star animate="yourAnimateCssClass" color="rgb(152, 138, 222)">
                         <svg  slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
@@ -85,7 +81,7 @@
     <!--</div>-->
 
   </div>
-   
+
 </template>
 
 <script>
@@ -342,7 +338,7 @@
     display: flex;
     align-items: center;
   }
- 
+
 </style>
 
 <style>

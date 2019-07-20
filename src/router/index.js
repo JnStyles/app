@@ -104,7 +104,7 @@ export default new Router({
     },
     {
       path: '/moneyDetail',
-      name: '6豆明细',
+      name: '豆豆明细',
       component:  resolve => require(['../views/personal/moneyDetail.vue'], resolve)
     },
     {

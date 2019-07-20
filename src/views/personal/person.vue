@@ -27,7 +27,7 @@
           </group>
 
           <group title="">
-            <cell title="6豆明细" :link="{path:'/moneyDetail'}">
+            <cell title="豆豆明细" :link="{path:'/moneyDetail'}">
               <svg slot="icon" class="icon" aria-hidden="true" style="width: 30px;height: 30px;">
                 <use xlink:href="#iconChat"></use>
               </svg>
@@ -160,8 +160,10 @@
 
 <style scoped>
     .person_box{
-      color:#fff;
-      background:url("../../assets/person_bg.jpg") no-repeat center left;
+      background: #ffffff;
+      /*color:#fff;*/
+      /*background: #E64340;*/
+      /*background:url("../../assets/person_bg.jpg") no-repeat center left;*/
     }
     .dl{
         align-items: center;
@@ -202,6 +204,7 @@
       align-items: center;
       justify-content: space-between;
     }
+
  </style>
  <style>
       .person .weui-cells{
@@ -210,4 +213,10 @@
      .person .weui-cell__hd{
         display: flex;
      }
+      /*.person .vux-header .vux-header-title{*/
+        /*color: #000000 !important;*/
+      /*}*/
+     /*.person .vux-header .vux-header-left .left-arrow:before{*/
+       /*border: 0.026667rem solid #000000;*/
+     /*}*/
  </style>

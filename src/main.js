@@ -90,7 +90,6 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-  console.log('beforeEachbeforeEachbeforeEachbeforeEach')
   store.commit('updateLoadingStatus', {isLoading: true})
   console.log(to);
   if (to.meta.title) {
@@ -105,13 +104,31 @@ router.beforeEach((to, from, next) => {
        return false;
     }
   }
-  next();
+  setTimeout(() => {
+    var _hmt = _hmt || [];
+    (() => {
+      //每次执行前，先移除上次插入的代码
+      document.getElementById('baidu_tj') && document.getElementById('baidu_tj').remove();
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3e846c9bd00328409bb9182d393b6f54";
+      hm.id = "baidu_tj"
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })()
+    }, 50);
+  next()
 });
 
-router.afterEach(function (to) {
-  console.log('afterEachafterEachafterEachafterEach')
-  store.commit('updateLoadingStatus', {isLoading: false})
-})
+/*
+* 添加百度统计
+* */
+router.afterEach( ( to, from, next ) => {
+
+} );
+
+// router.afterEach(function (to) {
+//   store.commit('updateLoadingStatus', {isLoading: false})
+// })
 
 /* eslint-disable no-new */
 new Vue({

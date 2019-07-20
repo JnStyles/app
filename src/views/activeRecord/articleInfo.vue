@@ -1,9 +1,9 @@
 <template>
   <div class="comments">
     <x-header :left-options="{backText: ''}">文章详情</x-header>
-    <div class="top_box">
+    <div class="top_boxs">
       <h3>{{post_title}}</h3>
-      <div v-html="post_content"></div>
+      <div v-html="post_content">123</div>
     </div>
   </div>
 </template>
@@ -32,14 +32,14 @@
 </script>
 
 <style scoped>
-  .top_box{
+  .top_boxs{
     text-align: center;
     padding: 10px;
   }
-  .top_box h3{
+  .top_boxs h3{
     padding: 20px 0;
   }
-  .top_box img{
+  .top_boxs img{
     max-width: 100% !important;
   }
 </style>

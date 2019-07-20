@@ -202,7 +202,7 @@ var fns = {
     this.totalSecsLeft = this.totalSecsLeft / 1000
     this.totalSecsLeft = this.totalSecsLeft < 0 ? 0 : this.totalSecsLeft
     // Calculate the offsets
-    console.log(this.totalSecsLeft)
+    // console.log(this.totalSecsLeft)
     return {
       ms: (this.totalSecsLeft *1000 % 1000).toFixed(2).toString().substring(0,2),
       seconds: Math.floor(this.totalSecsLeft % 60),
@@ -217,7 +217,7 @@ var fns = {
   update () {
     // Calculate the offsets
     this.offset = this.getOffset()
-    console.log(this.getOffset())
+    // console.log(this.getOffset())
     // split offset only for days, hours, minutes, seconds and two number like 45, do not support 100
 
     var list = ['days', 'hours', 'minutes', 'seconds','ms']

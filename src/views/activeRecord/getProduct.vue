@@ -2,14 +2,10 @@
   <div class="getproduct">
     <x-header :left-options="{backText: ''}">礼品领取</x-header>
     <group>
-      <x-input title="礼品名称" class="weui-vcode" readonly :value="name">
-        <!-- <x-button slot="right" type="primary" mini>兑换为6豆</x-button> -->
-        <x-switch :value-map="['0', '1']" v-model="stringValue"></x-switch>
-      </x-input>
-
+       <cell primary="content" title="礼品名称" :value="name"></cell>
        <x-input v-if="get_type==2 && stringValue!=1" title="手机号码" type="tel"  placeholder="" v-model="mobile" :min="11" :max="11" @on-change="change"></x-input>
        <x-input v-if="get_type==2 && stringValue!=1" title="确认号码" v-model="mobile2" type="tel" placeholder="" :min="11" :max="11" :equal-with="mobile"></x-input>
-       <x-switch :title="'是否兑换为'+original_price+'豆'" :value-map="['0', '1']" v-model="stringValue"></x-switch>
+       <x-switch :title="'是否兑换为'+conversion_number+'豆'" :value-map="['0', '1']" v-model="stringValue"></x-switch>
 
        <cell v-if="get_type==1 && inlineDescListValue.length==0 && stringValue!=1" title="选择收货地址" @click.native="handSele" is-link :inline-desc='address'></cell>
 
@@ -22,7 +18,7 @@
         <p>说明：</p>
         <p>1.填写充值号码并提交后，系统将自动为此号码进行充值。</p>
         <p>2.如发现提交后48小时后未到账，请于客服联系。</p>
-        <p>3.该礼品支持兑换为6豆，兑换6豆后不另获信息服务次数。</p>
+        <p>3.该礼品支持兑换为豆豆，兑换豆豆后不另获信息服务次数。</p>
     </div>
 
     <!-- 选择收货地址弹窗 -->
@@ -78,10 +74,10 @@
         let id =this.$route.query.id;
         let name =this.$route.query.name;
         let get_type =this.$route.query.get_type;
-        let original_price =this.$route.query.original_price;
+        let conversion_number =this.$route.query.conversion_number;
         this.name =name;
         this.get_type =get_type;
-        this.original_price =original_price;
+        this.conversion_number =conversion_number;
         this.id =id;
         this.getAddreee();
     },

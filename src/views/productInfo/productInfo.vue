@@ -26,8 +26,7 @@
                   <div class="pro_per">
                     <x-progress :percent="(Number(info.price)-Number(info.surplus_price))/(Number(info.price))*100"
                                 :show-cancel="false"></x-progress>
-                    <div class="pro_box"><span>总需{{info.price}}</span><span>剩余 <span
-                      class="red">{{info.surplus_price}}</span></span></div>
+                    <div class="pro_box"><span>总需{{info.price}}</span><span>剩余 <span class="red">{{info.surplus_price}}</span></span></div>
                   </div>
                 </div>
                 <!-- 即将揭晓 -->
@@ -35,7 +34,7 @@
                   <div class="time_ji red_bg">
                     <span>幸运编码计算中</span>
                     <div style="width: 150px;">
-                      <Clockers :time="info.open_award_time" @on-finish="getInfo" style="font-size: 20px;"
+                      <Clockers :time="info.open_award_time" @on-finish="getTime" style="font-size: 20px"
                                 format="%M : %S : %Z"></Clockers>
                     </div>
                   </div>
@@ -236,6 +235,9 @@
       if (!this.$route.meta.isUserCache) {
         setTimeout(res =>{
           this.$refs.scroller.disablePullup();
+          this.$nextTick(() => {
+            this.$refs.scroller.reset({top: 0})
+          })
         },100);
         let id = this.$route.query.id;
         this.info='';
@@ -249,7 +251,7 @@
     },
 
     beforeRouteLeave(to, from, next) {
-      if (to.path=="/productIntroduce" || to.path=="/productDynamic" ||to.path=="/calculationRules" ||to.path=="/calculate" ||to.path=="/activeShare" ||to.path=="/participateInfo") {
+      if (to.path=="/productIntroduce" ||to.path=="/calculationRules" ||to.path=="/calculate" ||to.path=="/activeShare" ||to.path=="/participateInfo") {
         console.log('开启缓存');
         from.meta.isUserCache = true; //开启缓存
       }
@@ -310,6 +312,13 @@
             cb && cb(res)
           }
         })
+      },
+      getTime(){
+        setTimeout(res =>{
+          this.getInfo(res => {
+            this.$refs.scroller.donePulldown()
+          });
+        },6000)
       },
       //获取活动记录
       getProList(cb) {
@@ -410,6 +419,7 @@
       //下拉刷新
       downLoad() {
         console.log('下拉刷新')
+        this.page =1;
         this.getInfo(res => {
           this.$refs.scroller.donePulldown()
         });

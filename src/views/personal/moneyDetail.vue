@@ -1,6 +1,6 @@
 <template>
   <div class="moneyDetail">
-    <x-header :left-options="{backText: ''}">6豆明细</x-header>
+    <x-header :left-options="{backText: ''}">豆豆明细</x-header>
 
     <scroller lock-x use-pullup use-pulldown :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" ref="scroller" height="-53" @on-pullup-loading="upLoad" @on-pulldown-loading="downLoad">
       <div class="timeline-demo">
@@ -174,7 +174,7 @@
 </style>
 
 <style>
-    
+
   .moneyDetail .vux-timeline-item-checked.weui-icon-success-no-circle::before {
     font-size: 0;
   }
